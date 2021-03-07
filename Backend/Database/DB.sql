@@ -126,9 +126,9 @@ CREATE TABLE IF NOT EXISTS `shipments`
     `IdShipment` int(11) NOT NULL AUTO_INCREMENT,
     `TrackingNumber` varchar(20) NOT NULL,
     `ShipDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `Address` nvarchar(40) NULL,
-    `ZIPCode` varchar(10) NULL,
-    `Country` nvarchar(20) NULL,
+    `Address` nvarchar(40) NOT NULL,
+    `ZIPCode` varchar(10) NOT NULL,
+    `Country` nvarchar(20) NOT NULL,
     `Completed` bit(1)  NOT NULL DEFAULT b'0',
     `IdOrder` int(11) NOT NULL,
 
