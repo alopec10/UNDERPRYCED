@@ -1,6 +1,10 @@
 package com.inso2.inso2.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -25,6 +29,11 @@ public class User {
 
     @Column(name = "PurchasesCompleted")
     private int purchasesCompleted;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
+    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private List<PaymentMethod> paymentMethods;
 
     public User() {
     }

@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `paymentMethods`
     `CVV` varchar(3) NOT NULL,
     `ExpMonth` varchar(2) NOT NULL,
     `ExpYear` varchar(2) NOT NULL,
-    `Default` bit(1) NOT NULL DEFAULT b'0',
+    `DefaultMethod` bit(1) NOT NULL DEFAULT b'0',
     `IdUser` int(11) NOT NULL,
     KEY `FK_PAYMENTMETHOD_USER` (`IdUser`),
     CONSTRAINT `FK_PAYMENTMETHOD_USER` FOREIGN KEY (`IdUser`) REFERENCES `users` (`IdUser`),
