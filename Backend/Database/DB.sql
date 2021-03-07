@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `users`
     `PhoneNumber` varchar(20) NULL,
     `SellsCompleted` smallint NOT NULL DEFAULT 0,
     `PurchasesCompleted` smallint NOT NULL DEFAULT 0,
-    PRIMARY KEY (`IDUser`)users
+    PRIMARY KEY (`IDUser`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `paymentMethods`
