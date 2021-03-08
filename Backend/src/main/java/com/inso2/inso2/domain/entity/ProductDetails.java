@@ -41,11 +41,15 @@ public class ProductDetails {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<Ask> asks;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="productDetails")
     @JsonIgnore
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<Bid> bids;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="productDetails")
+    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private List<Order> orders;
 
     public ProductDetails() {
     }
