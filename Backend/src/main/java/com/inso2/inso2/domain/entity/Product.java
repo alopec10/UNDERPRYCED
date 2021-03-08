@@ -1,7 +1,11 @@
 package com.inso2.inso2.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -28,6 +32,11 @@ public class Product {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "IdCategory")
     private Category category;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="product")
+    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private List<ProductDetails> productDetails;
 
     public Product() {
     }
@@ -151,5 +160,11 @@ public class Product {
         this.category = category;
     }
 
+    public List<ProductDetails> getProductDetails() {
+        return productDetails;
+    }
 
+    public void setProductDetails(List<ProductDetails> productDetails) {
+        this.productDetails = productDetails;
+    }
 }

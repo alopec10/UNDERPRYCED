@@ -1,10 +1,7 @@
 package com.inso2.inso2;
 
 import com.inso2.inso2.domain.entity.*;
-import com.inso2.inso2.domain.persistence.CategoryRepository;
-import com.inso2.inso2.domain.persistence.PayMethodRepository;
-import com.inso2.inso2.domain.persistence.ProductRepository;
-import com.inso2.inso2.domain.persistence.UserRepository;
+import com.inso2.inso2.domain.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -28,6 +25,15 @@ public class Inso2Application {
 	@Autowired
     private ProductRepository prodRepository;
 
+	@Autowired
+	private ProductDetailsRepository prodDetailsRepository;
+
+	@Autowired
+	private AskRepository askRepository;
+
+	@Autowired
+	private BidRepository bidRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(Inso2Application.class, args);
 	}
@@ -43,6 +49,12 @@ public class Inso2Application {
 			catRepository.save(category);
 			Product product = new Product("1231321-321", "Nike", "Blue", "Janoski", "Janoski", "Nike Janoski Blue", "2016", "https://nike.com", Gender.M, 124, new Date(),category);
 			prodRepository.save(product);
+			ProductDetails prodDetails = new ProductDetails("42", 135, 190, 175, product);
+			prodDetailsRepository.save(prodDetails);
+			Ask ask = new Ask(170, new Date(), false, user, prodDetails);
+			askRepository.save(ask);
+			Bid bid = new Bid(150, new Date(), false, user, prodDetails);
+			bidRepository.save(bid);
 		};
 	}
 

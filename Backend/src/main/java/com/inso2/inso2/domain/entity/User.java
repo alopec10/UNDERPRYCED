@@ -35,6 +35,18 @@ public class User {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<PaymentMethod> paymentMethods;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
+    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private List<Ask> asks;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
+    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private List<Bid> bids;
+
+
+
     public User() {
     }
 

@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `productDetails`
     `Size` varchar(4) NOT NULL,
     `HighestBid` int NULL,
     `LowestAsk` int NULL,
-    `Last Sale` int NULL,
+    `LastSale` int NULL,
     `IdProduct` int(11) NOT NULL,
     KEY `FK_PRODUCTDETAILS_PRODUCT` (`IdProduct`),
     CONSTRAINT `FK_PRODUCTDETAILS_PRODUCT` FOREIGN KEY (`IdProduct`) REFERENCES `products` (`IdProduct`),
