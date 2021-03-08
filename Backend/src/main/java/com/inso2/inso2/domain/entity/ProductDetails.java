@@ -19,7 +19,7 @@ public class ProductDetails {
     @Column(name = "IdProductDetails")
     private long idProductDetails;
 
-    @Column(length=4)
+    @Column(name  = "Size", length=4, nullable = false)
     @Size(min=1, max=4)
     private String size;
 
@@ -108,5 +108,44 @@ public class ProductDetails {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public List<Ask> getAsks() {
+        return asks;
+    }
+
+    public void setAsks(List<Ask> asks) {
+        this.asks = asks;
+    }
+
+    public List<Bid> getBids() {
+        return bids;
+    }
+
+    public void setBids(List<Bid> bids) {
+        this.bids = bids;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductDetails{" +
+                "idProductDetails=" + idProductDetails +
+                ", size='" + size + '\'' +
+                ", highestBid=" + highestBid +
+                ", lowestAsk=" + lowestAsk +
+                ", lastSale=" + lastSale +
+                ", product=" + product +
+                ", asks=" + asks +
+                ", bids=" + bids +
+                ", orders=" + orders +
+                '}';
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,18 +17,42 @@ public class User {
     @Column(name = "IdUser")
     private long idUser;
 
-    private String name, surname, email, password, address, country;
+    @Size(min = 1, max = 20)
+    @Column(name = "Name", length = 20, nullable = false)
+    private String name;
 
-    @Column(name = "ZIPCode")
+    @Size(min = 1, max = 30)
+    @Column(name = "Surname", length = 30, nullable = false)
+    private String surname;
+
+    @Size(min = 5, max = 30)
+    @Column(name = "Email", length = 30, nullable = false)
+    private String email;
+
+    @Size(min = 1, max = 20)
+    @Column(name = "Password", length = 20, nullable = false)
+    private String password;
+
+    @Size(min = 1, max = 40)
+    @Column(name = "Address", length = 40)
+    private String address;
+
+    @Size(min = 1, max = 20)
+    @Column(name = "Country", length = 20)
+    private String country;
+
+    @Size(min = 1, max = 10)
+    @Column(name = "ZIPCode", length = 10)
     private String zipCode;
 
-    @Column(name = "PhoneNumber")
+    @Size(min = 1, max = 20)
+    @Column(name = "PhoneNumber", length = 20)
     private String phoneNumber;
 
-    @Column(name = "SellsCompleted")
+    @Column(name = "SellsCompleted", nullable = false)
     private int sellsCompleted;
 
-    @Column(name = "PurchasesCompleted")
+    @Column(name = "PurchasesCompleted", nullable = false)
     private int purchasesCompleted;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
@@ -58,24 +83,26 @@ public class User {
     public User() {
     }
 
-    public User(String name, String surname, String email, String password, String address, String zipCode, String country, String phoneNumber, int sellsCompleted, int purchasesCompleted) {
+    public User(@Size(min = 1, max = 20) String name, @Size(min = 1, max = 30) String surname, @Size(min = 5, max = 30) String email, @Size(min = 1, max = 20) String password, @Size(min = 1, max = 40) String address, @Size(min = 1, max = 20) String country, @Size(min = 1, max = 10) String zipCode, @Size(min = 1, max = 20) String phoneNumber, int sellsCompleted, int purchasesCompleted) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
         this.address = address;
-        this.zipCode = zipCode;
         this.country = country;
+        this.zipCode = zipCode;
         this.phoneNumber = phoneNumber;
         this.sellsCompleted = sellsCompleted;
         this.purchasesCompleted = purchasesCompleted;
     }
 
-    public User(String name, String surname, String email, String password) {
+    public User(@Size(min = 1, max = 20) String name, @Size(min = 1, max = 30) String surname, @Size(min = 5, max = 30) String email, @Size(min = 1, max = 20) String password, int sellsCompleted, int purchasesCompleted) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
+        this.sellsCompleted = sellsCompleted;
+        this.purchasesCompleted = purchasesCompleted;
     }
 
     public long getIdUser() {
@@ -126,20 +153,20 @@ public class User {
         this.address = address;
     }
 
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
     public String getCountry() {
         return country;
     }
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 
     public String getPhoneNumber() {
@@ -166,26 +193,65 @@ public class User {
         this.purchasesCompleted = purchasesCompleted;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return getIdUser() == user.getIdUser() &&
-                getSellsCompleted() == user.getSellsCompleted() &&
-                getPurchasesCompleted() == user.getPurchasesCompleted() &&
-                getName().equals(user.getName()) &&
-                getSurname().equals(user.getSurname()) &&
-                getEmail().equals(user.getEmail()) &&
-                getPassword().equals(user.getPassword()) &&
-                Objects.equals(getAddress(), user.getAddress()) &&
-                Objects.equals(getZipCode(), user.getZipCode()) &&
-                Objects.equals(getCountry(), user.getCountry()) &&
-                Objects.equals(getPhoneNumber(), user.getPhoneNumber());
+    public List<PaymentMethod> getPaymentMethods() {
+        return paymentMethods;
+    }
+
+    public void setPaymentMethods(List<PaymentMethod> paymentMethods) {
+        this.paymentMethods = paymentMethods;
+    }
+
+    public List<Ask> getAsks() {
+        return asks;
+    }
+
+    public void setAsks(List<Ask> asks) {
+        this.asks = asks;
+    }
+
+    public List<Bid> getBids() {
+        return bids;
+    }
+
+    public void setBids(List<Bid> bids) {
+        this.bids = bids;
+    }
+
+    public List<Order> getSells() {
+        return sells;
+    }
+
+    public void setSells(List<Order> sells) {
+        this.sells = sells;
+    }
+
+    public List<Order> getPurchases() {
+        return purchases;
+    }
+
+    public void setPurchases(List<Order> purchases) {
+        this.purchases = purchases;
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(getIdUser(), getName(), getSurname(), getEmail(), getPassword(), getAddress(), getZipCode(), getCountry(), getPhoneNumber(), getSellsCompleted(), getPurchasesCompleted());
+    public String toString() {
+        return "User{" +
+                "idUser=" + idUser +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", address='" + address + '\'' +
+                ", country='" + country + '\'' +
+                ", zipCode='" + zipCode + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", sellsCompleted=" + sellsCompleted +
+                ", purchasesCompleted=" + purchasesCompleted +
+                ", paymentMethods=" + paymentMethods +
+                ", asks=" + asks +
+                ", bids=" + bids +
+                ", sells=" + sells +
+                ", purchases=" + purchases +
+                '}';
     }
 }

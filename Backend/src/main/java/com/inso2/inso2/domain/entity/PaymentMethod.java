@@ -2,6 +2,7 @@ package com.inso2.inso2.domain.entity;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
@@ -13,25 +14,33 @@ public class PaymentMethod {
     @Column(name = "IdPayMethod")
     private long idPayMethod;
 
-    private String number, cvv;
+    @Size(min = 16, max = 16)
+    @Column(name = "Number", length = 16, nullable = false)
+    private String number;
 
-    @Column(name = "ExpMonth")
+    @Size(min = 3, max = 3)
+    @Column(name = "CVV", length = 3, nullable = false)
+    private String cvv;
+
+    @Size(min = 2, max = 2)
+    @Column(name = "ExpMonth", length = 2, nullable = false)
     private String expMonth;
 
-    @Column(name = "ExpYear")
+    @Size(min = 2, max = 2)
+    @Column(name = "ExpYear", length = 2, nullable = false)
     private String expYear;
 
-    @Column(name = "DefaultMethod")
+    @Column(name = "DefaultMethod", nullable = false)
     private boolean defaultMethod;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "IdUser")
+    @JoinColumn(name = "IdUser", nullable = false)
     private User user;
 
     public PaymentMethod() {
     }
 
-    public PaymentMethod(String number, String cvv, String expMonth, String expYear, boolean defaultMethod, User user) {
+    public PaymentMethod(@Size(min = 16, max = 16) String number, @Size(min = 3, max = 3) String cvv, @Size(min = 2, max = 2) String expMonth, @Size(min = 2, max = 2) String expYear, boolean defaultMethod, User user) {
         this.number = number;
         this.cvv = cvv;
         this.expMonth = expMonth;
@@ -94,19 +103,6 @@ public class PaymentMethod {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PaymentMethod that = (PaymentMethod) o;
-        return getIdPayMethod() == that.getIdPayMethod() && isDefaultMethod() == that.isDefaultMethod() && Objects.equals(getNumber(), that.getNumber()) && Objects.equals(getCvv(), that.getCvv()) && Objects.equals(getExpMonth(), that.getExpMonth()) && Objects.equals(getExpYear(), that.getExpYear()) && Objects.equals(getUser(), that.getUser());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getIdPayMethod(), getNumber(), getCvv(), getExpMonth(), getExpYear(), isDefaultMethod(), getUser());
     }
 
     @Override

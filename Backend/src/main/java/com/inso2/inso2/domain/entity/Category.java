@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "categories")
@@ -15,6 +15,8 @@ public class Category {
     @Column(name = "IdCategory")
     private long idCategory;
 
+    @Size(min = 1, max = 15)
+    @Column(name = "Type", length = 15, nullable = false)
     private String type;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="category")
@@ -25,7 +27,7 @@ public class Category {
     public Category() {
     }
 
-    public Category(String type) {
+    public Category(@Size(min = 1, max = 15) String type) {
         this.type = type;
     }
 
@@ -54,24 +56,9 @@ public class Category {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Category category = (Category) o;
-        return getIdCategory() == category.getIdCategory() &&
-                Objects.equals(getType(), category.getType()) &&
-                Objects.equals(getProducts(), category.getProducts());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getIdCategory(), getType(), getProducts());
-    }
-
-    @Override
     public String toString() {
         return "Category{" +
-                "idUser=" + idCategory +
+                "idCategory=" + idCategory +
                 ", type='" + type + '\'' +
                 ", products=" + products +
                 '}';

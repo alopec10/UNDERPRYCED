@@ -12,23 +12,23 @@ public class Order {
     @Column(name = "IdOrder")
     private long idOrder;
 
-    @Column(name = "Price")
+    @Column(name = "Price", nullable = false)
     private int price;
 
-    @Column(name = "Date", columnDefinition="DATETIME")
+    @Column(name = "Date", columnDefinition="DATETIME", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "IdBuyer")
+    @JoinColumn(name = "IdBuyer", nullable = false)
     private User buyer;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "IdSeller")
+    @JoinColumn(name = "IdSeller", nullable = false)
     private User seller;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "IdProductDetails")
+    @JoinColumn(name = "IdProductDetails", nullable = false)
     private ProductDetails productDetails;
 
     @OneToOne(mappedBy = "order")
@@ -99,5 +99,18 @@ public class Order {
 
     public void setShipment(Shipment shipment) {
         this.shipment = shipment;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "idOrder=" + idOrder +
+                ", price=" + price +
+                ", date=" + date +
+                ", buyer=" + buyer +
+                ", seller=" + seller +
+                ", productDetails=" + productDetails +
+                ", shipment=" + shipment +
+                '}';
     }
 }

@@ -12,22 +12,22 @@ public class Bid {
     @Column(name = "IdBid")
     private long idBid;
 
-    @Column(name = "Price")
+    @Column(name = "Price", nullable = false)
     private int price;
 
-    @Column(name = "Date", columnDefinition="DATETIME")
+    @Column(name = "Date", columnDefinition="DATETIME", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
-    @Column(name = "Completed")
+    @Column(name = "Completed", nullable = false)
     private boolean completed;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "IdUser")
+    @JoinColumn(name = "IdUser", nullable = false)
     private User user;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "IdProductDetails")
+    @JoinColumn(name = "IdProductDetails", nullable = false)
     private ProductDetails productDetails;
 
     public Bid() {
@@ -87,5 +87,17 @@ public class Bid {
 
     public void setProductDetails(ProductDetails productDetails) {
         this.productDetails = productDetails;
+    }
+
+    @Override
+    public String toString() {
+        return "Bid{" +
+                "idBid=" + idBid +
+                ", price=" + price +
+                ", date=" + date +
+                ", completed=" + completed +
+                ", user=" + user +
+                ", productDetails=" + productDetails +
+                '}';
     }
 }

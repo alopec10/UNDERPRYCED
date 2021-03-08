@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -17,20 +18,51 @@ public class Product {
     @Column(name = "IdProduct")
     private long idProduct;
 
-    private String ref, brand, colorway, name, model, title, year, url;
+    @Size(min = 1, max = 20)
+    @Column(name = "Ref", length = 20, nullable = false)
+    private String ref;
+
+    @Size(min = 1, max = 16)
+    @Column(name = "Brand", length = 16, nullable = false)
+    private String brand;
+
+    @Size(min = 1, max = 16)
+    @Column(name = "Colorway", length = 16, nullable = false)
+    private String colorway;
+
+    @Size(min = 1, max = 20)
+    @Column(name = "Name", length = 20, nullable = false)
+    private String name;
+
+    @Size(min = 1, max = 20)
+    @Column(name = "Model", length = 20, nullable = false)
+    private String model;
+
+    @Size(min = 1, max = 30)
+    @Column(name = "Title", length = 30, nullable = false)
+    private String title;
+
+    @Size(min = 4, max = 4)
+    @Column(name = "Year", length = 4, nullable = false)
+    private String year;
+
+    @Size(min = 6, max = 300)
+    @Column(name = "URL", length = 300, nullable = false)
+    private String url;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "Gender", nullable = false)
     private Gender gender;
 
-    @Column(name = "RetailPrice")
+    @Column(name = "RetailPrice", nullable = false)
     private int retailPrice;
 
-    @Column(name = "ReleaseDate", columnDefinition="DATETIME")
+    @Column(name = "ReleaseDate", columnDefinition="DATETIME", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date releaseDate;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "IdCategory")
+    @JoinColumn(name = "IdCategory", nullable = false)
     private Category category;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="product")
@@ -41,7 +73,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(String ref, String brand, String colorway, String name, String model, String title, String year, String url, Gender gender, int retailPrice, Date releaseDate, Category category) {
+    public Product(@Size(min = 1, max = 20) String ref, @Size(min = 1, max = 16) String brand, @Size(min = 1, max = 16) String colorway, @Size(min = 1, max = 20) String name, @Size(min = 1, max = 20) String model, @Size(min = 1, max = 30) String title, @Size(min = 4, max = 4) String year, @Size(min = 6, max = 300) String url, Gender gender, int retailPrice, Date releaseDate, Category category) {
         this.ref = ref;
         this.brand = brand;
         this.colorway = colorway;
@@ -166,5 +198,25 @@ public class Product {
 
     public void setProductDetails(List<ProductDetails> productDetails) {
         this.productDetails = productDetails;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "idProduct=" + idProduct +
+                ", ref='" + ref + '\'' +
+                ", brand='" + brand + '\'' +
+                ", colorway='" + colorway + '\'' +
+                ", name='" + name + '\'' +
+                ", model='" + model + '\'' +
+                ", title='" + title + '\'' +
+                ", year='" + year + '\'' +
+                ", url='" + url + '\'' +
+                ", gender=" + gender +
+                ", retailPrice=" + retailPrice +
+                ", releaseDate=" + releaseDate +
+                ", category=" + category +
+                ", productDetails=" + productDetails +
+                '}';
     }
 }

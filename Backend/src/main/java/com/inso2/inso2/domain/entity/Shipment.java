@@ -14,30 +14,30 @@ public class Shipment {
     private long idShipment;
 
     @Size(min = 1, max = 20)
-    @Column(name = "TrackingNumber", length = 20)
+    @Column(name = "TrackingNumber", length = 20, nullable = false)
     private String trackingNumber;
 
-    @Column(name = "ShipDate", columnDefinition="DATETIME")
+    @Column(name = "ShipDate", columnDefinition="DATETIME", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date shipDate;
 
     @Size(min = 1, max = 40)
-    @Column(name = "Address", length = 40)
+    @Column(name = "Address", length = 40, nullable = false)
     private String address;
 
     @Size(min = 1, max = 10)
-    @Column(name = "ZIPCode", length = 10)
+    @Column(name = "ZIPCode", length = 10, nullable = false)
     private String zipCode;
 
     @Size(min = 1, max = 20)
-    @Column(name = "Country", length = 20)
+    @Column(name = "Country", length = 20, nullable = false)
     private String country;
 
-    @Column(name = "Completed")
+    @Column(name = "Completed", nullable = false)
     private boolean completed;
 
     @OneToOne
-    @JoinColumn(name = "IdOrder", referencedColumnName = "IdOrder")
+    @JoinColumn(name = "IdOrder", referencedColumnName = "IdOrder", nullable = false)
     private Order order;
 
     public Shipment() {
@@ -115,5 +115,19 @@ public class Shipment {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    @Override
+    public String toString() {
+        return "Shipment{" +
+                "idShipment=" + idShipment +
+                ", trackingNumber='" + trackingNumber + '\'' +
+                ", shipDate=" + shipDate +
+                ", address='" + address + '\'' +
+                ", zipCode='" + zipCode + '\'' +
+                ", country='" + country + '\'' +
+                ", completed=" + completed +
+                ", order=" + order +
+                '}';
     }
 }
