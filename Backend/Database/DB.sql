@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `productDetails`
     `IdProduct` int(11) NOT NULL,
     KEY `FK_PRODUCTDETAILS_PRODUCT` (`IdProduct`),
     CONSTRAINT `FK_PRODUCTDETAILS_PRODUCT` FOREIGN KEY (`IdProduct`) REFERENCES `products` (`IdProduct`),
-    PRIMARY KEY (`IDProductDetails`)
+    PRIMARY KEY (`IdProductDetails`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `asks`
