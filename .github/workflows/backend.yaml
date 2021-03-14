@@ -6,7 +6,6 @@ on:
       - 'Backend/**'
     branches:
       - main
-      - continuous_integration
   pull_request:
     paths:
       - 'Backend/**'
