@@ -22,7 +22,7 @@ class Inso2ApplicationTests {
 	public void createCategory() throws Exception {
 		Category c  = new Category("Testing");
 		categoryRepository.save(c);
-		assertEquals(2, categoryRepository.count());
+		assertEquals(20, categoryRepository.count());
 	}
 
 
