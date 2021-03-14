@@ -6,6 +6,11 @@ on:
       - 'Backend/**'
     branches:
       - main
+  pull_request:
+    paths:
+      - 'Backend/**'
+    branches:
+      - main
 
 jobs:
   build:
