@@ -11,22 +11,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 class Inso2ApplicationTests {
 
-	@Autowired
-	CategoryRepository categoryRepository;
-
 	@Test
 	void contextLoads() {
 	}
-
-	@Test
-	public void createCategory() throws Exception {
-		Category c  = new Category("Testing");
-		categoryRepository.save(c);
-		assertEquals(20, categoryRepository.count());
-	}
-
-
-
-
 
 }
