@@ -6,6 +6,7 @@ on:
       - 'Backend/**'
     branches:
       - main
+      - continuous_integration
   pull_request:
     paths:
       - 'Backend/**'
@@ -22,6 +23,13 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.11
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
       - name: Run docker mysql container
         working-directory: ./Backend
         run: docker run --name mysql-standalone -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=inso2 -e MYSQL_USER=sa -e MYSQL_PASSWORD=password --publish 3306:3306 -d mysql:5.6
