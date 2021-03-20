@@ -28,8 +28,8 @@ public class User {
     @Column(name = "Email", length = 30, nullable = false)
     private String email;
 
-    @Size(min = 1, max = 20)
-    @Column(name = "Password", length = 20, nullable = false)
+    @Size(min = 1, max = 100)
+    @Column(name = "Password", length = 100, nullable = false)
     private String password;
 
     @Size(min = 1, max = 40)
