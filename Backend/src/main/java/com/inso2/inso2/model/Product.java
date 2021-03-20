@@ -1,4 +1,4 @@
-package com.inso2.inso2.domain.entity;
+package com.inso2.inso2.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -7,7 +7,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "products")

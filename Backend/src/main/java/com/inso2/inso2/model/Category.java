@@ -1,4 +1,4 @@
-package com.inso2.inso2.domain.entity;
+package com.inso2.inso2.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

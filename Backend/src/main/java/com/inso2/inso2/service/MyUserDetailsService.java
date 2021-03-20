@@ -1,6 +1,6 @@
 package com.inso2.inso2.service;
 
-import com.inso2.inso2.domain.persistence.UserRepository;
+import com.inso2.inso2.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +18,7 @@ public class MyUserDetailsService implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        com.inso2.inso2.domain.entity.User u = userRepository.findByEmail(s);
+        com.inso2.inso2.model.User u = userRepository.findByEmail(s);
         return new User(u.getEmail(), u.getPassword(),
                 new ArrayList<>());
     }

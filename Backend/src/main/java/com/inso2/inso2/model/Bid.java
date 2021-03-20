@@ -1,21 +1,21 @@
-package com.inso2.inso2.domain.entity;
+package com.inso2.inso2.model;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "asks")
-public class Ask {
+@Table(name = "bids")
+public class Bid {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name = "IdAsk")
-    private long idAsk;
+    @Column(name = "IdBid")
+    private long idBid;
 
     @Column(name = "Price", nullable = false)
     private int price;
 
-    @Column(name = "Date", columnDefinition="DATETIME",  nullable = false)
+    @Column(name = "Date", columnDefinition="DATETIME", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
@@ -30,10 +30,10 @@ public class Ask {
     @JoinColumn(name = "IdProductDetails", nullable = false)
     private ProductDetails productDetails;
 
-    public Ask() {
+    public Bid() {
     }
 
-    public Ask(int price, Date date, boolean completed, User user, ProductDetails productDetails) {
+    public Bid(int price, Date date, boolean completed, User user, ProductDetails productDetails) {
         this.price = price;
         this.date = date;
         this.completed = completed;
@@ -41,12 +41,12 @@ public class Ask {
         this.productDetails = productDetails;
     }
 
-    public long getIdAsk() {
-        return idAsk;
+    public long getIdBid() {
+        return idBid;
     }
 
-    public void setIdAsk(long idAsk) {
-        this.idAsk = idAsk;
+    public void setIdBid(long idBid) {
+        this.idBid = idBid;
     }
 
     public int getPrice() {
@@ -91,8 +91,8 @@ public class Ask {
 
     @Override
     public String toString() {
-        return "Ask{" +
-                "idAsk=" + idAsk +
+        return "Bid{" +
+                "idBid=" + idBid +
                 ", price=" + price +
                 ", date=" + date +
                 ", completed=" + completed +
