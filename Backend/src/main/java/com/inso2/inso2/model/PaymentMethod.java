@@ -1,9 +1,8 @@
-package com.inso2.inso2.domain.entity;
+package com.inso2.inso2.model;
 
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.Objects;
 
 @Entity
 @Table(name = "paymentMethods")

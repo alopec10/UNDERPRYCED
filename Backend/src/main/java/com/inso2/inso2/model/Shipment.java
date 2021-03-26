@@ -1,4 +1,4 @@
-package com.inso2.inso2.domain.entity;
+package com.inso2.inso2.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;

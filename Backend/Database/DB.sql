@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `users`
     `Name` nvarchar(20) NOT NULL,
     `Surname` nvarchar(30) NOT NULL,
     `Email` nvarchar(30) NOT NULL,
-    `Password` nvarchar(20) NOT NULL,
+    `Password` nvarchar(100) NOT NULL,
     `Address` nvarchar(40) NULL,
     `ZIPCode` varchar(10) NULL,
     `Country` nvarchar(20) NULL,

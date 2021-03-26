@@ -1,7 +1,7 @@
 package com.inso2.inso2;
 
-import com.inso2.inso2.domain.entity.*;
-import com.inso2.inso2.domain.persistence.*;
+import com.inso2.inso2.model.*;
+import com.inso2.inso2.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
