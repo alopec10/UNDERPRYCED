@@ -91,16 +91,17 @@ export default {
       if(this.email!= "" && this.password != ""){
         const userData = {
           email: this.email,
-          pass: this.password
+          password: this.password
         }
         console.log("a")
         axios
             .post("http://localhost:8888/user/authenticate", userData)
-            .then(
-                response => {
-                  console.log(response)
-                }
-            );
+            .then(response => {
+              console.log("Bearer " + response.data.jwt)
+            })
+            .catch(error => {
+              console.log(error.response)
+            });
       }
     }
   }

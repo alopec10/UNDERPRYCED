@@ -72,7 +72,7 @@ public class UserController {
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword())
             );
         }
-        catch (BadCredentialsException e) {
+        catch (Exception e) {
             return new ResponseEntity<>(
                     "Invalid username or password",
                     HttpStatus.UNAUTHORIZED);
