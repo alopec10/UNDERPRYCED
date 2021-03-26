@@ -11,11 +11,11 @@
           <form method="#" action="#" class="mt-10">
 
             <div>
-              <input type="email" placeholder="Email" class="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0">
+              <input v-model="email" type="email" placeholder="Email" class="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0">
             </div>
 
             <div class="mt-7">
-              <input type="password" placeholder="Contraseña" class="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0">
+              <input v-model="password" type="password" placeholder="Contraseña" class="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0">
             </div>
 
             <div class="mt-7 flex">
@@ -34,7 +34,7 @@
             </div>
 
             <div class="mt-7">
-              <button class="bg-blue-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+              <button @click="login" class="bg-blue-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                 Login
               </button>
             </div>
@@ -71,16 +71,38 @@
         </div>
       </div>
     </div>
-<Footer></Footer>
   </div>
 </template>
 
 <script>
-import Footer from '@/components/Footer.vue'
+const axios = require("axios");
+
 export default {
   name: "Login",
-  components: {
-    Footer
+  data() {
+    return {
+      email: "",
+      password: ""
+    }
+
+  },
+  methods: {
+    login() {
+      if(this.email!= "" && this.password != ""){
+        const userData = {
+          email: this.email,
+          pass: this.password
+        }
+        console.log("a")
+        axios
+            .post("localhost:8888/user/authenticate", userData)
+            .then(
+                response => {
+                  console.log(response)
+                }
+            );
+      }
+    }
   }
 }
 </script>
