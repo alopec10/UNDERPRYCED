@@ -95,7 +95,7 @@ export default {
         }
         console.log("a")
         axios
-            .post("localhost:8888/user/authenticate", userData)
+            .post("http://localhost:8888/user/authenticate", userData)
             .then(
                 response => {
                   console.log(response)
