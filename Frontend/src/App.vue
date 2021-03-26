@@ -1,11 +1,14 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <NavBar></NavBar>
+<!--    <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/registro">Registro</router-link>
-    </div>
+    </div>-->
+
     <router-view/>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -31,3 +34,15 @@
   }
 }
 </style>
+
+<script>
+import Footer from '@/components/Footer.vue'
+import NavBar from '@/components/NavBar.vue'
+export default {
+  name: "App",
+  components: {
+    Footer,
+    NavBar
+  }
+}
+</script>
