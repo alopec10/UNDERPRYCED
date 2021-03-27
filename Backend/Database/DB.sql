@@ -17,6 +17,26 @@ CREATE TABLE IF NOT EXISTS `users`
     PRIMARY KEY (`IDUser`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `roles`
+(
+    `IdRole` int(11) NOT NULL AUTO_INCREMENT,
+    `Name` nvarchar(20) NOT NULL,
+    PRIMARY KEY (`IdRole`),
+    UNIQUE(`Name`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `userRoles`
+(
+    `IdRole` int(11) NOT NULL,
+    `IdUser` int(11) NOT NULL,
+    PRIMARY KEY (`IdRole`, `IdUser`),
+    CONSTRAINT `FK_ROLE_USER` FOREIGN KEY (`IdUser`) REFERENCES `users` (`IdUser`),
+    CONSTRAINT `FK_USER_ROLE` FOREIGN KEY (`IdRole`) REFERENCES `roles` (`IdRole`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT IGNORE INTO roles(name) VALUES('ROLE_USER');
+INSERT IGNORE INTO roles(name) VALUES('ROLE_ADMIN');
+
 CREATE TABLE IF NOT EXISTS `paymentMethods`
 (
     `IdPayMethod` int(11) NOT NULL AUTO_INCREMENT,
