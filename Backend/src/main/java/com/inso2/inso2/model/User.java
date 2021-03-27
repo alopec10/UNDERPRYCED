@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -78,6 +80,12 @@ public class User {
     @JsonIgnore
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<Order> purchases;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(    name = "userRoles",
+            joinColumns = @JoinColumn(name = "IdUser"),
+            inverseJoinColumns = @JoinColumn(name = "IdRole"))
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
@@ -230,6 +238,14 @@ public class User {
 
     public void setPurchases(List<Order> purchases) {
         this.purchases = purchases;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     @Override

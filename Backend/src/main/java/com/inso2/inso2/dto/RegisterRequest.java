@@ -1,10 +1,12 @@
 package com.inso2.inso2.dto;
 
 import java.io.Serializable;
+import java.util.Set;
 
 public class RegisterRequest implements Serializable {
 
     private String name, surname, email, password, address, country, zipCode, phoneNumber;
+    private Set<String> role;
 
     public RegisterRequest() {
     }
@@ -78,5 +80,13 @@ public class RegisterRequest implements Serializable {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Set<String> getRole() {
+        return role;
+    }
+
+    public void setRole(Set<String> role) {
+        this.role = role;
     }
 }
