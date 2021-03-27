@@ -87,10 +87,12 @@ public class UserController {
                     "Cannot register, email just registered",
                     HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>(
-                "User registered correctly",
-                HttpStatus.OK
-        );
+        final UserDetails userDetails = userDetailsService
+                .loadUserByUsername(req.getEmail());
+
+        final String jwt = jwtTokenUtils.generateToken(userDetails);
+
+        return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)

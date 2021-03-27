@@ -17,8 +17,8 @@
           <li><a class="lg:p-4 py-3 px-0 block border-b-2 border-transparent hover:border-indigo-400" href="/registro">Registro</a></li>
         </ul>
       </nav>
-      <a href="#" class="lg:ml-4 flex items-center justify-start lg:mb-0 mb-4 pointer-cursor">
-        <img class="rounded-full w-10 h-10 border-2 border-transparent hover:border-indigo-400" src="https://static.wikia.nocookie.net/youtubepedia/images/b/b8/Knekro_apariencia.PNG/revision/latest/smart/width/200/height/200?cb=20210127195400&path-prefix=es" alt="Andy Leverenz">
+      <a @click='logout' href="#" class="lg:ml-4 flex items-center justify-start lg:mb-0 mb-4 pointer-cursor">
+        <img class="rounded-full w-10 h-10 border-2 border-transparent hover:border-indigo-400" src="https://www.personality-database.com/profile_images/226754.png?id=139034" alt="Andy Leverenz">
       </a>
 
     </div>
@@ -27,8 +27,20 @@
 </template>
 
 <script>
+
 export default {
-  name: "NavBar"
+  name: "NavBar",
+  computed : {
+    isLoggedIn : function(){ return this.$store.getters.isLoggedIn}
+  },
+  methods: {
+    logout: function () {
+      this.$store.dispatch('logout')
+          .then(() => {
+            this.$router.push('/login')
+          })
+    },
+  },
 }
 </script>
 

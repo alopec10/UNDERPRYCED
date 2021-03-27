@@ -8,7 +8,7 @@
           <label for="" class="block text-sm text-gray-700 text-center font-semibold">
             Login
           </label>
-          <form method="#" action="#" class="mt-10">
+          <form class="mt-10">
 
             <div>
               <input v-model="email" type="email" placeholder="Email" class="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0">
@@ -34,7 +34,7 @@
             </div>
 
             <div class="mt-7">
-              <button @click="login" class="bg-blue-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+              <button @click="login" type="button" class="bg-blue-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                 Login
               </button>
             </div>
@@ -87,24 +87,16 @@ export default {
 
   },
   methods: {
-    login() {
-      if(this.email!= "" && this.password != ""){
-        const userData = {
-          email: this.email,
-          password: this.password
-        }
-        console.log("a")
-        axios
-            .post("http://localhost:8888/user/authenticate", userData)
-            .then(response => {
-              console.log("Bearer " + response.data.jwt)
-            })
-            .catch(error => {
-              console.log(error.response)
-            });
+      login: function () {
+        let email = this.email
+        let password = this.password
+        console.log('b')
+        this.$store.dispatch('login', { email, password })
+            .then(() => this.$router.push('/'))
+            .catch(err => console.log(err))
       }
     }
-  }
+
 }
 </script>
 
