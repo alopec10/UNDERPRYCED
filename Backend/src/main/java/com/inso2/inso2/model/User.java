@@ -81,7 +81,7 @@ public class User {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<Order> purchases;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(    name = "userRoles",
             joinColumns = @JoinColumn(name = "IdUser"),
             inverseJoinColumns = @JoinColumn(name = "IdRole"))
