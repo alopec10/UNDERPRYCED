@@ -87,6 +87,7 @@ CREATE TABLE IF NOT EXISTS `productDetails`
     `IdProduct` int(11) NOT NULL,
     KEY `FK_PRODUCTDETAILS_PRODUCT` (`IdProduct`),
     CONSTRAINT `FK_PRODUCTDETAILS_PRODUCT` FOREIGN KEY (`IdProduct`) REFERENCES `products` (`IdProduct`),
+    UNIQUE(`Size`, `IdProduct`),
     PRIMARY KEY (`IdProductDetails`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -102,6 +103,7 @@ CREATE TABLE IF NOT EXISTS `asks`
     CONSTRAINT `FK_ASK_USER` FOREIGN KEY (`IdUser`) REFERENCES `users` (`IdUser`),
     KEY `FK_ASK_PRODUCTDETAILS` (`IdProductDetails`),
     CONSTRAINT `FK_ASK_PRODUCTDETAILS` FOREIGN KEY (`IdProductDetails`) REFERENCES `productDetails` (`IdProductDetails`),
+    UNIQUE(`Price`, `IdUser`, `IdProductDetails`),
     PRIMARY KEY (`IdAsk`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -117,6 +119,7 @@ CREATE TABLE IF NOT EXISTS `bids`
     CONSTRAINT `FK_BID_USER` FOREIGN KEY (`IdUser`) REFERENCES `users` (`IdUser`),
     KEY `FK_BID_PRODUCTDETAILS` (`IdProductDetails`),
     CONSTRAINT `FK_BID_PRODUCTDETAILS` FOREIGN KEY (`IdProductDetails`) REFERENCES `productDetails` (`IdProductDetails`),
+    UNIQUE(`Price`, `IdUser`, `IdProductDetails`),
     PRIMARY KEY (`IdBid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -126,11 +129,9 @@ CREATE TABLE IF NOT EXISTS `orders`
     `IdOrder` int(11) NOT NULL AUTO_INCREMENT,
     `Price` int NOT NULL,
     `Date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
     `IdBuyer` int(11) NOT NULL,
     `IdSeller` int(11) NOT NULL,
     `IdProductDetails` int(11) NOT NULL,
-
     KEY `FK_ORDER_BUYER` (`IdBuyer`),
     CONSTRAINT `FK_ORDER_BUYER` FOREIGN KEY (`IdBuyer`) REFERENCES `users` (`IdUser`),
     KEY `FK_ORDER_SELLER` (`IdSeller`),
@@ -150,8 +151,8 @@ CREATE TABLE IF NOT EXISTS `shipments`
     `Country` nvarchar(20) NOT NULL,
     `Completed` bit(1)  NOT NULL DEFAULT b'0',
     `IdOrder` int(11) NOT NULL,
-
     KEY `FK_SHIPMENT_ORDER` (`IDOrder`),
     CONSTRAINT `FK_SHIPMENT_ORDER` FOREIGN KEY (`IDOrder`) REFERENCES `orders` (`IDOrder`),
+    UNIQUE(`TrackingNumber`),
     PRIMARY KEY (`IdShipment`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
