@@ -127,6 +127,7 @@ CREATE TABLE IF NOT EXISTS `bids`
 CREATE TABLE IF NOT EXISTS `orders`
 (
     `IdOrder` int(11) NOT NULL AUTO_INCREMENT,
+    `Ref` nvarchar(100) NOT NULL,
     `Price` int NOT NULL,
     `Date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `IdBuyer` int(11) NOT NULL,
@@ -138,6 +139,7 @@ CREATE TABLE IF NOT EXISTS `orders`
     CONSTRAINT `FK_ORDER_SELLER` FOREIGN KEY (`IdSeller`) REFERENCES `users` (`IdUser`),
     KEY `FK_ORDER_PRODUCTDETAILS` (`IdProductDetails`),
     CONSTRAINT `FK_ORDER_PRODUCTDETAILS` FOREIGN KEY (`IdProductDetails`) REFERENCES `productDetails` (`IdProductDetails`),
+    UNIQUE(`Ref`),
     PRIMARY KEY (`IdOrder`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

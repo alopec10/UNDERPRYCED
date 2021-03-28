@@ -1,6 +1,7 @@
 package com.inso2.inso2.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -11,6 +12,10 @@ public class Order {
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = "IdOrder")
     private long idOrder;
+
+    @Size(min = 1, max = 100)
+    @Column(name = "Ref", length = 100)
+    private String ref;
 
     @Column(name = "Price", nullable = false)
     private int price;
@@ -37,9 +42,9 @@ public class Order {
     public Order() {
     }
 
-    public Order(int price, Date date, User buyer, User seller, ProductDetails productDetails) {
+    public Order(@Size(min = 1, max = 100) String ref, int price, User buyer, User seller, ProductDetails productDetails) {
+        this.ref = ref;
         this.price = price;
-        this.date = date;
         this.buyer = buyer;
         this.seller = seller;
         this.productDetails = productDetails;
@@ -99,6 +104,14 @@ public class Order {
 
     public void setShipment(Shipment shipment) {
         this.shipment = shipment;
+    }
+
+    public String getRef() {
+        return ref;
+    }
+
+    public void setRef(String ref) {
+        this.ref = ref;
     }
 
     @Override

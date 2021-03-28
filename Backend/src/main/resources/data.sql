@@ -254,24 +254,24 @@ VALUES (821, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'), (SELECT 
 
 /* ORDERS */
 
-INSERT IGNORE INTO orders(price, idbuyer, idseller, idproductdetails)
-VALUES (330, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'),
+INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails)
+VALUES ('7321401552789517581', 330, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'),
         (SELECT IdUser FROM users WHERE Email = 'user@user.com'), (SELECT IdProductDetails
                                                                    FROM productdetails pd
                                                                             INNER JOIN products p ON pd.IdProduct = p.IdProduct
                                                                    WHERE p.Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'
                                                                      AND pd.size = '43'));
 
-INSERT IGNORE INTO orders(price, idbuyer, idseller, idproductdetails)
-VALUES (215, (SELECT IdUser FROM users WHERE Email = 'user@user.com'),
+INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails)
+VALUES ('7376701552706717555', 215, (SELECT IdUser FROM users WHERE Email = 'user@user.com'),
         (SELECT IdUser FROM users WHERE Email = 'user2@user.com'), (SELECT IdProductDetails
                                                                     FROM productdetails pd
                                                                              INNER JOIN products p ON pd.IdProduct = p.IdProduct
                                                                     WHERE p.Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'
                                                                       AND pd.size = '44'));
 
-INSERT IGNORE INTO orders(price, idbuyer, idseller, idproductdetails)
-VALUES (223, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'),
+INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails)
+VALUES ('7376213552988817555', 223, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'),
         (SELECT IdUser FROM users WHERE Email = 'user@user.com'), (SELECT IdProductDetails
                                                                    FROM productdetails pd
                                                                             INNER JOIN products p ON pd.IdProduct = p.IdProduct
