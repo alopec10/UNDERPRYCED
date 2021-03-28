@@ -93,5 +93,19 @@ INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('44', (SELECT IdProdu
 INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('44.5', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'));
 INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('45', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'));
 
+/* Gucci x The North Face Cotton Sweater Beige */
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('XS', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-676d-b209-b8e12bf1f15b'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('S', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-676d-b209-b8e12bf1f15b'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('M', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-676d-b209-b8e12bf1f15b'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('L', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-676d-b209-b8e12bf1f15b'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('XL', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-676d-b209-b8e12bf1f15b'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('XXL', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-676d-b209-b8e12bf1f15b'));
 
+/* Supreme Cross Box Logo Hooded Sweatshirt Red */
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('XS', (SELECT IdProduct FROM products WHERE Ref = '8654d027-dafb-676d-b309-c8e12bf1f15b'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('S', (SELECT IdProduct FROM products WHERE Ref = '8654d027-dafb-676d-b309-c8e12bf1f15b'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('M', (SELECT IdProduct FROM products WHERE Ref = '8654d027-dafb-676d-b309-c8e12bf1f15b'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('L', (SELECT IdProduct FROM products WHERE Ref = '8654d027-dafb-676d-b309-c8e12bf1f15b'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('XL', (SELECT IdProduct FROM products WHERE Ref = '8654d027-dafb-676d-b309-c8e12bf1f15b'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('XXL', (SELECT IdProduct FROM products WHERE Ref = '8654d027-dafb-676d-b309-c8e12bf1f15b'));
 
