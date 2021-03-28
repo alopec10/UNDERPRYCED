@@ -37,10 +37,10 @@ CREATE TABLE IF NOT EXISTS `userRoles`
 CREATE TABLE IF NOT EXISTS `paymentMethods`
 (
     `IdPayMethod` int(11) NOT NULL AUTO_INCREMENT,
-    `Number` varchar(16) NOT NULL,
-    `CVV` varchar(3) NOT NULL,
-    `ExpMonth` varchar(2) NOT NULL,
-    `ExpYear` varchar(2) NOT NULL,
+    `Number` nvarchar(100) NOT NULL,
+    `CVV` nvarchar(100) NOT NULL,
+    `ExpMonth` nvarchar(100) NOT NULL,
+    `ExpYear` nvarchar(100) NOT NULL,
     `DefaultMethod` bit(1) NOT NULL DEFAULT b'0',
     `IdUser` int(11) NOT NULL,
     KEY `FK_PAYMENTMETHOD_USER` (`IdUser`),
