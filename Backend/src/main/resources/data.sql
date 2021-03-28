@@ -8,15 +8,15 @@ VALUES ('ROLE_ADMIN');
 
 /* USERS */
 INSERT IGNORE INTO users(name, surname, email, password, Address, ZIPCode, Country, PhoneNumber)
-VALUES ('Admin', 'Admin', 'admin@admin.com', '$10$72uMGfOL4QxEBIlc756deO.AyDLwWAkjksNut.EoBdY3L85ORAvmq',
+VALUES ('Admin', 'Admin', 'admin@admin.com', '$2a$10$YRA9C3jPTVrQs8wbIux7R.8Vx9R3uCp7g7Bg5rJ/Haj8y4C6PB.Cu',
         'C/ Admin', '24198', 'Spain', '987402130');
 
 INSERT IGNORE INTO users(name, surname, email, password, Address, ZIPCode, Country, PhoneNumber)
-VALUES ('User', 'User', 'user@user.com', '$10$ZO/IaPBLyH149lqDETQjeuAjbTG0YaCYqdTXcMcNy3dhE0U7SDBrm',
+VALUES ('User', 'User', 'user@user.com', '$2a$10$h0oOdH.VpWWMslVYdY.qQ.WyQ6HnE52Wc3EI5n7YH3DL6wm8CjVoS',
         'C/ User', '24198', 'Spain', '987404530');
 
 INSERT IGNORE INTO users(name, surname, email, password, Address, ZIPCode, Country, PhoneNumber)
-VALUES ('User2', 'User2', 'user2@user.com', '$10$ZO/IaPBLyH149lqDETQjeuAjbTG0YaCYqdTXcMcNy3dhE0U7SDBrm',
+VALUES ('User2', 'User2', 'user2@user.com', '$2a$10$esr0atHpssbhlyiu5SUiUORUzLvx8fZ8yh5suRt17CAgO8LEpaPvy',
         'C/ User2', '24198', 'Spain', '987404530');
 
 /* USER ROLES */
@@ -294,24 +294,25 @@ VALUES ('78832224578314392100', 'C/ User2', '24198', 'Spain', (SELECT IdOrder
 
 INSERT IGNORE INTO shipments(trackingnumber, address, zipcode, country, completed, idorder)
 VALUES ('43432224579612146100', 'C/ User', '24198', 'Spain', 1, (SELECT IdOrder
-                                                               FROM orders o
-                                                                        INNER JOIN users b on o.IdBuyer = b.IdUser
-                                                                        INNER JOIN users s on o.IdSeller = s.IdUser
-                                                                        INNER JOIN productdetails pd on o.IdProductDetails = pd.IdProductDetails
-                                                                        INNER JOIN products p on pd.IdProduct = p.IdProduct
-                                                               WHERE b.Email = 'user@user.com'
-                                                                 and s.Email = 'user2@user.com'
-                                                                 and p.Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'
-                                                                 and pd.size = '44'));
-
-INSERT IGNORE INTO shipments(trackingnumber, address, zipcode, country, idorder)
-VALUES ('70432134579612416100', 'C/ User2', '24198', 'Spain', (SELECT IdOrder
                                                                  FROM orders o
                                                                           INNER JOIN users b on o.IdBuyer = b.IdUser
                                                                           INNER JOIN users s on o.IdSeller = s.IdUser
                                                                           INNER JOIN productdetails pd on o.IdProductDetails = pd.IdProductDetails
                                                                           INNER JOIN products p on pd.IdProduct = p.IdProduct
-                                                                 WHERE b.Email = 'user2@user.com'
-                                                                   and s.Email = 'user@user.com'
-                                                                   and p.Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'
-                                                                   and pd.size = '40'));
+                                                                 WHERE b.Email = 'user@user.com'
+                                                                   and s.Email = 'user2@user.com'
+                                                                   and p.Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'
+                                                                   and pd.size = '44'));
+
+INSERT IGNORE INTO shipments(trackingnumber, address, zipcode, country, idorder)
+VALUES ('70432134579612416100', 'C/ User2', '24198', 'Spain', (SELECT IdOrder
+                                                               FROM orders o
+                                                                        INNER JOIN users b on o.IdBuyer = b.IdUser
+                                                                        INNER JOIN users s on o.IdSeller = s.IdUser
+                                                                        INNER JOIN productdetails pd on o.IdProductDetails = pd.IdProductDetails
+                                                                        INNER JOIN products p on pd.IdProduct = p.IdProduct
+                                                               WHERE b.Email = 'user2@user.com'
+                                                                 and s.Email = 'user@user.com'
+                                                                 and p.Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'
+                                                                 and pd.size = '40'));
+
