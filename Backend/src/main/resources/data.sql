@@ -58,4 +58,40 @@ VALUES ('8654d027-dafb-676d-b309-c8e12bf1f15b', 'Supreme', 'Red', 'm', 'Cross Bo
         'https://images.stockx.com/images/Supreme-Cross-Box-Logo-Hooded-Sweatshirt-Red.jpg?fit=clip&bg=FFFFFF&w=700&h=500&auto=compress&q=90&dpr=2&trim=color&updated_at=1607005929&fm=webp&ixlib=react-9.0.3&w=1446',
         (SELECT IdCategory FROM categories WHERE Type = 'Ropa'));
 
+/* PRODUCT DETAILS */
+
+/* Nike Lebron 18 */
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('40', (SELECT IdProduct FROM products WHERE Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('40.5', (SELECT IdProduct FROM products WHERE Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('41', (SELECT IdProduct FROM products WHERE Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('42', (SELECT IdProduct FROM products WHERE Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('42.5', (SELECT IdProduct FROM products WHERE Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('43', (SELECT IdProduct FROM products WHERE Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('44', (SELECT IdProduct FROM products WHERE Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('44.5', (SELECT IdProduct FROM products WHERE Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('45', (SELECT IdProduct FROM products WHERE Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'));
+
+/* Nike Adapt Auto Max */
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('40', (SELECT IdProduct FROM products WHERE Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('40.5', (SELECT IdProduct FROM products WHERE Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('41', (SELECT IdProduct FROM products WHERE Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('42', (SELECT IdProduct FROM products WHERE Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('42.5', (SELECT IdProduct FROM products WHERE Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('43', (SELECT IdProduct FROM products WHERE Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('44', (SELECT IdProduct FROM products WHERE Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('44.5', (SELECT IdProduct FROM products WHERE Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('45', (SELECT IdProduct FROM products WHERE Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'));
+
+/* adidas Yeezy Boost 350 V2 */
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('40', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('40.5', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('41', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('42', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('42.5', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('43', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('44', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('44.5', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'));
+INSERT IGNORE INTO productdetails(Size, IdProduct) VALUES ('45', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'));
+
+
 
