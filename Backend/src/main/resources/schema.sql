@@ -1,4 +1,3 @@
-CREATE DATABASE IF NOT EXISTS `inso2` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `inso2`;
 
 CREATE TABLE IF NOT EXISTS `users`
@@ -14,8 +13,9 @@ CREATE TABLE IF NOT EXISTS `users`
     `PhoneNumber` varchar(20) NULL,
     `SellsCompleted` smallint NOT NULL DEFAULT 0,
     `PurchasesCompleted` smallint NOT NULL DEFAULT 0,
+    UNIQUE(`Email`),
     PRIMARY KEY (`IDUser`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `roles`
 (
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `roles`
     `Name` nvarchar(20) NOT NULL,
     PRIMARY KEY (`IdRole`),
     UNIQUE(`Name`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `userRoles`
 (
@@ -32,10 +32,7 @@ CREATE TABLE IF NOT EXISTS `userRoles`
     PRIMARY KEY (`IdRole`, `IdUser`),
     CONSTRAINT `FK_ROLE_USER` FOREIGN KEY (`IdUser`) REFERENCES `users` (`IdUser`),
     CONSTRAINT `FK_USER_ROLE` FOREIGN KEY (`IdRole`) REFERENCES `roles` (`IdRole`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-INSERT IGNORE INTO roles(name) VALUES('ROLE_USER');
-INSERT IGNORE INTO roles(name) VALUES('ROLE_ADMIN');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `paymentMethods`
 (
@@ -49,34 +46,36 @@ CREATE TABLE IF NOT EXISTS `paymentMethods`
     KEY `FK_PAYMENTMETHOD_USER` (`IdUser`),
     CONSTRAINT `FK_PAYMENTMETHOD_USER` FOREIGN KEY (`IdUser`) REFERENCES `users` (`IdUser`),
     PRIMARY KEY (`IDPayMethod`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `categories`
 (
     `IdCategory` int(11) NOT NULL AUTO_INCREMENT,
     `Type` varchar(15) NOT NULL,
+    UNIQUE(`Type`),
     PRIMARY KEY (`IdCategory`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `products`
 (
     `IdProduct` int(11) NOT NULL AUTO_INCREMENT,
-    `Ref` varchar(20) NOT NULL,
+    `Ref` varchar(50) NOT NULL,
     `Brand` varchar(16) NOT NULL,
-    `Colorway` varchar(16) NOT NULL,
+    `Colorway` varchar(40) NOT NULL,
     `Gender` enum('m','f','gs','ps') NOT NULL,
-    `Name` varchar(20) NOT NULL,
+    `Name` varchar(50) NOT NULL,
     `ReleaseDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `RetailPrice` int NOT NULL,
     `Model` varchar(20) NOT NULL,
-    `Title` varchar(30) NOT NULL,
+    `Title` varchar(80) NOT NULL,
     `Year` varchar(4) NOT NULL,
     `URL` varchar(300) NOT NULL,
     `IdCategory` int(11) NOT NULL,
     KEY `FK_PRODUCT_CATEGORY` (`IdCategory`),
     CONSTRAINT `FK_PRODUCT_CATEGORY` FOREIGN KEY (`IdCategory`) REFERENCES `categories` (`IdCategory`),
+    UNIQUE(`Ref`),
     PRIMARY KEY (`IDProduct`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `productDetails`
 (
@@ -89,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `productDetails`
     KEY `FK_PRODUCTDETAILS_PRODUCT` (`IdProduct`),
     CONSTRAINT `FK_PRODUCTDETAILS_PRODUCT` FOREIGN KEY (`IdProduct`) REFERENCES `products` (`IdProduct`),
     PRIMARY KEY (`IdProductDetails`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `asks`
 (
@@ -104,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `asks`
     KEY `FK_ASK_PRODUCTDETAILS` (`IdProductDetails`),
     CONSTRAINT `FK_ASK_PRODUCTDETAILS` FOREIGN KEY (`IdProductDetails`) REFERENCES `productDetails` (`IdProductDetails`),
     PRIMARY KEY (`IdAsk`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `bids`
 (
@@ -119,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `bids`
     KEY `FK_BID_PRODUCTDETAILS` (`IdProductDetails`),
     CONSTRAINT `FK_BID_PRODUCTDETAILS` FOREIGN KEY (`IdProductDetails`) REFERENCES `productDetails` (`IdProductDetails`),
     PRIMARY KEY (`IdBid`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `orders`
@@ -139,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `orders`
     KEY `FK_ORDER_PRODUCTDETAILS` (`IdProductDetails`),
     CONSTRAINT `FK_ORDER_PRODUCTDETAILS` FOREIGN KEY (`IdProductDetails`) REFERENCES `productDetails` (`IdProductDetails`),
     PRIMARY KEY (`IdOrder`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `shipments`
 (
@@ -155,5 +154,4 @@ CREATE TABLE IF NOT EXISTS `shipments`
     KEY `FK_SHIPMENT_ORDER` (`IDOrder`),
     CONSTRAINT `FK_SHIPMENT_ORDER` FOREIGN KEY (`IDOrder`) REFERENCES `orders` (`IDOrder`),
     PRIMARY KEY (`IdShipment`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

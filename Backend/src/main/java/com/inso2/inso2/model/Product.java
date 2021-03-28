@@ -17,28 +17,28 @@ public class Product {
     @Column(name = "IdProduct")
     private long idProduct;
 
-    @Size(min = 1, max = 20)
-    @Column(name = "Ref", length = 20, nullable = false)
+    @Size(min = 1, max = 50)
+    @Column(name = "Ref", length = 50, nullable = false)
     private String ref;
 
     @Size(min = 1, max = 16)
     @Column(name = "Brand", length = 16, nullable = false)
     private String brand;
 
-    @Size(min = 1, max = 16)
-    @Column(name = "Colorway", length = 16, nullable = false)
+    @Size(min = 1, max = 40)
+    @Column(name = "Colorway", length = 40, nullable = false)
     private String colorway;
 
-    @Size(min = 1, max = 20)
-    @Column(name = "Name", length = 20, nullable = false)
+    @Size(min = 1, max = 50)
+    @Column(name = "Name", length = 50, nullable = false)
     private String name;
 
     @Size(min = 1, max = 20)
     @Column(name = "Model", length = 20, nullable = false)
     private String model;
 
-    @Size(min = 1, max = 30)
-    @Column(name = "Title", length = 30, nullable = false)
+    @Size(min = 1, max = 80)
+    @Column(name = "Title", length = 80, nullable = false)
     private String title;
 
     @Size(min = 4, max = 4)
@@ -72,7 +72,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(@Size(min = 1, max = 20) String ref, @Size(min = 1, max = 16) String brand, @Size(min = 1, max = 16) String colorway, @Size(min = 1, max = 20) String name, @Size(min = 1, max = 20) String model, @Size(min = 1, max = 30) String title, @Size(min = 4, max = 4) String year, @Size(min = 6, max = 300) String url, Gender gender, int retailPrice, Date releaseDate, Category category) {
+    public Product(@Size(min = 1, max = 50) String ref, @Size(min = 1, max = 16) String brand, @Size(min = 1, max = 40) String colorway, @Size(min = 1, max = 50) String name, @Size(min = 1, max = 20) String model, @Size(min = 1, max = 80) String title, @Size(min = 4, max = 4) String year, @Size(min = 6, max = 300) String url, Gender gender, int retailPrice, Date releaseDate, Category category) {
         this.ref = ref;
         this.brand = brand;
         this.colorway = colorway;
