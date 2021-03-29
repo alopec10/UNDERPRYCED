@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `products`
     `Ref` varchar(50) NOT NULL,
     `Brand` varchar(16) NOT NULL,
     `Colorway` varchar(40) NOT NULL,
-    `Gender` enum('m','f','gs','ps') NOT NULL,
+    `Gender` enum('M','F','GS','PS') NOT NULL,
     `Name` varchar(50) NOT NULL,
     `ReleaseDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `RetailPrice` int NOT NULL,
