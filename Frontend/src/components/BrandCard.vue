@@ -1,10 +1,11 @@
 <template>
-  <div class="relative w-full h-64 md:mx-4 rounded-md overflow-hidden bg-cover bg-center text-left md:w-1/2"
+  <div>
+  <div class="relative w-full sq h-64 rounded-md mx-auto overflow-hidden bg-cover bg-center text-left"
        :style="bgUrl">
     <div class="bg-gray-900 bg-opacity-70 flex items-center h-full">
       <div class="px-10 max-w-xl">
         <h2 class="text-2xl text-white font-semibold">{{ brand }}</h2>
-        <p class="mt-2 text-gray-400">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore facere
+        <p class="mt-2 text-gray-400 hidden xl:block">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore facere
           provident molestias ipsam sint voluptatum pariatur.</p>
         <button
             class="flex items-center mt-4 text-white text-sm uppercase font-medium rounded hover:underline focus:outline-none">
@@ -21,6 +22,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -45,5 +47,14 @@ export default {
 </script>
 
 <style scoped>
+@tailwind screens;
+
+@screen lg{
+  .sq {
+    width: max(18vw, 230px);
+    height:max(15vw, 200px);
+  }
+}
+
 
 </style>

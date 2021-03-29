@@ -1,25 +1,54 @@
 <template>
-  <div class="cursor-pointer mx-auto rounded-md shadow-lg overflow-hidden border border-gray-300"
-       style="width: max(18vw, 250px); height:max(18vw, 250px);">
-<!--    <div class="flex items-end justify-end bg-cover"
-         style="height:70%; background-image: url('https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421')">
-    </div>-->
-    <img class="" style="max-width:90%; margin: auto" src="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"/>
+  <div class="cursor-pointer w-full sq mx-auto rounded-md shadow-lg overflow-hidden border border-gray-300">
+
+    <img class="" style="max-width:90%;max-height:62%; margin: 4px auto" :src="url"/>
     <div class="px-5">
-      <h1 class="text-gray-900 uppercase leading-tight" style="font-size: max(1.5vw, 15px)">LEBRON XV CHRISTMAS SALE</h1>
-      <span class="text-gray-500 mt-2">$12</span>
+      <h1 class="text-gray-900 uppercase leading-tight line-clamp-2" :title="title" style="font-size: max(1.5vw, 15px)">{{ title }}</h1>
+      <span class="text-gray-500 mt-2">${{ price }}</span>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "SmallCard"
+  name: "SmallCard",
+  props: {
+    title: {
+      type: String,
+      required: true
+    },
+    url: {
+      type: String,
+      required: true
+    },
+    price: {
+      type: Number,
+      required: true
+    }
+  }
+
 }
+
 </script>
 
 <style scoped>
-sq {
-  font-size: 40px !important;
+@tailwind screens;
+
+@screen sm{
+  .sq {
+    width: 285px; height: 285px;
+  }
+}
+
+@screen md{
+  .sq {
+    width: 230px; height: 230px;
+  }
+}
+
+@screen lg{
+  .sq {
+    width: max(18vw, 230px); height:max(18vw, 230px);
+  }
 }
 </style>
