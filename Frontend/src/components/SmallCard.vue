@@ -42,7 +42,7 @@ export default {
 
 @screen md{
   .sq {
-    width: 230px; height: 230px;
+    width: min(30vw, 250px); height:min(30vw, 250px);
   }
 }
 
@@ -51,4 +51,17 @@ export default {
     width: max(18vw, 230px); height:max(18vw, 230px);
   }
 }
+
+@screen xl{
+  .sq {
+    width: max(16vw, 230px); height:max(16vw, 230px);
+  }
+}
+
+@screen 2xl{
+  .sq {
+    width: max(15vw, 250px); height:max(15vw, 250px);
+  }
+}
+
 </style>

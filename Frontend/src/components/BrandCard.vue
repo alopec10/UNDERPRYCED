@@ -4,8 +4,8 @@
        :style="bgUrl">
     <div class="bg-gray-900 bg-opacity-70 flex items-center h-full">
       <div class="px-10 max-w-xl">
-        <h2 class="text-2xl text-white font-semibold">{{ brand }}</h2>
-        <p class="mt-2 text-gray-400 hidden xl:block">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore facere
+        <h2 class="text-white font-semibold text-3xl md:text-2xl 2xl:text-3xl">{{ brand }}</h2>
+        <p class="mt-2 text-gray-400 hidden">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore facere
           provident molestias ipsam sint voluptatum pariatur.</p>
         <button
             class="flex items-center mt-4 text-white text-sm uppercase font-medium rounded hover:underline focus:outline-none">
@@ -16,7 +16,7 @@
           </svg>
         </button>
       </div>
-      <div class="absolute bottom-0 right-8 w-14 h-14 bg-white">
+      <div class="absolute bottom-0 right-8 w-14 h-14 bg-white cent">
         <div class="">
           <img class="" :src="logoUrl"/>
         </div>
@@ -51,10 +51,13 @@ export default {
 
 @screen lg{
   .sq {
-    width: max(18vw, 230px);
     height:max(15vw, 200px);
   }
 }
-
+ .cent {
+   display: flex;
+   align-items: center;
+   padding: 5px;
+ }
 
 </style>
