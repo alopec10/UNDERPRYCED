@@ -1,8 +1,8 @@
 package com.inso2.inso2.controller;
 
-import com.inso2.inso2.dto.AuthenticationRequest;
-import com.inso2.inso2.dto.AuthenticationResponse;
-import com.inso2.inso2.dto.RegisterRequest;
+import com.inso2.inso2.dto.authentication.AuthenticationRequest;
+import com.inso2.inso2.dto.authentication.AuthenticationResponse;
+import com.inso2.inso2.dto.register.RegisterRequest;
 import com.inso2.inso2.model.Role;
 import com.inso2.inso2.model.RoleName;
 import com.inso2.inso2.model.User;
@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
