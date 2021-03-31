@@ -1,4 +1,4 @@
-package com.inso2.inso2.dto;
+package com.inso2.inso2.dto.register;
 
 import java.io.Serializable;
 import java.util.Set;
