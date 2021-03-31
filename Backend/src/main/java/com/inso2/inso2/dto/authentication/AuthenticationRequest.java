@@ -1,4 +1,4 @@
-package com.inso2.inso2.dto;
+package com.inso2.inso2.dto.authentication;
 
 import java.io.Serializable;
 

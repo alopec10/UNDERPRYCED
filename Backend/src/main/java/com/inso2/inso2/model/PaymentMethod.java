@@ -9,43 +9,41 @@ import javax.validation.constraints.Size;
 public class PaymentMethod {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "IdPayMethod")
     private long idPayMethod;
 
-    @Size(min = 16, max = 16)
-    @Column(name = "Number", length = 16, nullable = false)
+    @Size(min = 1, max = 100)
+    @Column(name = "Number", length = 100, nullable = false)
     private String number;
 
-    @Size(min = 3, max = 3)
-    @Column(name = "CVV", length = 3, nullable = false)
+    @Size(min = 1, max = 100)
+    @Column(name = "CVV", length = 100, nullable = false)
     private String cvv;
 
-    @Size(min = 2, max = 2)
-    @Column(name = "ExpMonth", length = 2, nullable = false)
+    @Size(min = 1, max = 100)
+    @Column(name = "ExpMonth", length = 100, nullable = false)
     private String expMonth;
 
-    @Size(min = 2, max = 2)
-    @Column(name = "ExpYear", length = 2, nullable = false)
+    @Size(min = 1, max = 100)
+    @Column(name = "ExpYear", length = 100, nullable = false)
     private String expYear;
 
     @Column(name = "DefaultMethod", nullable = false)
     private boolean defaultMethod;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "IdUser", nullable = false)
     private User user;
 
     public PaymentMethod() {
     }
 
-    public PaymentMethod(@Size(min = 16, max = 16) String number, @Size(min = 3, max = 3) String cvv, @Size(min = 2, max = 2) String expMonth, @Size(min = 2, max = 2) String expYear, boolean defaultMethod, User user) {
+    public PaymentMethod(@Size(min = 1, max = 100) String number, @Size(min = 1, max = 100) String cvv, @Size(min = 1, max = 100) String expMonth, @Size(min = 1, max = 100) String expYear) {
         this.number = number;
         this.cvv = cvv;
         this.expMonth = expMonth;
         this.expYear = expYear;
-        this.defaultMethod = defaultMethod;
-        this.user = user;
     }
 
     public long getIdPayMethod() {

@@ -65,7 +65,6 @@ public class Product {
     private Category category;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="product")
-    @JsonIgnore
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<ProductDetails> productDetails;
 
