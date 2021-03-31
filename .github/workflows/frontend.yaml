@@ -1,39 +1,39 @@
-name: Frontend CI
-
-on:
-  push:
-    paths:
-      - 'Frontend/**'
-    branches:
-      - main
-  pull_request:
-    paths:
-      - 'Frontend/**'
-    branches:
-      - main
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-      - name: Install Dependencies
-        run: npm install
-        working-directory: ./Frontend
-
-      - name: Test
-        run: npm run test:unit
-        working-directory: ./Frontend
+#name: Frontend CI
+#
+#on:
+#  push:
+#    paths:
+#      - 'Frontend/**'
+#    branches:
+#      - main
+#  pull_request:
+#    paths:
+#      - 'Frontend/**'
+#    branches:
+#      - main
+#
+#jobs:
+#  test:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: Cache node modules
+#        uses: actions/cache@v2
+#        env:
+#          cache-name: cache-node-modules
+#        with:
+#          path: ~/.npm
+#          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+#          restore-keys: |
+#            ${{ runner.os }}-build-${{ env.cache-name }}-
+#            ${{ runner.os }}-build-
+#            ${{ runner.os }}-
+#      - name: Install Dependencies
+#        run: npm install
+#        working-directory: ./Frontend
+#
+#      - name: Test
+#        run: npm run test:unit
+#        working-directory: ./Frontend
