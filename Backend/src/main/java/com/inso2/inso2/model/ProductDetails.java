@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
 import java.util.List;
@@ -21,14 +22,17 @@ public class ProductDetails {
     @Size(min=1, max=4)
     private String size;
 
+    @Null
     @Column(name = "HighestBid")
-    private int highestBid;
+    private Integer highestBid;
 
+    @Null
     @Column(name = "LowestAsk")
-    private int lowestAsk;
+    private Integer lowestAsk;
 
+    @Null
     @Column(name = "LastSale")
-    private int lastSale;
+    private Integer lastSale;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "IdProduct")
@@ -76,27 +80,27 @@ public class ProductDetails {
         this.size = size;
     }
 
-    public int getHighestBid() {
+    public Integer getHighestBid() {
         return highestBid;
     }
 
-    public void setHighestBid(int highestBid) {
+    public void setHighestBid(Integer highestBid) {
         this.highestBid = highestBid;
     }
 
-    public int getLowestAsk() {
+    public Integer getLowestAsk() {
         return lowestAsk;
     }
 
-    public void setLowestAsk(int lowestAsk) {
+    public void setLowestAsk(Integer lowestAsk) {
         this.lowestAsk = lowestAsk;
     }
 
-    public int getLastSale() {
+    public Integer getLastSale() {
         return lastSale;
     }
 
-    public void setLastSale(int lastSale) {
+    public void setLastSale(Integer lastSale) {
         this.lastSale = lastSale;
     }
 
