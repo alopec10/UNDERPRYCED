@@ -1,9 +1,13 @@
 package com.inso2.inso2.dto.product;
 
+import com.inso2.inso2.dto.productDetails.ProductDetailsResponse;
 import com.inso2.inso2.model.Gender;
 import com.inso2.inso2.model.Product;
+import com.inso2.inso2.model.ProductDetails;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductSpecificationResponse implements Serializable {
     private String ref;
@@ -17,7 +21,8 @@ public class ProductSpecificationResponse implements Serializable {
     private Gender gender;
     private int retailPrice;
     private String date;
-    private String category_type;
+    private String categoryType;
+    private List<ProductDetailsResponse> productDetails;
 
     public ProductSpecificationResponse build(Product p){
         this.ref = p.getRef();
@@ -31,7 +36,14 @@ public class ProductSpecificationResponse implements Serializable {
         this.gender = p.getGender();
         this.retailPrice = p.getRetailPrice();
         this.date = p.getReleaseDate().toString().substring(0,10);
-        this.category_type = p.getCategory().getType();
+        this.categoryType = p.getCategory().getType();
+        this.productDetails = new ArrayList<ProductDetailsResponse>();
+        for(ProductDetails pd: p.getProductDetails()){
+            this.productDetails.add(new ProductDetailsResponse().build(pd));
+        }
+        for(ProductDetailsResponse pd: this.productDetails){
+            System.out.println(pd);
+        }
         return this;
     }
 
@@ -126,11 +138,19 @@ public class ProductSpecificationResponse implements Serializable {
         this.date = date;
     }
 
-    public String getCategory_type() {
-        return category_type;
+    public String getCategoryType() {
+        return categoryType;
     }
 
-    public void setCategory_type(String category_type) {
-        this.category_type = category_type;
+    public void setCategoryType(String categoryType) {
+        this.categoryType = categoryType;
+    }
+
+    public List<ProductDetailsResponse> getProductDetails() {
+        return productDetails;
+    }
+
+    public void setProductDetails(List<ProductDetailsResponse> productDetails) {
+        this.productDetails = productDetails;
     }
 }
