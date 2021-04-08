@@ -41,6 +41,20 @@ public class Bid {
         this.productDetails = productDetails;
     }
 
+    public Bid(int price, Date date, User user, ProductDetails productDetails) {
+        this.price = price;
+        this.date = date;
+        this.user = user;
+        this.productDetails = productDetails;
+    }
+
+    public Bid(int price, User user, ProductDetails productDetails) {
+        this.price = price;
+        this.user = user;
+        this.productDetails = productDetails;
+    }
+
+
     public long getIdBid() {
         return idBid;
     }
