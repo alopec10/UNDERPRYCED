@@ -23,14 +23,18 @@ import java.util.Date;
 @RestController
 @RequestMapping("/ask")
 public class AskController {
-    @Autowired
+
     private ProductDetailsRepository productDetailsRepository;
 
-    @Autowired
     private UserRepository userRepository;
 
-    @Autowired
     private AskRepository askRepository;
+
+    public AskController(ProductDetailsRepository productDetailsRepository, UserRepository userRepository, AskRepository askRepository) {
+        this.productDetailsRepository = productDetailsRepository;
+        this.userRepository = userRepository;
+        this.askRepository = askRepository;
+    }
 
     @RequestMapping(value = "/make", method = RequestMethod.POST)
     public ResponseEntity<?> makeAsk(@RequestBody AskRequest req){
