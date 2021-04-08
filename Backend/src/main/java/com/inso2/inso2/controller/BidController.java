@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,7 +43,12 @@ public class BidController {
             User user = userRepository.findByEmail(email);
             ProductDetails productDetails = productDetailsRepository.findByIdProductDetails(req.getIdProductDetails());
             Bid bid = new Bid(req.getPrice(), new Date(),user, productDetails);
-            bidRepository.save(bid);
+            bidRepository.saveAndFlush(bid);
+            if(productDetails.getHighestBid() == null || productDetails.getHighestBid() < req.getPrice()){
+                ProductDetails pDetails = productDetailsRepository.findByIdProductDetails(req.getIdProductDetails());
+                pDetails.setHighestBid(req.getPrice());
+                productDetailsRepository.save(pDetails);
+            }
             return ResponseEntity.ok("Bid created");
         }catch(Exception e){
             return new ResponseEntity<>(
