@@ -169,49 +169,49 @@ VALUES ('XXL', (SELECT IdProduct FROM products WHERE Ref = '8654d027-dafb-676d-b
 /* ASKS */
 INSERT IGNORE INTO asks(price, iduser, idproductdetails)
 VALUES (251, (SELECT IdUser FROM users WHERE Email = 'user@user.com'), (SELECT IdProductDetails
-                                                                        FROM productdetails pd
+                                                                        FROM productDetails pd
                                                                                  INNER JOIN products p ON pd.IdProduct = p.IdProduct
                                                                         WHERE p.Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'
                                                                           AND pd.size = '40'));
 
 INSERT IGNORE INTO asks(price, completed, iduser, idproductdetails)
 VALUES (330, 1, (SELECT IdUser FROM users WHERE Email = 'user@user.com'), (SELECT IdProductDetails
-                                                                           FROM productdetails pd
+                                                                           FROM productDetails pd
                                                                                     INNER JOIN products p ON pd.IdProduct = p.IdProduct
                                                                            WHERE p.Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'
                                                                              AND pd.size = '43'));
 
 INSERT IGNORE INTO asks(price, iduser, idproductdetails)
 VALUES (350, (SELECT IdUser FROM users WHERE Email = 'user@user.com'), (SELECT IdProductDetails
-                                                                        FROM productdetails pd
+                                                                        FROM productDetails pd
                                                                                  INNER JOIN products p ON pd.IdProduct = p.IdProduct
                                                                         WHERE p.Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'
                                                                           AND pd.size = '44'));
 
 INSERT IGNORE INTO asks(price, iduser, idproductdetails)
 VALUES (375, (SELECT IdUser FROM users WHERE Email = 'user@user.com'), (SELECT IdProductDetails
-                                                                        FROM productdetails pd
+                                                                        FROM productDetails pd
                                                                                  INNER JOIN products p ON pd.IdProduct = p.IdProduct
                                                                         WHERE p.Ref = '8654d027-dafb-676d-b309-c8e12bf1f15b'
                                                                           AND pd.size = 'XS'));
 
 INSERT IGNORE INTO asks(price, iduser, idproductdetails)
 VALUES (240, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'), (SELECT IdProductDetails
-                                                                         FROM productdetails pd
+                                                                         FROM productDetails pd
                                                                                   INNER JOIN products p ON pd.IdProduct = p.IdProduct
                                                                          WHERE p.Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'
                                                                            AND pd.size = '44'));
 
 INSERT IGNORE INTO asks(price, iduser, idproductdetails)
 VALUES (315, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'), (SELECT IdProductDetails
-                                                                         FROM productdetails pd
+                                                                         FROM productDetails pd
                                                                                   INNER JOIN products p ON pd.IdProduct = p.IdProduct
                                                                          WHERE p.Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'
                                                                            AND pd.size = '43.5'));
 
 INSERT IGNORE INTO asks(price, iduser, idproductdetails)
 VALUES (399, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'), (SELECT IdProductDetails
-                                                                         FROM productdetails pd
+                                                                         FROM productDetails pd
                                                                                   INNER JOIN products p ON pd.IdProduct = p.IdProduct
                                                                          WHERE p.Ref = '8654d027-dafb-676d-b309-c8e12bf1f15b'
                                                                            AND pd.size = 'L'));
@@ -219,35 +219,35 @@ VALUES (399, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'), (SELECT 
 /* BIDS */
 INSERT IGNORE INTO bids(price, completed, iduser, idproductdetails)
 VALUES (215, 1, (SELECT IdUser FROM users WHERE Email = 'user@user.com'), (SELECT IdProductDetails
-                                                                           FROM productdetails pd
+                                                                           FROM productDetails pd
                                                                                     INNER JOIN products p ON pd.IdProduct = p.IdProduct
                                                                            WHERE p.Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'
                                                                              AND pd.size = '44'));
 
 INSERT IGNORE INTO bids(price, iduser, idproductdetails)
 VALUES (255, (SELECT IdUser FROM users WHERE Email = 'user@user.com'), (SELECT IdProductDetails
-                                                                        FROM productdetails pd
+                                                                        FROM productDetails pd
                                                                                  INNER JOIN products p ON pd.IdProduct = p.IdProduct
                                                                         WHERE p.Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'
                                                                           AND pd.size = '42'));
 
 INSERT IGNORE INTO bids(price, iduser, idproductdetails)
 VALUES (813, (SELECT IdUser FROM users WHERE Email = 'user@user.com'), (SELECT IdProductDetails
-                                                                        FROM productdetails pd
+                                                                        FROM productDetails pd
                                                                                  INNER JOIN products p ON pd.IdProduct = p.IdProduct
                                                                         WHERE p.Ref = '8334d027-dafb-676d-b209-b8e12bf1f15b'
                                                                           AND pd.size = 'M'));
 
 INSERT IGNORE INTO bids(price, completed, iduser, idproductdetails)
 VALUES (223, 1, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'), (SELECT IdProductDetails
-                                                                            FROM productdetails pd
+                                                                            FROM productDetails pd
                                                                                      INNER JOIN products p ON pd.IdProduct = p.IdProduct
                                                                             WHERE p.Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'
                                                                               AND pd.size = '40'));
 
 INSERT IGNORE INTO bids(price, iduser, idproductdetails)
 VALUES (821, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'), (SELECT IdProductDetails
-                                                                         FROM productdetails pd
+                                                                         FROM productDetails pd
                                                                                   INNER JOIN products p ON pd.IdProduct = p.IdProduct
                                                                          WHERE p.Ref = '8334d027-dafb-676d-b209-b8e12bf1f15b'
                                                                            AND pd.size = 'M'));
@@ -257,7 +257,7 @@ VALUES (821, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'), (SELECT 
 INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails)
 VALUES ('7321401552789517581', 330, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'),
         (SELECT IdUser FROM users WHERE Email = 'user@user.com'), (SELECT IdProductDetails
-                                                                   FROM productdetails pd
+                                                                   FROM productDetails pd
                                                                             INNER JOIN products p ON pd.IdProduct = p.IdProduct
                                                                    WHERE p.Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'
                                                                      AND pd.size = '43'));
@@ -265,7 +265,7 @@ VALUES ('7321401552789517581', 330, (SELECT IdUser FROM users WHERE Email = 'use
 INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails)
 VALUES ('7376701552706717555', 215, (SELECT IdUser FROM users WHERE Email = 'user@user.com'),
         (SELECT IdUser FROM users WHERE Email = 'user2@user.com'), (SELECT IdProductDetails
-                                                                    FROM productdetails pd
+                                                                    FROM productDetails pd
                                                                              INNER JOIN products p ON pd.IdProduct = p.IdProduct
                                                                     WHERE p.Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'
                                                                       AND pd.size = '44'));
@@ -273,7 +273,7 @@ VALUES ('7376701552706717555', 215, (SELECT IdUser FROM users WHERE Email = 'use
 INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails)
 VALUES ('7376213552988817555', 223, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'),
         (SELECT IdUser FROM users WHERE Email = 'user@user.com'), (SELECT IdProductDetails
-                                                                   FROM productdetails pd
+                                                                   FROM productDetails pd
                                                                             INNER JOIN products p ON pd.IdProduct = p.IdProduct
                                                                    WHERE p.Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'
                                                                      AND pd.size = '40'));
@@ -285,7 +285,7 @@ VALUES ('78832224578314392100', 'C/ User2', '24198', 'Spain', (SELECT IdOrder
                                                                FROM orders o
                                                                         INNER JOIN users b on o.IdBuyer = b.IdUser
                                                                         INNER JOIN users s on o.IdSeller = s.IdUser
-                                                                        INNER JOIN productdetails pd on o.IdProductDetails = pd.IdProductDetails
+                                                                        INNER JOIN productDetails pd on o.IdProductDetails = pd.IdProductDetails
                                                                         INNER JOIN products p on pd.IdProduct = p.IdProduct
                                                                WHERE b.Email = 'user2@user.com'
                                                                  and s.Email = 'user@user.com'
@@ -297,7 +297,7 @@ VALUES ('43432224579612146100', 'C/ User', '24198', 'Spain', 1, (SELECT IdOrder
                                                                  FROM orders o
                                                                           INNER JOIN users b on o.IdBuyer = b.IdUser
                                                                           INNER JOIN users s on o.IdSeller = s.IdUser
-                                                                          INNER JOIN productdetails pd on o.IdProductDetails = pd.IdProductDetails
+                                                                          INNER JOIN productDetails pd on o.IdProductDetails = pd.IdProductDetails
                                                                           INNER JOIN products p on pd.IdProduct = p.IdProduct
                                                                  WHERE b.Email = 'user@user.com'
                                                                    and s.Email = 'user2@user.com'
@@ -309,7 +309,7 @@ VALUES ('70432134579612416100', 'C/ User2', '24198', 'Spain', (SELECT IdOrder
                                                                FROM orders o
                                                                         INNER JOIN users b on o.IdBuyer = b.IdUser
                                                                         INNER JOIN users s on o.IdSeller = s.IdUser
-                                                                        INNER JOIN productdetails pd on o.IdProductDetails = pd.IdProductDetails
+                                                                        INNER JOIN productDetails pd on o.IdProductDetails = pd.IdProductDetails
                                                                         INNER JOIN products p on pd.IdProduct = p.IdProduct
                                                                WHERE b.Email = 'user2@user.com'
                                                                  and s.Email = 'user@user.com'
