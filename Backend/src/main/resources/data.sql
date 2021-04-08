@@ -180,15 +180,15 @@ VALUES ('User2', 'User2', 'user2@user.com', '$2a$10$esr0atHpssbhlyiu5SUiUORUzLvx
 
 /* USER ROLES */
 
-INSERT IGNORE INTO userroles (idrole, iduser)
+INSERT IGNORE INTO userRoles (idrole, iduser)
 values ((SELECT IdRole FROM roles WHERE Name = 'ROLE_ADMIN'),
         (SELECT IdUser FROM users WHERE Email = 'admin@admin.com'));
 
-INSERT IGNORE INTO userroles (idrole, iduser)
+INSERT IGNORE INTO userRoles (idrole, iduser)
 VALUES ((SELECT IdRole FROM roles WHERE Name = 'ROLE_USER'),
         (SELECT IdUser FROM users WHERE Email = 'user@user.com'));
 
-INSERT IGNORE INTO userroles (idrole, iduser)
+INSERT IGNORE INTO userRoles (idrole, iduser)
 VALUES ((SELECT IdRole FROM roles WHERE Name = 'ROLE_USER'),
         (SELECT IdUser FROM users WHERE Email = 'user2@user.com'));
 
