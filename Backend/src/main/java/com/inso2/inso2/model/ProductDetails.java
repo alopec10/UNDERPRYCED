@@ -22,15 +22,12 @@ public class ProductDetails {
     @Size(min=1, max=4)
     private String size;
 
-    @Null
     @Column(name = "HighestBid")
     private Integer highestBid;
 
-    @Null
     @Column(name = "LowestAsk")
     private Integer lowestAsk;
 
-    @Null
     @Column(name = "LastSale")
     private Integer lastSale;
 
