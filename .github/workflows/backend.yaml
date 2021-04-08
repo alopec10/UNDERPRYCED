@@ -1,44 +1,45 @@
-#name: Backend CI
-#
-#on:
-#  push:
-#    paths:
-#      - 'Backend/**'
-#    branches:
-#      - main
-#  pull_request:
-#    paths:
-#      - 'Backend/**'
-#    branches:
-#      - main
-#
-#jobs:
-#  build:
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - uses: actions/checkout@v2
-#      - name: Set up JDK 1.11
-#        uses: actions/setup-java@v1
-#        with:
-#          java-version: 1.11
-#      - name: Cache local Maven repository
-#        uses: actions/cache@v2
-#        with:
-#          path: ~/.m2/repository
-#          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-#          restore-keys: |
-#            ${{ runner.os }}-maven-
-#      - name: Run docker mysql container
-#        working-directory: ./Backend
-#        run: docker run --name mysql-standalone -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=inso2 -e MYSQL_USER=sa -e MYSQL_PASSWORD=password --publish 3306:3306 -d mysql:5.6
-#      - name: Wait for the environment to get up
-#        working-directory: ./Backend
-#        run: |
-#          while ! make ping-mysql &>/dev/null; do
-#              echo "Waiting for database connection..."
-#              sleep 2
-#          done
-#      - name: Build with Maven
-#        working-directory: ./Backend
-#        run: mvn -B clean package
+name: Backend CI
+
+on:
+  push:
+    paths:
+      - 'Backend/**'
+    branches:
+      - main
+      - Hotfix_GH_Backend
+  pull_request:
+    paths:
+      - 'Backend/**'
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.11
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: Run docker mysql container
+        working-directory: ./Backend
+        run: docker run --name mysql-standalone -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=inso2 -e MYSQL_USER=sa -e MYSQL_PASSWORD=password --publish 3306:3306 -d mysql:5.6
+      - name: Wait for the environment to get up
+        working-directory: ./Backend
+        run: |
+          while ! make ping-mysql &>/dev/null; do
+              echo "Waiting for database connection..."
+              sleep 2
+          done
+      - name: Build with Maven
+        working-directory: ./Backend
+        run: mvn -B clean package
