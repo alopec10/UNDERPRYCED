@@ -25,14 +25,17 @@ import java.util.Date;
 @RequestMapping("/bid")
 public class BidController {
 
-    @Autowired
     private ProductDetailsRepository productDetailsRepository;
 
-    @Autowired
     private UserRepository userRepository;
 
-    @Autowired
     private BidRepository bidRepository;
+
+    public BidController(ProductDetailsRepository productDetailsRepository, UserRepository userRepository, BidRepository bidRepository) {
+        this.productDetailsRepository = productDetailsRepository;
+        this.userRepository = userRepository;
+        this.bidRepository = bidRepository;
+    }
 
     @RequestMapping(value = "/make", method = RequestMethod.POST)
     public ResponseEntity<?> makeBid(@RequestBody BidRequest req){
