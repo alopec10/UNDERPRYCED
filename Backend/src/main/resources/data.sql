@@ -1,164 +1,5 @@
 USE `inso2`;
 
-CREATE TABLE IF NOT EXISTS `users`
-(
-    `IdUser` int(11) NOT NULL AUTO_INCREMENT,
-    `Name` nvarchar(20) NOT NULL,
-    `Surname` nvarchar(30) NOT NULL,
-    `Email` nvarchar(30) NOT NULL,
-    `Password` nvarchar(100) NOT NULL,
-    `Address` nvarchar(40) NULL,
-    `ZIPCode` varchar(10) NULL,
-    `Country` nvarchar(20) NULL,
-    `PhoneNumber` varchar(20) NULL,
-    `SellsCompleted` smallint NOT NULL DEFAULT 0,
-    `PurchasesCompleted` smallint NOT NULL DEFAULT 0,
-    UNIQUE(`Email`),
-    PRIMARY KEY (`IDUser`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `roles`
-(
-    `IdRole` int(11) NOT NULL AUTO_INCREMENT,
-    `Name` nvarchar(20) NOT NULL,
-    PRIMARY KEY (`IdRole`),
-    UNIQUE(`Name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `userRoles`
-(
-    `IdRole` int(11) NOT NULL,
-    `IdUser` int(11) NOT NULL,
-    PRIMARY KEY (`IdRole`, `IdUser`),
-    CONSTRAINT `FK_ROLE_USER` FOREIGN KEY (`IdUser`) REFERENCES `users` (`IdUser`),
-    CONSTRAINT `FK_USER_ROLE` FOREIGN KEY (`IdRole`) REFERENCES `roles` (`IdRole`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `paymentMethods`
-(
-    `IdPayMethod` int(11) NOT NULL AUTO_INCREMENT,
-    `Number` nvarchar(100) NOT NULL,
-    `CVV` nvarchar(100) NOT NULL,
-    `ExpMonth` nvarchar(100) NOT NULL,
-    `ExpYear` nvarchar(100) NOT NULL,
-    `DefaultMethod` bit(1) NOT NULL DEFAULT b'0',
-    `IdUser` int(11) NOT NULL,
-    KEY `FK_PAYMENTMETHOD_USER` (`IdUser`),
-    CONSTRAINT `FK_PAYMENTMETHOD_USER` FOREIGN KEY (`IdUser`) REFERENCES `users` (`IdUser`),
-    PRIMARY KEY (`IDPayMethod`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `categories`
-(
-    `IdCategory` int(11) NOT NULL AUTO_INCREMENT,
-    `Type` varchar(15) NOT NULL,
-    UNIQUE(`Type`),
-    PRIMARY KEY (`IdCategory`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `products`
-(
-    `IdProduct` int(11) NOT NULL AUTO_INCREMENT,
-    `Ref` varchar(50) NOT NULL,
-    `Brand` varchar(16) NOT NULL,
-    `Colorway` varchar(40) NOT NULL,
-    `Gender` enum('M','F','GS','PS') NOT NULL,
-    `Name` varchar(50) NOT NULL,
-    `ReleaseDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `RetailPrice` int NOT NULL,
-    `Model` varchar(20) NOT NULL,
-    `Title` varchar(80) NOT NULL,
-    `Year` varchar(4) NOT NULL,
-    `URL` varchar(300) NOT NULL,
-    `IdCategory` int(11) NOT NULL,
-    KEY `FK_PRODUCT_CATEGORY` (`IdCategory`),
-    CONSTRAINT `FK_PRODUCT_CATEGORY` FOREIGN KEY (`IdCategory`) REFERENCES `categories` (`IdCategory`),
-    UNIQUE(`Ref`),
-    PRIMARY KEY (`IDProduct`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `productDetails`
-(
-    `IdProductDetails` int(11) NOT NULL AUTO_INCREMENT,
-    `Size` varchar(4) NOT NULL,
-    `HighestBid` int NULL,
-    `LowestAsk` int NULL,
-    `LastSale` int NULL,
-    `IdProduct` int(11) NOT NULL,
-    KEY `FK_PRODUCTDETAILS_PRODUCT` (`IdProduct`),
-    CONSTRAINT `FK_PRODUCTDETAILS_PRODUCT` FOREIGN KEY (`IdProduct`) REFERENCES `products` (`IdProduct`),
-    UNIQUE(`Size`, `IdProduct`),
-    PRIMARY KEY (`IdProductDetails`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `asks`
-(
-    `IdAsk` int(11) NOT NULL AUTO_INCREMENT,
-    `Price` int NOT NULL,
-    `Date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `Completed` bit(1)  NOT NULL DEFAULT b'0',
-    `IdUser` int(11) NOT NULL,
-    `IdProductDetails` int(11) NOT NULL,
-    KEY `FK_ASK_USER` (`IdUser`),
-    CONSTRAINT `FK_ASK_USER` FOREIGN KEY (`IdUser`) REFERENCES `users` (`IdUser`),
-    KEY `FK_ASK_PRODUCTDETAILS` (`IdProductDetails`),
-    CONSTRAINT `FK_ASK_PRODUCTDETAILS` FOREIGN KEY (`IdProductDetails`) REFERENCES `productDetails` (`IdProductDetails`),
-    UNIQUE(`Price`, `IdUser`, `IdProductDetails`),
-    PRIMARY KEY (`IdAsk`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `bids`
-(
-    `IdBid` int(11) NOT NULL AUTO_INCREMENT,
-    `Price` int NOT NULL,
-    `Date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `Completed` bit(1)  NOT NULL DEFAULT b'0',
-    `IdUser` int(11) NOT NULL,
-    `IdProductDetails` int(11) NOT NULL,
-    KEY `FK_BID_USER` (`IdUser`),
-    CONSTRAINT `FK_BID_USER` FOREIGN KEY (`IdUser`) REFERENCES `users` (`IdUser`),
-    KEY `FK_BID_PRODUCTDETAILS` (`IdProductDetails`),
-    CONSTRAINT `FK_BID_PRODUCTDETAILS` FOREIGN KEY (`IdProductDetails`) REFERENCES `productDetails` (`IdProductDetails`),
-    UNIQUE(`Price`, `IdUser`, `IdProductDetails`),
-    PRIMARY KEY (`IdBid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-CREATE TABLE IF NOT EXISTS `orders`
-(
-    `IdOrder` int(11) NOT NULL AUTO_INCREMENT,
-    `Ref` nvarchar(100) NOT NULL,
-    `Price` int NOT NULL,
-    `Date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `IdBuyer` int(11) NOT NULL,
-    `IdSeller` int(11) NOT NULL,
-    `IdProductDetails` int(11) NOT NULL,
-    KEY `FK_ORDER_BUYER` (`IdBuyer`),
-    CONSTRAINT `FK_ORDER_BUYER` FOREIGN KEY (`IdBuyer`) REFERENCES `users` (`IdUser`),
-    KEY `FK_ORDER_SELLER` (`IdSeller`),
-    CONSTRAINT `FK_ORDER_SELLER` FOREIGN KEY (`IdSeller`) REFERENCES `users` (`IdUser`),
-    KEY `FK_ORDER_PRODUCTDETAILS` (`IdProductDetails`),
-    CONSTRAINT `FK_ORDER_PRODUCTDETAILS` FOREIGN KEY (`IdProductDetails`) REFERENCES `productDetails` (`IdProductDetails`),
-    UNIQUE(`Ref`),
-    PRIMARY KEY (`IdOrder`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `shipments`
-(
-    `IdShipment` int(11) NOT NULL AUTO_INCREMENT,
-    `TrackingNumber` varchar(20) NOT NULL,
-    `ShipDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `Address` nvarchar(40) NOT NULL,
-    `ZIPCode` varchar(10) NOT NULL,
-    `Country` nvarchar(20) NOT NULL,
-    `Completed` bit(1)  NOT NULL DEFAULT b'0',
-    `IdOrder` int(11) NOT NULL,
-    KEY `FK_SHIPMENT_ORDER` (`IDOrder`),
-    CONSTRAINT `FK_SHIPMENT_ORDER` FOREIGN KEY (`IDOrder`) REFERENCES `orders` (`IDOrder`),
-    UNIQUE(`TrackingNumber`),
-    PRIMARY KEY (`IdShipment`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /* ROLES */
 INSERT IGNORE INTO roles(name)
 VALUES ('ROLE_USER');
@@ -238,91 +79,91 @@ VALUES ('8654d027-dafb-676d-b309-c8e12bf1f15b', 'Supreme', 'Red', 'M', 'Cross Bo
 /* PRODUCT DETAILS */
 
 /* Nike Lebron 18 */
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('40', (SELECT IdProduct FROM products WHERE Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('40.5', (SELECT IdProduct FROM products WHERE Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('41', (SELECT IdProduct FROM products WHERE Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('42', (SELECT IdProduct FROM products WHERE Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('42.5', (SELECT IdProduct FROM products WHERE Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('43', (SELECT IdProduct FROM products WHERE Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('44', (SELECT IdProduct FROM products WHERE Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('44.5', (SELECT IdProduct FROM products WHERE Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('45', (SELECT IdProduct FROM products WHERE Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'));
 
 /* Nike Adapt Auto Max */
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('40', (SELECT IdProduct FROM products WHERE Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('40.5', (SELECT IdProduct FROM products WHERE Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('41', (SELECT IdProduct FROM products WHERE Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('42', (SELECT IdProduct FROM products WHERE Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('42.5', (SELECT IdProduct FROM products WHERE Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('43', (SELECT IdProduct FROM products WHERE Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('44', (SELECT IdProduct FROM products WHERE Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('44.5', (SELECT IdProduct FROM products WHERE Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('45', (SELECT IdProduct FROM products WHERE Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'));
 
 /* adidas Yeezy Boost 350 V2 */
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('40', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('40.5', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('41', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('42', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('42.5', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('43', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('44', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('44.5', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('45', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'));
 
 /* Gucci x The North Face Cotton Sweater Beige */
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('XS', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-676d-b209-b8e12bf1f15b'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('S', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-676d-b209-b8e12bf1f15b'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('M', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-676d-b209-b8e12bf1f15b'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('L', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-676d-b209-b8e12bf1f15b'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('XL', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-676d-b209-b8e12bf1f15b'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('XXL', (SELECT IdProduct FROM products WHERE Ref = '8334d027-dafb-676d-b209-b8e12bf1f15b'));
 
 /* Supreme Cross Box Logo Hooded Sweatshirt Red */
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('XS', (SELECT IdProduct FROM products WHERE Ref = '8654d027-dafb-676d-b309-c8e12bf1f15b'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('S', (SELECT IdProduct FROM products WHERE Ref = '8654d027-dafb-676d-b309-c8e12bf1f15b'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('M', (SELECT IdProduct FROM products WHERE Ref = '8654d027-dafb-676d-b309-c8e12bf1f15b'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('L', (SELECT IdProduct FROM products WHERE Ref = '8654d027-dafb-676d-b309-c8e12bf1f15b'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('XL', (SELECT IdProduct FROM products WHERE Ref = '8654d027-dafb-676d-b309-c8e12bf1f15b'));
-INSERT IGNORE INTO productdetails(Size, IdProduct)
+INSERT IGNORE INTO productDetails(Size, IdProduct)
 VALUES ('XXL', (SELECT IdProduct FROM products WHERE Ref = '8654d027-dafb-676d-b309-c8e12bf1f15b'));
 
 /* ASKS */
