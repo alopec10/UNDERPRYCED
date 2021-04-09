@@ -51,6 +51,10 @@ public class BidController {
                         "It's not possible to make a bid higher than the lowest ask",
                         HttpStatus.SERVICE_UNAVAILABLE);
             }
+            if(productDetails.getLowestAsk() != null && productDetails.getLowestAsk() == req.getPrice()){
+                // IMPORTANT TO DETERMINE THE STRATEGY IN THIS SPECIFIC CASE (¿CREATE ORDER?) (¿CREATE BID?)
+                return ResponseEntity.ok("Order created");
+            }
             Bid bid = new Bid(req.getPrice(), new Date(),user, productDetails);
             bidRepository.saveAndFlush(bid);
             if(productDetails.getHighestBid() == null || productDetails.getHighestBid() < req.getPrice()){
