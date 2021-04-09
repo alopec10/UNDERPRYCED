@@ -50,6 +50,10 @@ public class AskController {
                         "It's not possible to make an ask lower than the highest bid",
                         HttpStatus.SERVICE_UNAVAILABLE);
             }
+            if(productDetails.getHighestBid() != null && productDetails.getHighestBid() == req.getPrice()){
+                // IMPORTANT TO DETERMINE THE STRATEGY IN THIS SPECIFIC CASE (¿CREATE ORDER?) (¿CREATE ASK?)
+                return ResponseEntity.ok("Order created");
+            }
             Ask ask = new Ask(req.getPrice(), new Date(),user, productDetails);
             askRepository.saveAndFlush(ask);
             if(productDetails.getLowestAsk() == null || productDetails.getLowestAsk() > req.getPrice()){
