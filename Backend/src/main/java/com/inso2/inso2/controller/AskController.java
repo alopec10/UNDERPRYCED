@@ -44,6 +44,12 @@ public class AskController {
             String email = userDetails.getUsername();
             User user = userRepository.findByEmail(email);
             ProductDetails productDetails = productDetailsRepository.findByIdProductDetails(req.getIdProductDetails());
+            if(productDetails.getHighestBid() != null && productDetails.getHighestBid() > req.getPrice()){
+                // IMPORTANT TO DETERMINE THE STRATEGY IN THIS SPECIFIC CASE
+                return new ResponseEntity<>(
+                        "It's not possible to make an ask lower than the highest bid",
+                        HttpStatus.SERVICE_UNAVAILABLE);
+            }
             Ask ask = new Ask(req.getPrice(), new Date(),user, productDetails);
             askRepository.saveAndFlush(ask);
             if(productDetails.getLowestAsk() == null || productDetails.getLowestAsk() > req.getPrice()){
