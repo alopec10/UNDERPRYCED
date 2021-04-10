@@ -1,4 +1,4 @@
-USE `inso2`;
+USE `inso2` ^;
 
 CREATE TABLE IF NOT EXISTS `users`
 (
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `users`
     `PurchasesCompleted` smallint NOT NULL DEFAULT 0,
     UNIQUE(`Email`),
     PRIMARY KEY (`IDUser`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ^;
 
 CREATE TABLE IF NOT EXISTS `roles`
 (
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `roles`
     `Name` nvarchar(20) NOT NULL,
     PRIMARY KEY (`IdRole`),
     UNIQUE(`Name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ^;
 
 CREATE TABLE IF NOT EXISTS `userRoles`
 (
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `userRoles`
     PRIMARY KEY (`IdRole`, `IdUser`),
     CONSTRAINT `FK_ROLE_USER` FOREIGN KEY (`IdUser`) REFERENCES `users` (`IdUser`),
     CONSTRAINT `FK_USER_ROLE` FOREIGN KEY (`IdRole`) REFERENCES `roles` (`IdRole`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ^;
 
 CREATE TABLE IF NOT EXISTS `paymentMethods`
 (
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `paymentMethods`
     KEY `FK_PAYMENTMETHOD_USER` (`IdUser`),
     CONSTRAINT `FK_PAYMENTMETHOD_USER` FOREIGN KEY (`IdUser`) REFERENCES `users` (`IdUser`),
     PRIMARY KEY (`IDPayMethod`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ^;
 
 CREATE TABLE IF NOT EXISTS `categories`
 (
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `categories`
     `Type` varchar(15) NOT NULL,
     UNIQUE(`Type`),
     PRIMARY KEY (`IdCategory`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ^;
 
 CREATE TABLE IF NOT EXISTS `products`
 (
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `products`
     CONSTRAINT `FK_PRODUCT_CATEGORY` FOREIGN KEY (`IdCategory`) REFERENCES `categories` (`IdCategory`),
     UNIQUE(`Ref`),
     PRIMARY KEY (`IDProduct`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ^;
 
 CREATE TABLE IF NOT EXISTS `productDetails`
 (
@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `productDetails`
     CONSTRAINT `FK_PRODUCTDETAILS_PRODUCT` FOREIGN KEY (`IdProduct`) REFERENCES `products` (`IdProduct`),
     UNIQUE(`Size`, `IdProduct`),
     PRIMARY KEY (`IdProductDetails`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ^;
 
 CREATE TABLE IF NOT EXISTS `asks`
 (
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `asks`
     CONSTRAINT `FK_ASK_PRODUCTDETAILS` FOREIGN KEY (`IdProductDetails`) REFERENCES `productDetails` (`IdProductDetails`),
     UNIQUE(`Price`, `IdUser`, `IdProductDetails`),
     PRIMARY KEY (`IdAsk`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ^;
 
 CREATE TABLE IF NOT EXISTS `bids`
 (
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `bids`
     CONSTRAINT `FK_BID_PRODUCTDETAILS` FOREIGN KEY (`IdProductDetails`) REFERENCES `productDetails` (`IdProductDetails`),
     UNIQUE(`Price`, `IdUser`, `IdProductDetails`),
     PRIMARY KEY (`IdBid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ^;
 
 
 CREATE TABLE IF NOT EXISTS `orders`
@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `orders`
     CONSTRAINT `FK_ORDER_PRODUCTDETAILS` FOREIGN KEY (`IdProductDetails`) REFERENCES `productDetails` (`IdProductDetails`),
     UNIQUE(`Ref`),
     PRIMARY KEY (`IdOrder`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ^;
 
 CREATE TABLE IF NOT EXISTS `shipments`
 (
@@ -157,4 +157,36 @@ CREATE TABLE IF NOT EXISTS `shipments`
     CONSTRAINT `FK_SHIPMENT_ORDER` FOREIGN KEY (`IDOrder`) REFERENCES `orders` (`IDOrder`),
     UNIQUE(`TrackingNumber`),
     PRIMARY KEY (`IdShipment`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ^;
+
+/* TRIGGERS */
+
+/* Update lowest ask value in productDetails when an ask is inserted in the database */
+DROP TRIGGER IF EXISTS update_lowest_ask ^;
+CREATE TRIGGER update_lowest_ask
+    AFTER INSERT
+    ON `asks` FOR EACH ROW
+BEGIN
+    SET @lowestAsk = (SELECT LowestAsk FROM productDetails WHERE IdProductDetails = NEW.IdProductDetails);
+    IF @lowestAsk IS NULL OR @lowestAsk > NEW.Price THEN
+        UPDATE productDetails
+        SET LowestAsk = NEW.Price
+        WHERE IdProductDetails = NEW.IdProductDetails;
+    END IF;
+END ^;
+
+/* Update highest bid value in productDetails when a bid is inserted in the database */
+DROP TRIGGER IF EXISTS update_highest_bid ^;
+CREATE TRIGGER update_highest_bid
+    AFTER INSERT
+    ON `bids` FOR EACH ROW
+BEGIN
+    SET @highestBid = (SELECT HighestBid FROM productDetails WHERE IdProductDetails = NEW.IdProductDetails);
+    IF @highestBid IS NULL OR @highestBid < NEW.Price THEN
+        UPDATE productDetails
+        SET HighestBid = NEW.Price
+        WHERE IdProductDetails = NEW.IdProductDetails;
+    END IF;
+END ^;
+
+

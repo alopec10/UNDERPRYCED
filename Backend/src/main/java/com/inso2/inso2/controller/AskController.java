@@ -56,11 +56,6 @@ public class AskController {
             }
             Ask ask = new Ask(req.getPrice(), new Date(),user, productDetails);
             askRepository.saveAndFlush(ask);
-            if(productDetails.getLowestAsk() == null || productDetails.getLowestAsk() > req.getPrice()){
-                ProductDetails pDetails = productDetailsRepository.findByIdProductDetails(req.getIdProductDetails());
-                pDetails.setLowestAsk(req.getPrice());
-                productDetailsRepository.save(pDetails);
-            }
             return ResponseEntity.ok("Ask created");
         }catch(Exception e){
             return new ResponseEntity<>(

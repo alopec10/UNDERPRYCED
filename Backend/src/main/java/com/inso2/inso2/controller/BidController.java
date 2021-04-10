@@ -57,11 +57,6 @@ public class BidController {
             }
             Bid bid = new Bid(req.getPrice(), new Date(),user, productDetails);
             bidRepository.saveAndFlush(bid);
-            if(productDetails.getHighestBid() == null || productDetails.getHighestBid() < req.getPrice()){
-                ProductDetails pDetails = productDetailsRepository.findByIdProductDetails(req.getIdProductDetails());
-                pDetails.setHighestBid(req.getPrice());
-                productDetailsRepository.save(pDetails);
-            }
             return ResponseEntity.ok("Bid created");
         }catch(Exception e){
             return new ResponseEntity<>(
