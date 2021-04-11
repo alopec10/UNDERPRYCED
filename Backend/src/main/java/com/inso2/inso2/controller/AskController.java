@@ -61,5 +61,36 @@ public class AskController {
 
     }
 
+    @RequestMapping(value = "/modify", method = RequestMethod.POST)
+    public ResponseEntity<?> modify(@RequestBody AskRequest req){
+        try{
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            String email = userDetails.getUsername();
+            User user = userRepository.findByEmail(email);
+            ProductDetails productDetails = productDetailsRepository.findByIdProductDetails(req.getIdProductDetails());
+            Ask ask = askRepository.findByUserAndProductDetails(user, productDetails);
+            if(ask == null){
+                return new ResponseEntity<>(
+                        "The ask doesn't exist",
+                        HttpStatus.SERVICE_UNAVAILABLE);
+            }
+            if(productDetails.getHighestBid() != null && productDetails.getHighestBid() >= req.getPrice()){
+                // IMPORTANT TO DETERMINE THE STRATEGY IN THIS SPECIFIC CASE
+                return new ResponseEntity<>(
+                        "It's not possible to make an ask lower than the highest bid",
+                        HttpStatus.SERVICE_UNAVAILABLE);
+            }
+            ask.setPrice(req.getPrice());
+            askRepository.saveAndFlush(ask);
+            return ResponseEntity.ok("Ask modified");
+        }catch(Exception e){
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.SERVICE_UNAVAILABLE);
+        }
+
+    }
+
 
 }

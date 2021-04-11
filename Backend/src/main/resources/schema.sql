@@ -162,8 +162,8 @@ CREATE TABLE IF NOT EXISTS `shipments`
 /* TRIGGERS */
 
 /* Update lowest ask value in productDetails when an ask is inserted in the database */
-DROP TRIGGER IF EXISTS update_lowest_ask ^;
-CREATE TRIGGER update_lowest_ask
+DROP TRIGGER IF EXISTS modify_lowest_ask_after_insert ^;
+CREATE TRIGGER modify_lowest_ask_after_insert
     AFTER INSERT
     ON `asks` FOR EACH ROW
 BEGIN
@@ -189,4 +189,16 @@ BEGIN
     END IF;
 END ^;
 
-
+/* Update lowest ask value in productDetails when an ask is updated in the database */
+DROP TRIGGER IF EXISTS modify_lowest_ask_after_update ^;
+CREATE TRIGGER modify_lowest_ask_after_update
+    AFTER UPDATE
+    ON `asks` FOR EACH ROW
+BEGIN
+    SET @lowestAsk = (SELECT LowestAsk FROM productDetails WHERE IdProductDetails = NEW.IdProductDetails);
+    IF @lowestAsk IS NULL OR @lowestAsk > NEW.Price THEN
+        UPDATE productDetails
+        SET LowestAsk = NEW.Price
+        WHERE IdProductDetails = NEW.IdProductDetails;
+    END IF;
+END ^;
