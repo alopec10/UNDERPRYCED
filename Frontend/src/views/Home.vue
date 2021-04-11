@@ -1,12 +1,11 @@
+<script src="../store/index.js"></script>
 <template>
   <div class="home">
 
-    <div class="min-w-screen bg-purple-50  items-center justify-center px-5 py-5">
-      <div class="mt-10 mb-10">
-        <h1 class="text-purple-600 text-center text-8xl">STOCKX</h1>
-      </div>
+    <div class="min-w-screen h-80 items-center justify-center px-5 py-5" :style="{ backgroundImage: 'url(' + require('@/assets/banner.png') + ')' }">
+
       <div
-          class="w-full mx-auto rounded-xl bg-purple-100 shadow-lg p-12 text-gray-800 relative overflow-hidden min-w-80 max-w-4xl">
+          class="w-full mx-auto rounded-xl bg-purple-100 shadow-lg p-12 text-gray-800 relative overflow-hidden min-w-80 max-w-2xl mt-16">
         <div class="relative mt-1">
           <input type="text" id="" placeholder="Buscar..."
                  class="h-12 uppercase text-center w-full pl-3 pr-10 py-2 border-2 border-gray-200 rounded-xl hover:border-purple-200 focus:outline-none focus:border-purple-500 transition-colors">
@@ -30,7 +29,8 @@
       </div>
     </div>
     <div class="xl:mx-32">
-      <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 mx-10 my-8">
+      <h1 class="text-3xl mt-20">MARCAS</h1>
+      <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 mx-10 mb-8 mt-6">
         <BrandCard brand="YEEZY"
                    bgUrl="background-image:url('https://blog.klekt.com/wp-content/uploads/2020/04/adidas-Yeezy-Boost-350-V2-Zebra-On-Foot-800x450.jpg')"
                    logoUrl="https://1000marcas.net/wp-content/uploads/2020/02/yeezy-logo-transparent-png-1.png"
@@ -54,38 +54,61 @@
                    class="hidden"
         ></BrandCard>
       </div>
+      <hr class="mt-14">
+      <div>
+        <h1 class="text-3xl mt-14">MÁS POPULARES</h1>
+        <div
+            class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 my-6 mx-10">
+          <SmallCard title="LEBRON XVIII XMAS IN LA"
+                     url="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"
+                     price=15
+          ></SmallCard>
+          <SmallCard title="SUPREME CROSS BOX-LOGO HOODED SWEATSHIRT RED"
+                     url="https://images.stockx.com/images/Supreme-Cross-Box-Logo-Hooded-Sweatshirt-Red.jpg?fit=clip&bg=FFFFFF&w=700&h=500&auto=compress&q=90&dpr=2&trim=color&updated_at=1607005929&fm=webp&ixlib=react-9.0.3&w=1446"
+                     price=350
+          ></SmallCard>
+          <SmallCard title="LEBRON XVIII XMAS IN LA"
+                     url="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"
+                     price=15
+          ></SmallCard>
+          <SmallCard title="LEBRON XVIII XMAS IN LA"
+                     url="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"
+                     price=15
+          ></SmallCard>
+          <SmallCard title="LEBRON XVIII XMAS IN LA"
+                     url="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"
+                     price=15
+          ></SmallCard>
+        </div>
+      </div>
 
+      <hr class="mt-14">
+      <div class=mb-20>
+        <h1 class="text-3xl mt-14">RECOMENDADOS</h1>
+        <div
+            class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 my-6 mx-10">
+          <SmallCard title="LEBRON XVIII XMAS IN LA"
+                     url="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"
+                     price=15
+          ></SmallCard>
+          <SmallCard title="LEBRON XVIII XMAS IN LA"
+                     url="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"
+                     price=15
+          ></SmallCard>
+          <SmallCard title="LEBRON XVIII XMAS IN LA"
+                     url="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"
+                     price=15
+          ></SmallCard>
+          <SmallCard title="LEBRON XVIII XMAS IN LA"
+                     url="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"
+                     price=15
+          ></SmallCard>
+          <SmallCard title="LEBRON XVIII XMAS IN LA"
+                     url="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"
+                     price=15
+          ></SmallCard>
 
-      <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 my-6 mx-10">
-        <SmallCard title="LEBRON XVIII XMAS IN LA"
-                   url="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"
-                   price=15
-        ></SmallCard>
-        <SmallCard title="SUPREME CROSS BOX-LOGO HOODED SWEATSHIRT RED"
-                   url="https://images.stockx.com/images/Supreme-Cross-Box-Logo-Hooded-Sweatshirt-Red.jpg?fit=clip&bg=FFFFFF&w=700&h=500&auto=compress&q=90&dpr=2&trim=color&updated_at=1607005929&fm=webp&ixlib=react-9.0.3&w=1446"
-                   price=350
-        ></SmallCard>
-        <SmallCard title="LEBRON XVIII XMAS IN LA"
-                   url="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"
-                   price=15
-        ></SmallCard>
-        <SmallCard title="LEBRON XVIII XMAS IN LA"
-                   url="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"
-                   price=15
-        ></SmallCard>
-        <SmallCard title="LEBRON XVIII XMAS IN LA"
-                   url="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"
-                   price=15
-        ></SmallCard>
-        <SmallCard title="LEBRON XVIII XMAS IN LA"
-                   url="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"
-                   price=15
-        ></SmallCard>
-        <SmallCard title="LEBRON XVIII XMAS IN LA"
-                   url="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"
-                   price=15
-        ></SmallCard>
-
+        </div>
       </div>
     </div>
   </div>
