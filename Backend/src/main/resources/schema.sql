@@ -189,6 +189,21 @@ BEGIN
     END IF;
 END ^;
 
+/* Update lowest ask value in productDetails when an ask is updated in the database */
+DROP TRIGGER IF EXISTS modify_lowest_ask_after_delete ^;
+CREATE TRIGGER modify_lowest_ask_after_delete
+    AFTER DELETE
+    ON `asks` FOR EACH ROW
+BEGIN
+    SET @lowestAsk = (SELECT LowestAsk FROM productDetails WHERE IdProductDetails = OLD.IdProductDetails);
+    IF @lowestAsk = OLD.Price THEN
+        SET @newLowestAsk = (SELECT MIN(Price) FROM asks WHERE IdProductDetails = OLD.IdProductDetails);
+        UPDATE productDetails
+        SET LowestAsk = @newLowestAsk
+        WHERE IdProductDetails = OLD.IdProductDetails;
+    END IF;
+END ^;
+
 /* Update highest bid value in productDetails when a bid is inserted in the database */
 DROP TRIGGER IF EXISTS modify_highest_bid_after_insert ^;
 CREATE TRIGGER modify_highest_bid_after_insert
