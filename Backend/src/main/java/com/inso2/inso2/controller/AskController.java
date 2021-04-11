@@ -1,6 +1,7 @@
 package com.inso2.inso2.controller;
 
 import com.inso2.inso2.dto.ask.AskRequest;
+import com.inso2.inso2.dto.ask.remove.RemoveAskRequest;
 import com.inso2.inso2.model.Ask;
 import com.inso2.inso2.model.ProductDetails;
 import com.inso2.inso2.model.User;
@@ -84,6 +85,30 @@ public class AskController {
             ask.setPrice(req.getPrice());
             askRepository.saveAndFlush(ask);
             return ResponseEntity.ok("Ask modified");
+        }catch(Exception e){
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.SERVICE_UNAVAILABLE);
+        }
+
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public ResponseEntity<?> delete(@RequestBody RemoveAskRequest req){
+        try{
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            String email = userDetails.getUsername();
+            User user = userRepository.findByEmail(email);
+            ProductDetails productDetails = productDetailsRepository.findByIdProductDetails(req.getIdProductDetails());
+            Ask ask = askRepository.findByUserAndProductDetails(user, productDetails);
+            if(ask == null){
+                return new ResponseEntity<>(
+                        "The ask doesn't exist",
+                        HttpStatus.SERVICE_UNAVAILABLE);
+            }
+            askRepository.deleteById(ask.getIdAsk());
+            return ResponseEntity.ok("Ask deleted");
         }catch(Exception e){
             return new ResponseEntity<>(
                     e.getMessage(),
