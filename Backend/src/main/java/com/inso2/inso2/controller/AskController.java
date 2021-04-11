@@ -1,14 +1,13 @@
 package com.inso2.inso2.controller;
 
 import com.inso2.inso2.dto.ask.AskRequest;
-import com.inso2.inso2.dto.ask.remove.RemoveAskRequest;
+import com.inso2.inso2.dto.ask.delete.DeleteAskRequest;
 import com.inso2.inso2.model.Ask;
 import com.inso2.inso2.model.ProductDetails;
 import com.inso2.inso2.model.User;
 import com.inso2.inso2.repository.AskRepository;
 import com.inso2.inso2.repository.ProductDetailsRepository;
 import com.inso2.inso2.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -94,7 +93,7 @@ public class AskController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public ResponseEntity<?> delete(@RequestBody RemoveAskRequest req){
+    public ResponseEntity<?> delete(@RequestBody DeleteAskRequest req){
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             UserDetails userDetails = (UserDetails) auth.getPrincipal();

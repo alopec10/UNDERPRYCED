@@ -1,6 +1,7 @@
 package com.inso2.inso2.controller;
 
 import com.inso2.inso2.dto.bid.BidRequest;
+import com.inso2.inso2.dto.bid.delete.DeleteBidRequest;
 import com.inso2.inso2.model.Bid;
 import com.inso2.inso2.model.ProductDetails;
 import com.inso2.inso2.model.User;
@@ -89,6 +90,28 @@ public class BidController {
                     e.getMessage(),
                     HttpStatus.SERVICE_UNAVAILABLE);
         }
+    }
 
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public ResponseEntity<?> delete(@RequestBody DeleteBidRequest req){
+        try{
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            String email = userDetails.getUsername();
+            User user = userRepository.findByEmail(email);
+            ProductDetails productDetails = productDetailsRepository.findByIdProductDetails(req.getIdProductDetails());
+            Bid bid = bidRepository.findByUserAndProductDetails(user, productDetails);
+            if (bid == null){
+                return new ResponseEntity<>(
+                        "The bid doesn't exist",
+                        HttpStatus.SERVICE_UNAVAILABLE);
+            }
+            bidRepository.deleteById(bid.getIdBid());
+            return ResponseEntity.ok("Bid deleted");
+        }catch(Exception e){
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.SERVICE_UNAVAILABLE);
+        }
     }
 }
