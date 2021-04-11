@@ -41,6 +41,13 @@ public class Ask {
         this.productDetails = productDetails;
     }
 
+    public Ask(int price, Date date, User user, ProductDetails productDetails) {
+        this.price = price;
+        this.date = date;
+        this.user = user;
+        this.productDetails = productDetails;
+    }
+
     public long getIdAsk() {
         return idAsk;
     }

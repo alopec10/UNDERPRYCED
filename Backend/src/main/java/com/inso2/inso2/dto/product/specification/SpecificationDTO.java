@@ -1,4 +1,4 @@
-package com.inso2.inso2.dto.product;
+package com.inso2.inso2.dto.product.specification;
 
 public class SpecificationDTO {
 

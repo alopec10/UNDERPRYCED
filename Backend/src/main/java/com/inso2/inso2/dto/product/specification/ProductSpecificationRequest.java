@@ -1,4 +1,4 @@
-package com.inso2.inso2.dto.product;
+package com.inso2.inso2.dto.product.specification;
 
 import java.io.Serializable;
 import java.util.List;
