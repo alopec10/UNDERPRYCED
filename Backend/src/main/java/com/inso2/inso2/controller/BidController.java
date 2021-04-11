@@ -59,6 +59,36 @@ public class BidController {
                     e.getMessage(),
                     HttpStatus.SERVICE_UNAVAILABLE);
         }
+    }
+
+    @RequestMapping(value = "/modify", method = RequestMethod.POST)
+    public ResponseEntity<?> modify(@RequestBody BidRequest req){
+        try{
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            String email = userDetails.getUsername();
+            User user = userRepository.findByEmail(email);
+            ProductDetails productDetails = productDetailsRepository.findByIdProductDetails(req.getIdProductDetails());
+            Bid bid = bidRepository.findByUserAndProductDetails(user, productDetails);
+            if (bid == null){
+                return new ResponseEntity<>(
+                        "The bid doesn't exist",
+                        HttpStatus.SERVICE_UNAVAILABLE);
+            }
+            if(productDetails.getLowestAsk() != null && productDetails.getLowestAsk() <= req.getPrice()){
+                // IMPORTANT TO DETERMINE THE STRATEGY IN THIS SPECIFIC CASE
+                return new ResponseEntity<>(
+                        "It's not possible to make a bid higher than the lowest ask",
+                        HttpStatus.SERVICE_UNAVAILABLE);
+            }
+            bid.setPrice(req.getPrice());
+            bidRepository.saveAndFlush(bid);
+            return ResponseEntity.ok("Bid modified");
+        }catch(Exception e){
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.SERVICE_UNAVAILABLE);
+        }
 
     }
 }
