@@ -2,7 +2,8 @@
 <template>
   <div class="home">
 
-    <div class="min-w-screen h-80 items-center justify-center px-5 py-5" :style="{ backgroundImage: 'url(' + require('@/assets/banner.png') + ')' }">
+    <div class="min-w-screen h-80 items-center justify-center px-5 py-5"
+         :style="{ backgroundImage: 'url(' + require('@/assets/banner.png') + ')' }">
 
       <div
           class="w-full mx-auto rounded-xl bg-purple-100 shadow-lg p-12 text-gray-800 relative overflow-hidden min-w-80 max-w-2xl mt-16">
@@ -59,26 +60,13 @@
         <h1 class="text-3xl mt-14">MÁS POPULARES</h1>
         <div
             class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 my-6 mx-10">
-          <SmallCard title="LEBRON XVIII XMAS IN LA"
-                     url="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"
-                     price=15
+
+          <SmallCard v-for="(item, index) in mostPopular"
+                     :title="item.title"
+                     :url="item.url"
+                     :price="item.retailPrice"
           ></SmallCard>
-          <SmallCard title="SUPREME CROSS BOX-LOGO HOODED SWEATSHIRT RED"
-                     url="https://images.stockx.com/images/Supreme-Cross-Box-Logo-Hooded-Sweatshirt-Red.jpg?fit=clip&bg=FFFFFF&w=700&h=500&auto=compress&q=90&dpr=2&trim=color&updated_at=1607005929&fm=webp&ixlib=react-9.0.3&w=1446"
-                     price=350
-          ></SmallCard>
-          <SmallCard title="LEBRON XVIII XMAS IN LA"
-                     url="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"
-                     price=15
-          ></SmallCard>
-          <SmallCard title="LEBRON XVIII XMAS IN LA"
-                     url="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"
-                     price=15
-          ></SmallCard>
-          <SmallCard title="LEBRON XVIII XMAS IN LA"
-                     url="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"
-                     price=15
-          ></SmallCard>
+
         </div>
       </div>
 
@@ -87,25 +75,10 @@
         <h1 class="text-3xl mt-14">RECOMENDADOS</h1>
         <div
             class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 my-6 mx-10">
-          <SmallCard title="LEBRON XVIII XMAS IN LA"
-                     url="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"
-                     price=15
-          ></SmallCard>
-          <SmallCard title="LEBRON XVIII XMAS IN LA"
-                     url="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"
-                     price=15
-          ></SmallCard>
-          <SmallCard title="LEBRON XVIII XMAS IN LA"
-                     url="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"
-                     price=15
-          ></SmallCard>
-          <SmallCard title="LEBRON XVIII XMAS IN LA"
-                     url="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"
-                     price=15
-          ></SmallCard>
-          <SmallCard title="LEBRON XVIII XMAS IN LA"
-                     url="https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421"
-                     price=15
+          <SmallCard v-for="(item, index) in recommended"
+                     :title="item.title"
+                     :url="item.url"
+                     :price="item.retailPrice"
           ></SmallCard>
 
         </div>
@@ -122,6 +95,8 @@ import NavBar from '@/components/NavBar.vue'
 import BrandCard from '@/components/BrandCard.vue'
 import SmallCard from '@/components/SmallCard.vue'
 
+const axios = require("axios");
+
 export default {
   name: 'Home',
   components: {
@@ -129,6 +104,59 @@ export default {
     NavBar,
     BrandCard,
     SmallCard
+  },
+  created() {
+    this.getMostPopular()
+    this.getRecommended()
+  },
+  data() {
+    return {
+      mostPopular: [],
+      recommended: []
+    }
+  },
+  methods: {
+    getMostPopular() {
+      const refs = {
+        "refs": [
+          "1f307b17-e640-4650-8d76-c6a37584e5a1",
+          "fa1a8868-9dd0-4b1b-a52f-dc248143d797",
+          "8334d027-dafb-426d-b209-b8e07bf1b15b",
+          "8334d027-dafb-676d-b209-b8e12bf1f15b",
+          "8654d027-dafb-676d-b309-c8e12bf1f15b"
+        ]
+      }
+      this.mostPopular = []
+      axios({url: 'http://localhost:8888/product/ref', data: refs, method: 'POST'})
+          .then(resp => {
+            console.log(resp)
+            this.mostPopular = resp.data
+
+          })
+          .catch(err => {
+
+          })
+    },
+    getRecommended() {
+      const refs = {
+        "refs": [
+          "1f307b17-e640-4650-8d76-c6a37584e5a1",
+          "fa1a8868-9dd0-4b1b-a52f-dc248143d797",
+          "8334d027-dafb-426d-b209-b8e07bf1b15b",
+          "8334d027-dafb-676d-b209-b8e12bf1f15b",
+          "8654d027-dafb-676d-b309-c8e12bf1f15b"
+        ]
+      }
+      this.recommended = []
+      axios({url: 'http://localhost:8888/product/ref', data: refs, method: 'POST'})
+          .then(resp => {
+            console.log(resp)
+            this.recommended = resp.data
+          })
+          .catch(err => {
+
+          })
+    }
   }
 }
 </script>
