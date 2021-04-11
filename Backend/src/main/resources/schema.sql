@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `asks`
     CONSTRAINT `FK_ASK_USER` FOREIGN KEY (`IdUser`) REFERENCES `users` (`IdUser`),
     KEY `FK_ASK_PRODUCTDETAILS` (`IdProductDetails`),
     CONSTRAINT `FK_ASK_PRODUCTDETAILS` FOREIGN KEY (`IdProductDetails`) REFERENCES `productDetails` (`IdProductDetails`),
-    UNIQUE(`Price`, `IdUser`, `IdProductDetails`),
+    UNIQUE(`IdUser`, `IdProductDetails`),
     PRIMARY KEY (`IdAsk`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ^;
 
@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `bids`
     CONSTRAINT `FK_BID_USER` FOREIGN KEY (`IdUser`) REFERENCES `users` (`IdUser`),
     KEY `FK_BID_PRODUCTDETAILS` (`IdProductDetails`),
     CONSTRAINT `FK_BID_PRODUCTDETAILS` FOREIGN KEY (`IdProductDetails`) REFERENCES `productDetails` (`IdProductDetails`),
-    UNIQUE(`Price`, `IdUser`, `IdProductDetails`),
+    UNIQUE(`IdUser`, `IdProductDetails`),
     PRIMARY KEY (`IdBid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ^;
 
