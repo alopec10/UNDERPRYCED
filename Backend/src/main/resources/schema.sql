@@ -240,7 +240,7 @@ CREATE TRIGGER modify_highest_bid_after_delete
 BEGIN
     SET @highestBid = (SELECT HighestBid FROM productDetails WHERE IdProductDetails = OLD.IdProductDetails);
     IF @highestBid = OLD.Price THEN
-        SET @newHighestBid = (SELECT MIN(Price) FROM bids WHERE IdProductDetails = OLD.IdProductDetails);
+        SET @newHighestBid = (SELECT MAX(Price) FROM bids WHERE IdProductDetails = OLD.IdProductDetails);
         UPDATE productDetails
         SET HighestBid = @newHighestBid
         WHERE IdProductDetails = OLD.IdProductDetails;
