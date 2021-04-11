@@ -162,8 +162,8 @@ CREATE TABLE IF NOT EXISTS `shipments`
 /* TRIGGERS */
 
 /* Update lowest ask value in productDetails when an ask is inserted in the database */
-DROP TRIGGER IF EXISTS update_lowest_ask ^;
-CREATE TRIGGER update_lowest_ask
+DROP TRIGGER IF EXISTS modify_lowest_ask_after_insert ^;
+CREATE TRIGGER modify_lowest_ask_after_insert
     AFTER INSERT
     ON `asks` FOR EACH ROW
 BEGIN
@@ -175,9 +175,38 @@ BEGIN
     END IF;
 END ^;
 
+/* Update lowest ask value in productDetails when an ask is updated in the database */
+DROP TRIGGER IF EXISTS modify_lowest_ask_after_update ^;
+CREATE TRIGGER modify_lowest_ask_after_update
+    AFTER UPDATE
+    ON `asks` FOR EACH ROW
+BEGIN
+    SET @lowestAsk = (SELECT LowestAsk FROM productDetails WHERE IdProductDetails = NEW.IdProductDetails);
+    IF @lowestAsk IS NULL OR @lowestAsk > NEW.Price THEN
+        UPDATE productDetails
+        SET LowestAsk = NEW.Price
+        WHERE IdProductDetails = NEW.IdProductDetails;
+    END IF;
+END ^;
+
+/* Update lowest ask value in productDetails when an ask is deleted in the database */
+DROP TRIGGER IF EXISTS modify_lowest_ask_after_delete ^;
+CREATE TRIGGER modify_lowest_ask_after_delete
+    AFTER DELETE
+    ON `asks` FOR EACH ROW
+BEGIN
+    SET @lowestAsk = (SELECT LowestAsk FROM productDetails WHERE IdProductDetails = OLD.IdProductDetails);
+    IF @lowestAsk = OLD.Price THEN
+        SET @newLowestAsk = (SELECT MIN(Price) FROM asks WHERE IdProductDetails = OLD.IdProductDetails);
+        UPDATE productDetails
+        SET LowestAsk = @newLowestAsk
+        WHERE IdProductDetails = OLD.IdProductDetails;
+    END IF;
+END ^;
+
 /* Update highest bid value in productDetails when a bid is inserted in the database */
-DROP TRIGGER IF EXISTS update_highest_bid ^;
-CREATE TRIGGER update_highest_bid
+DROP TRIGGER IF EXISTS modify_highest_bid_after_insert ^;
+CREATE TRIGGER modify_highest_bid_after_insert
     AFTER INSERT
     ON `bids` FOR EACH ROW
 BEGIN
@@ -189,4 +218,31 @@ BEGIN
     END IF;
 END ^;
 
+/* Update highest bid value in productDetails when a bid is inserted in the database */
+DROP TRIGGER IF EXISTS modify_highest_bid_after_update ^;
+CREATE TRIGGER modify_highest_bid_after_update
+    AFTER UPDATE
+    ON `bids` FOR EACH ROW
+BEGIN
+    SET @highestBid = (SELECT HighestBid FROM productDetails WHERE IdProductDetails = NEW.IdProductDetails);
+    IF @highestBid IS NULL OR @highestBid < NEW.Price THEN
+        UPDATE productDetails
+        SET HighestBid = NEW.Price
+        WHERE IdProductDetails = NEW.IdProductDetails;
+    END IF;
+END ^;
 
+/* Update highest bid value in productDetails when a bid is deleted in the database */
+DROP TRIGGER IF EXISTS modify_highest_bid_after_delete ^;
+CREATE TRIGGER modify_highest_bid_after_delete
+    AFTER DELETE
+    ON `bids` FOR EACH ROW
+BEGIN
+    SET @highestBid = (SELECT HighestBid FROM productDetails WHERE IdProductDetails = OLD.IdProductDetails);
+    IF @highestBid = OLD.Price THEN
+        SET @newHighestBid = (SELECT MAX(Price) FROM bids WHERE IdProductDetails = OLD.IdProductDetails);
+        UPDATE productDetails
+        SET HighestBid = @newHighestBid
+        WHERE IdProductDetails = OLD.IdProductDetails;
+    END IF;
+END ^;
