@@ -3,6 +3,7 @@ package com.inso2.inso2.controller;
 import com.inso2.inso2.dto.authentication.AuthenticationRequest;
 import com.inso2.inso2.dto.authentication.AuthenticationResponse;
 import com.inso2.inso2.dto.register.RegisterRequest;
+import com.inso2.inso2.dto.user.update.UserUpdateRequest;
 import com.inso2.inso2.model.Role;
 import com.inso2.inso2.model.RoleName;
 import com.inso2.inso2.model.User;
@@ -15,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,23 +32,26 @@ import java.util.Set;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
     private AuthenticationManager authenticationManager;
 
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
     private JwtUtils jwtTokenUtils;
 
-    @Autowired
     private MyUserDetailsService userDetailsService;
 
-    @Autowired
     private UserRepository userRepository;
 
-    @Autowired
     private RoleRepository roleRepository;
+
+    public UserController(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, JwtUtils jwtTokenUtils, MyUserDetailsService userDetailsService, UserRepository userRepository, RoleRepository roleRepository) {
+        this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtTokenUtils = jwtTokenUtils;
+        this.userDetailsService = userDetailsService;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+    }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> register(@RequestBody RegisterRequest req) throws Exception {
@@ -114,5 +120,48 @@ public class UserController {
         final String jwt = jwtTokenUtils.generateToken(userDetails);
 
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public ResponseEntity<?> update(@RequestBody UserUpdateRequest req) throws Exception {
+
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            String email = userDetails.getUsername();
+            User user = userRepository.findByEmail(email);
+            if(!user.getName().equals(req.getName())){
+                user.setName(req.getName());
+            }
+            if(!user.getSurname().equals(req.getSurname())){
+                user.setSurname(req.getSurname());
+            }
+            if(!user.getEmail().equals(req.getEmail())){
+                user.setEmail(req.getEmail());
+            }
+            String new_pass = passwordEncoder.encode(req.getPassword());
+            if(!user.getPassword().equals(new_pass)){
+                user.setPassword(new_pass);
+            }
+            if(!user.getAddress().equals(req.getAddress())){
+                user.setAddress(req.getAddress());
+            }
+            if(!user.getCountry().equals(req.getCountry())){
+                user.setCountry(req.getCountry());
+            }
+            if(!user.getZipCode().equals(req.getZipCode())){
+                user.setZipCode(req.getZipCode());
+            }
+            if(!user.getPhoneNumber().equals(req.getPhoneNumber())){
+                user.setPhoneNumber(req.getPhoneNumber());
+            }
+            userRepository.save(user);
+            return ResponseEntity.ok("User updated");
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.UNAUTHORIZED);
+        }
     }
 }
