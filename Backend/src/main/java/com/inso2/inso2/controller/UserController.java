@@ -3,6 +3,7 @@ package com.inso2.inso2.controller;
 import com.inso2.inso2.dto.authentication.AuthenticationRequest;
 import com.inso2.inso2.dto.authentication.AuthenticationResponse;
 import com.inso2.inso2.dto.register.RegisterRequest;
+import com.inso2.inso2.dto.user.data.UserDataResponse;
 import com.inso2.inso2.dto.user.update.UserUpdateRequest;
 import com.inso2.inso2.model.Role;
 import com.inso2.inso2.model.RoleName;
@@ -140,7 +141,7 @@ public class UserController {
                 user.setEmail(req.getEmail());
             }
             String new_pass = passwordEncoder.encode(req.getPassword());
-            if(!user.getPassword().equals(new_pass)){
+            if(req.getPassword() != null && !req.getPassword().equals("") && !user.getPassword().equals(new_pass)){
                 user.setPassword(new_pass);
             }
             if(!user.getAddress().equals(req.getAddress())){
@@ -157,6 +158,22 @@ public class UserController {
             }
             userRepository.save(user);
             return ResponseEntity.ok("User updated");
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @RequestMapping(value = "/data", method = RequestMethod.GET)
+    public ResponseEntity<?> data() throws Exception {
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            String email = userDetails.getUsername();
+            User user = userRepository.findByEmail(email);
+            return ResponseEntity.ok(new UserDataResponse().build(user));
         }
         catch (Exception e) {
             return new ResponseEntity<>(
