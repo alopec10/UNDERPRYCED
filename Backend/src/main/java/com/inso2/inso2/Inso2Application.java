@@ -1,14 +1,11 @@
 package com.inso2.inso2;
 
-import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
-import java.util.Date;
 
 @SpringBootApplication
 public class Inso2Application {
@@ -17,7 +14,7 @@ public class Inso2Application {
 	private UserRepository userRepository;
 
 	@Autowired
-	private PayMethodRepository payMethodRepository;
+	private PaymentMethodRepository paymentMethodRepository;
 
 	@Autowired
     private CategoryRepository catRepository;
