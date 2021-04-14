@@ -13,6 +13,10 @@ public class PaymentMethod {
     @Column(name = "IdPayMethod")
     private long idPayMethod;
 
+    @Size(min = 1, max = 50)
+    @Column(name = "Name", length = 50, nullable = false)
+    private String name;
+
     @Size(min = 1, max = 100)
     @Column(name = "Number", length = 100, nullable = false)
     private String number;
@@ -39,7 +43,8 @@ public class PaymentMethod {
     public PaymentMethod() {
     }
 
-    public PaymentMethod(@Size(min = 1, max = 100) String number, @Size(min = 1, max = 100) String cvv, @Size(min = 1, max = 100) String expMonth, @Size(min = 1, max = 100) String expYear) {
+    public PaymentMethod(@Size(min = 1, max = 50) String name, @Size(min = 1, max = 100) String number, @Size(min = 1, max = 100) String cvv, @Size(min = 1, max = 100) String expMonth, @Size(min = 1, max = 100) String expYear) {
+        this.name = name;
         this.number = number;
         this.cvv = cvv;
         this.expMonth = expMonth;
@@ -52,6 +57,14 @@ public class PaymentMethod {
 
     public void setIdPayMethod(long idPayMethod) {
         this.idPayMethod = idPayMethod;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getNumber() {

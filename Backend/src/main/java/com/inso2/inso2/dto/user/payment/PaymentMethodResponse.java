@@ -4,14 +4,15 @@ import com.inso2.inso2.model.PaymentMethod;
 
 public class PaymentMethodResponse {
     private long idPayMethod;
-    private String number, expMonth, expYear;
+    private String name, number, expMonth, expYear;
     private boolean defaultMethod;
 
     public PaymentMethodResponse() {
     }
 
-    public PaymentMethodResponse(long idPayMethod, String number, String expMonth, String expYear, boolean defaultMethod) {
+    public PaymentMethodResponse(long idPayMethod, String name, String number, String expMonth, String expYear, boolean defaultMethod) {
         this.idPayMethod = idPayMethod;
+        this.name = name;
         this.number = number;
         this.expMonth = expMonth;
         this.expYear = expYear;
@@ -24,6 +25,14 @@ public class PaymentMethodResponse {
 
     public void setIdPayMethod(long idPayMethod) {
         this.idPayMethod = idPayMethod;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getNumber() {

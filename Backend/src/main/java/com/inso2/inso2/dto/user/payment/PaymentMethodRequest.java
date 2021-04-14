@@ -3,18 +3,27 @@ package com.inso2.inso2.dto.user.payment;
 import java.io.Serializable;
 
 public class PaymentMethodRequest  implements Serializable {
-    private String number, cvv, expMonth, expYear;
+    private String name, number, cvv, expMonth, expYear;
     private boolean defaultMethod;
 
     public PaymentMethodRequest() {
     }
 
-    public PaymentMethodRequest(String number, String cvv, String expMonth, String expYear, boolean defaultMethod) {
+    public PaymentMethodRequest(String name, String number, String cvv, String expMonth, String expYear, boolean defaultMethod) {
+        this.name = name;
         this.number = number;
         this.cvv = cvv;
         this.expMonth = expMonth;
         this.expYear = expYear;
         this.defaultMethod = defaultMethod;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getNumber() {
