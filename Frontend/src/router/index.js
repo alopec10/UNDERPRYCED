@@ -43,6 +43,13 @@ const routes = [
       rel_date: "27/05/2021",
       retail_price: '177$'
     }
+  },
+  {
+    path: '/datosUsuario',
+    name: 'DatosUsuario',
+    component: function () {
+      return import('../views/UserData.vue')
+    }
   }
 ]
 
