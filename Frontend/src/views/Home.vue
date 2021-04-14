@@ -65,6 +65,7 @@
                      :title="item.title"
                      :url="item.url"
                      :price="item.retailPrice"
+                     :refer="item.ref"
           ></SmallCard>
 
         </div>
@@ -74,11 +75,14 @@
       <div class=mb-20>
         <h1 class="text-3xl mt-14">RECOMENDADOS</h1>
         <div
-            class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 my-6 mx-10">
+            class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 my-6 mx-10"
+            >
           <SmallCard v-for="(item, index) in recommended"
                      :title="item.title"
                      :url="item.url"
                      :price="item.retailPrice"
+                     :refer="item.ref"
+
           ></SmallCard>
 
         </div>
@@ -156,7 +160,8 @@ export default {
           .catch(err => {
 
           })
-    }
+    },
+
   }
 }
 </script>
