@@ -50,6 +50,13 @@ const routes = [
     component: function () {
       return import('../views/UserData.vue')
     }
+  },
+  {
+    path: '/metodosPago',
+    name: 'MetodosPago',
+    component: function () {
+      return import('../views/PaymentMethods.vue')
+    }
   }
 ]
 
