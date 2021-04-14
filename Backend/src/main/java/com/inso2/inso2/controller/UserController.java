@@ -145,15 +145,17 @@ public class UserController {
                 user.setPassword(new_pass);
             }
             if(user.getAddress() == null || !user.getAddress().equals(req.getAddress())){
-                if (req.getAddress().isBlank()){
+                if (req.getAddress() == null || req.getAddress().isBlank()){
+                    System.out.println("KEKW");
                     user.setAddress(null);
                 }
                 else{
+                    System.out.println("KEKW2");
                     user.setAddress(req.getAddress());
                 }
             }
             if(user.getCountry() == null || !user.getCountry().equals(req.getCountry())){
-                if (req.getCountry().isBlank()){
+                if (req.getCountry() == null || req.getCountry().isBlank()){
                     user.setCountry(null);
                 }
                 else{
@@ -161,7 +163,7 @@ public class UserController {
                 }
             }
             if(user.getZipCode() == null || !user.getZipCode().equals(req.getZipCode())){
-                if (req.getZipCode().isBlank()){
+                if (req.getZipCode() == null || req.getZipCode().isBlank()){
                     user.setZipCode(null);
                 }
                 else{
@@ -169,7 +171,7 @@ public class UserController {
                 }
             }
             if(user.getPhoneNumber() == null || !user.getPhoneNumber().equals(req.getPhoneNumber())){
-                if (req.getPhoneNumber().isBlank()){
+                if (req.getPhoneNumber() == null || req.getPhoneNumber().isBlank()){
                     user.setPhoneNumber(null);
                 }
                 else{
