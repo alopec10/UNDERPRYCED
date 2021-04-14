@@ -144,17 +144,37 @@ public class UserController {
             if(req.getPassword() != null && !req.getPassword().equals("") && !user.getPassword().equals(new_pass)){
                 user.setPassword(new_pass);
             }
-            if(!user.getAddress().equals(req.getAddress())){
-                user.setAddress(req.getAddress());
+            if(user.getAddress() == null || !user.getAddress().equals(req.getAddress())){
+                if (req.getAddress().isBlank()){
+                    user.setAddress(null);
+                }
+                else{
+                    user.setAddress(req.getAddress());
+                }
             }
-            if(!user.getCountry().equals(req.getCountry())){
-                user.setCountry(req.getCountry());
+            if(user.getCountry() == null || !user.getCountry().equals(req.getCountry())){
+                if (req.getCountry().isBlank()){
+                    user.setCountry(null);
+                }
+                else{
+                    user.setCountry(req.getCountry());
+                }
             }
-            if(!user.getZipCode().equals(req.getZipCode())){
-                user.setZipCode(req.getZipCode());
+            if(user.getZipCode() == null || !user.getZipCode().equals(req.getZipCode())){
+                if (req.getZipCode().isBlank()){
+                    user.setZipCode(null);
+                }
+                else{
+                    user.setZipCode(req.getZipCode());
+                }
             }
-            if(!user.getPhoneNumber().equals(req.getPhoneNumber())){
-                user.setPhoneNumber(req.getPhoneNumber());
+            if(user.getPhoneNumber() == null || !user.getPhoneNumber().equals(req.getPhoneNumber())){
+                if (req.getPhoneNumber().isBlank()){
+                    user.setPhoneNumber(null);
+                }
+                else{
+                    user.setPhoneNumber(req.getPhoneNumber());
+                }
             }
             userRepository.save(user);
             return ResponseEntity.ok("User updated");
