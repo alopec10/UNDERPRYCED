@@ -5,7 +5,9 @@
     </h1>
     <div class="inline-flex align-center my-6">
       <div id="Size"
-           class="w-32 h-20 sm:w-48 sm:h-24 bg-purple-100 rounded-lg mx-4 flex justify-center items-center">
+           class="w-32 h-20 sm:w-48 sm:h-24 bg-purple-100 rounded-lg mx-4 flex justify-center items-center"
+           @click="showSizes=!showSizes"
+      >
         <h1 class="text-purple-900 text-md sm:text-2xl ">
           SIZE: {{ size }}
         </h1>
@@ -30,7 +32,14 @@
       </div>
     </div>
 
-    <img :src="product.url" class="mx-auto my-6 p-5 border-2 rounded-lg shadow-xl border-purple-300"/>
+    <select v-model="size">
+      <option v-for="(item, index) in product.productDetails" :value="item.size">{{ item.size }}</option>
+    </select>
+
+    <div class="mx-auto flex justify-center">
+      <img :src="product.url" class="my-6 mx-10 p-5 border-2 rounded-lg shadow-xl border-purple-300 w-4xl"/>
+    </div>
+
 
     <div class=" my-10 space-y-4 text-xl">
       <div>
@@ -63,11 +72,12 @@
 </template>
 
 <script>
+
 const axios = require("axios");
 
 export default {
   name: "Product",
-  data () {
+  data() {
     return {
       product: {
         title: "",
@@ -86,32 +96,32 @@ export default {
       },
 
       size: "40",
-
+      showSizes: false,
     }
   },
   mounted() {
     this.getProduct()
   },
   computed: {
-    lastSale(){
-      for(let pd of this.product.productDetails) {
+    lastSale() {
+      for (let pd of this.product.productDetails) {
         if (pd.size == this.size && pd.lastSale != null) {
           return pd.lastSale + " €"
         }
       }
       return "--"
     },
-    lowestAsk(){
-      for(let pd of this.product.productDetails) {
-        if (pd.size == this.size) {
+    lowestAsk() {
+      for (let pd of this.product.productDetails) {
+        if (pd.size == this.size && pd.lowestAsk != null) {
           return pd.lowestAsk + " €"
         }
       }
       return "--"
     },
-    highestBid(){
-      for(let pd of this.product.productDetails) {
-        if (pd.size == this.size) {
+    highestBid() {
+      for (let pd of this.product.productDetails) {
+        if (pd.size == this.size && pd.highestBid != null) {
           return pd.highestBid + " €"
         }
 
