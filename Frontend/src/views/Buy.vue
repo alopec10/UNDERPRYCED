@@ -11,45 +11,85 @@
     <div class="inline w-5/12">
       <div class="inline-flex align-center">
         <div
-            class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-500 rounded-lg flex justify-center items-center cursor-pointer"
-            @click="">
-          <h1 class="text-white text-md sm:text-2xl p-5">
+            class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-100 rounded-lg flex justify-center items-center cursor-pointer"
+            @click="selectedBuy = true"
+            v-bind:class="{'bg-purple-500': selectedBuy}">
+          <h1 class="text-white text-md sm:text-2xl p-5"
+              v-bind:class="{'text-gray-700': !selectedBuy}">
             COMPRAR AHORA
           </h1>
         </div>
         <div
-            class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-300 rounded-lg flex ml-4 justify-center items-center px-2 cursor-pointer"
-            @click="">
-          <h1 class="text-white text-md sm:text-2xl ">
+            class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-100 rounded-lg flex ml-4 justify-center items-center px-2 cursor-pointer"
+            @click="selectedBuy = false"
+            v-bind:class="{'bg-purple-500': !selectedBuy}">
+          <h1 class="text-white text-md sm:text-2xl "
+              v-bind:class="{'text-gray-700': selectedBuy}">
             PUJAR
           </h1>
         </div>
       </div>
-      <div>
+      <div v-if="selectedBuy">
         <div class="mt-10 align-center">
           <h1 class="text-md sm:text-2xl ">
-            TALLA: {{this.size}}
+            TALLA: {{ this.size }}
           </h1>
           <h1 class="text-md sm:text-5xl mt-5">
-            {{ lowestAsk }}€
+            {{ price }}€
           </h1>
           <h1 class="text-md sm:text-lg ">
             (Oferta más baja actualmente)
           </h1>
           <h1 class="text-md sm:text-lg mt-5">
-            Tasas de compra: {{fees.toFixed(2)}}€
+            Tasas de compra: {{ fees.toFixed(2) }}€
           </h1>
           <h1 class="text-md sm:text-lg mt-5">
-            Gastos de envío: {{shipping.toFixed(2)}}€
+            Gastos de envío: {{ shipping.toFixed(2) }}€
           </h1>
           <h1 class="text-md sm:text-2xl mt-5">
-            TOTAL: {{totalPrice.toFixed(2)}}€
+            TOTAL: {{ totalPrice.toFixed(2) }}€
           </h1>
-          <div class="w-32 h-20 sm:w-48 sm:h-20 bg-purple-500 rounded-lg justify-center items-center px-2 flex mx-auto mt-10 cursor-pointer">
+          <div
+              class="w-32 h-20 sm:w-48 sm:h-20 bg-purple-500 rounded-lg justify-center items-center px-2 flex mx-auto mt-10 cursor-pointer">
             <h1 class="text-white text-md sm:text-2xl ">
               CONTINUAR
             </h1>
           </div>
+        </div>
+      </div>
+      <div v-else>
+        <div class="mt-10 align-center">
+          <h1 class="text-md sm:text-2xl ">
+            TALLA: {{ this.size }}
+          </h1>
+
+          <div class="mt-7">
+            <input v-model="customPrice" type="text" placeholder="Precio" id="p"
+                   class="inline-block text-center mx-auto w-40 h-16 block border-2 border-purple-500 p-3 text-5xl h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100"/>
+            <div class="inline-block ml-2 text-5xl">€</div>
+          </div>
+          <h1 class="text-md sm:text-lg mt-3">
+            (Tu oferta)
+          </h1>
+          <div v-if="parseInt(customPrice) > 0 && parseInt(customPrice) !=null">
+            <h1 class="text-md sm:text-lg mt-5">
+              Tasas de compra: {{ customFees.toFixed(2) }}€
+            </h1>
+            <h1 class="text-md sm:text-lg mt-5">
+              Gastos de envío: {{ customShipping.toFixed(2) }}€
+            </h1>
+            <h1 class="text-md sm:text-2xl mt-5">
+              TOTAL: {{ totalCustomPrice.toFixed(2) }}€
+            </h1>
+            <div
+                class="w-32 h-20 sm:w-48 sm:h-20 bg-purple-500 rounded-lg justify-center items-center px-2 flex mx-auto mt-10 cursor-pointer"
+            @click="placeBid">
+              <h1 class="text-white text-md sm:text-2xl ">
+                CONTINUAR
+              </h1>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -82,17 +122,30 @@ export default {
       },
 
       size: "40",
-      showSizes: false,
-      lowestAsk: 340,
-      fees: null,
+      selectedBuy: true,
+      price: 340,
+      fees: 0,
       shipping: 15,
-      totalPrice: null
+      totalPrice: 0,
+
+      customPrice: 0,
+      customFees: 0,
+      customShipping: 15,
+      totalCustomPrice: 0,
+    }
+  },
+  watch: {
+    customPrice: function() {
+      if(this.customPrice >= this.price) {
+        this.selectedBuy = true
+        this.customPrice = 0
+      }
+      this.customFees = 0.1 * parseInt(this.customPrice)
+      this.totalCustomPrice = parseInt(this.customPrice) + this.customFees + this.customShipping
     }
   },
   mounted() {
     this.getProduct()
-    this.fees = 0.1 * this.lowestAsk
-    this.totalPrice = this.lowestAsk + this.fees + this.shipping
 
   },
   methods: {
@@ -110,10 +163,29 @@ export default {
           .then(resp => {
             this.product = resp.data[0]
             this.size = this.product.productDetails[0].size
+            this.price = this.product.productDetails[0].lowestAsk
+            this.fees = 0.1 * this.price
+            this.totalPrice = this.price + this.fees + this.shipping
           })
           .catch(err => {
           })
     },
+    placeBid() {
+      const dat =
+          {
+            "ref": this.product.ref,
+            "size": this.size,
+            "price": this.customPrice
+          }
+
+      axios({url: 'http://localhost:8888/bid/make', data: dat, method: 'POST'})
+          .then(resp => {
+            console.log(resp)
+          })
+          .catch(err => {
+          })
+
+    }
   }
 }
 </script>

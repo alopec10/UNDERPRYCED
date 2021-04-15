@@ -5,7 +5,7 @@
     </h1>
     <div class="inline-flex align-center my-6">
       <div id="Size"
-           class="w-32 h-20 sm:w-48 sm:h-24 bg-purple-100 rounded-lg mx-4 flex justify-center items-center"
+           class="w-32 h-20 sm:w-48 sm:h-24 bg-purple-100 rounded-lg mr-2 flex justify-center items-center"
            @click="showSizes=!showSizes"
       >
         <h1 class="text-purple-900 text-md sm:text-2xl ">
@@ -13,7 +13,7 @@
         </h1>
       </div>
       <div id="LastSale"
-           class="w-32 h-20 sm:w-48 sm:h-24 bg-purple-300 rounded-lg mr-4 flex justify-center items-center px-2 divide-x">
+           class="w-32 h-20 sm:w-48 sm:h-24 bg-purple-300 rounded-lg ml-2 mr-2 flex justify-center items-center px-2 divide-x">
 
         <div class="block w-3/5">
           <h1 class="text-white text-md sm:text-md ">
@@ -24,8 +24,9 @@
           </h1>
         </div>
       </div>
+      <div>
       <div id="LowestAsk"
-           class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-500 rounded-lg mr-4 flex justify-center items-center px-2 divide-x cursor-pointer"
+           class="block w-32 h-20 sm:w-56 sm:h-24 bg-purple-500 rounded-lg ml-2 mr-2 flex justify-center items-center px-2 divide-x cursor-pointer"
            @click="pushBuy">
         <div class="block w-3/5">
           <h1 class="text-white text-md sm:text-md ">
@@ -40,9 +41,15 @@
             COMPRAR<br>o pujar
           </h1>
         </div>
+
       </div>
+        <div @click="showAskTable" class="mt-3 block">
+          <h1 class=" cursor-pointer">Ver todo</h1>
+        </div>
+      </div>
+      <div>
       <div id="HighestBid"
-           class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-700 rounded-lg mr-4 flex justify-center items-center px-2 divide-x cursor-pointer"
+           class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-700 rounded-lg ml-2 mr-2 flex justify-center items-center px-2 divide-x cursor-pointer"
            @click="pushSell">
         <div class="block w-3/5">
           <h1 class="text-white text-md sm:text-md ">
@@ -58,13 +65,17 @@
           </h1>
         </div>
       </div>
+      <div @click="showBidTable" class="mt-3 block">
+        <h1 class=" cursor-pointer w-auto">Ver todo </h1>
+      </div>
+      </div>
     </div>
 
-    <select v-model="size">
+    <select v-model="size" class="ml-2">
       <option v-for="(item, index) in product.productDetails" :value="item.size">{{ item.size }}</option>
     </select>
 
-    <div class="mx-auto flex justify-center w-5/12">
+    <div class="mx-auto flex justify-center w-1/2">
       <img :src="product.url" class="my-6 mx-10 p-5 border-2 rounded-lg shadow-xl border-purple-300 "/>
     </div>
 
@@ -92,6 +103,39 @@
           <i class="fas fa-caret-left"></i>
         </div>
       </div>
+
+      <vue-tailwind-modal
+          :showing="showAsks"
+          @close="showAsks = false"
+          :showClose="true"
+          :backgroundClose="true"
+      >
+        <div>
+          <div>
+            <h1 class="text-4xl">ASKS</h1>
+          </div>
+          <div v-for="(item, index) in asks" :key = index>
+            {{item.price}} - {{item.count}}
+          </div>
+        </div>
+
+      </vue-tailwind-modal>
+      <vue-tailwind-modal
+          :showing="showBids"
+          @close="showBids = false"
+          :showClose="true"
+          :backgroundClose="true"
+      >
+        <div>
+          <div>
+            <h1 class="text-4xl">BIDS</h1>
+          </div>
+          <div v-for="(item, index) in bids" :key = index>
+            {{item.price}} - {{item.count}}
+          </div>
+        </div>
+
+      </vue-tailwind-modal>
     </div>
   </div>
 
@@ -100,9 +144,13 @@
 <script>
 
 const axios = require("axios");
+import VueTailwindModal from 'vue-tailwind-modal'
 
 export default {
   name: "Product",
+  components: {
+    VueTailwindModal
+  },
   data() {
     return {
       product: {
@@ -120,9 +168,13 @@ export default {
         categoryType: "",
         productDetails: []
       },
+      asks: [],
+      bids: [],
 
       size: "40",
       showSizes: false,
+      showAsks: false,
+      showBids: false
     }
   },
   mounted() {
@@ -191,6 +243,34 @@ export default {
           size: this.size
         }
       });
+    },
+    showAskTable() {
+      const dat =
+          {
+            "ref": this.product.ref,
+            "size": this.size
+          }
+      axios({url: 'http://localhost:8888/ask/getAll', data: dat, method: 'POST'})
+          .then(resp => {
+            this.asks = resp.data
+            this.showAsks = true
+          })
+          .catch(err => {
+          })
+    },
+    showBidTable() {
+      const dat =
+          {
+            "ref": this.product.ref,
+            "size": this.size
+          }
+      axios({url: 'http://localhost:8888/bid/getAll', data: dat, method: 'POST'})
+          .then(resp => {
+            this.bids = resp.data
+            this.showBids = true
+          })
+          .catch(err => {
+          })
     }
 
   }
