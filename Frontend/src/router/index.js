@@ -39,14 +39,14 @@ const routes = [
     },
   },
   {
-    path: '/comprar/:ref',
+    path: '/comprar/:ref/:size',
     name: 'Comprar',
     component: function () {
       return import('../views/Buy.vue')
     },
   },
   {
-    path: '/vender/:ref',
+    path: '/vender/:ref/:size',
     name: 'Vender',
     component: function () {
       return import('../views/Sell.vue')
