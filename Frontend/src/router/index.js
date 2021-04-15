@@ -30,6 +30,13 @@ const routes = [
     component: function () {
       return import('../views/Login.vue')
     }
+  },
+  {
+    path: '/producto/:ref',
+    name: 'Producto',
+    component: function () {
+      return import('../views/Product.vue')
+    },
   }
 ]
 

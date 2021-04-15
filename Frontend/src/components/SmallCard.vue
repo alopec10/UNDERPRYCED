@@ -1,5 +1,6 @@
 <template>
-  <div class="cursor-pointer w-full sq mx-auto rounded-md shadow-lg overflow-hidden border border-gray-300">
+  <div class="cursor-pointer w-full sq mx-auto rounded-md shadow-lg overflow-hidden border border-gray-300"
+  @click="pushProduct">
 
     <img class="" style="max-width:90%;max-height:62%; margin: 4px auto" :src="url"/>
     <div class="px-5">
@@ -24,6 +25,24 @@ export default {
     price: {
       type: Number,
       required: true
+    },
+    refer: {
+      type: String,
+      required: true
+    },
+  },
+  mounted() {
+    console.log(this.refer)
+  },
+  methods: {
+    pushProduct() {
+      console.log("a")
+      this.$router.push({
+        name: "Producto",
+        params:{
+          ref: this.refer,
+        }
+      });
     }
   }
 
