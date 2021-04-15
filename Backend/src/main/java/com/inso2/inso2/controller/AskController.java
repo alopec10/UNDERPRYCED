@@ -47,7 +47,8 @@ public class AskController {
             UserDetails userDetails = (UserDetails) auth.getPrincipal();
             String email = userDetails.getUsername();
             User user = userRepository.findByEmail(email);
-            ProductDetails productDetails = productDetailsRepository.findByIdProductDetails(req.getIdProductDetails());
+            Product product = productRepository.findByRef(req.getRef());
+            ProductDetails productDetails = productDetailsRepository.findByProductAndSize(product, req.getSize());
             if(productDetails.getHighestBid() != null && productDetails.getHighestBid() >= req.getPrice()){
                 // IMPORTANT TO DETERMINE THE STRATEGY IN THIS SPECIFIC CASE
                 return new ResponseEntity<>(
@@ -72,7 +73,8 @@ public class AskController {
             UserDetails userDetails = (UserDetails) auth.getPrincipal();
             String email = userDetails.getUsername();
             User user = userRepository.findByEmail(email);
-            ProductDetails productDetails = productDetailsRepository.findByIdProductDetails(req.getIdProductDetails());
+            Product product = productRepository.findByRef(req.getRef());
+            ProductDetails productDetails = productDetailsRepository.findByProductAndSize(product, req.getSize());
             Ask ask = askRepository.findByUserAndProductDetails(user, productDetails);
             if(ask == null){
                 return new ResponseEntity<>(

@@ -4,23 +4,32 @@ import java.io.Serializable;
 
 public class BidRequest implements Serializable {
 
-    private long idProductDetails;
+    private String ref, size;
     private int price;
 
     public BidRequest() {
     }
 
-    public BidRequest(long idProductDetails, int price) {
-        this.idProductDetails = idProductDetails;
+    public BidRequest(String ref, String size, int price) {
+        this.ref = ref;
+        this.size = size;
         this.price = price;
     }
 
-    public long getIdProductDetails() {
-        return idProductDetails;
+    public String getRef() {
+        return ref;
     }
 
-    public void setIdProductDetails(long idProductDetails) {
-        this.idProductDetails = idProductDetails;
+    public void setRef(String ref) {
+        this.ref = ref;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 
     public int getPrice() {

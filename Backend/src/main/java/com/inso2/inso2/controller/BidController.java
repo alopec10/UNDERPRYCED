@@ -53,7 +53,8 @@ public class BidController {
             UserDetails userDetails = (UserDetails) auth.getPrincipal();
             String email = userDetails.getUsername();
             User user = userRepository.findByEmail(email);
-            ProductDetails productDetails = productDetailsRepository.findByIdProductDetails(req.getIdProductDetails());
+            Product product = productRepository.findByRef(req.getRef());
+            ProductDetails productDetails = productDetailsRepository.findByProductAndSize(product, req.getSize());
             if(productDetails.getLowestAsk() != null && productDetails.getLowestAsk() <= req.getPrice()){
                 // IMPORTANT TO DETERMINE THE STRATEGY IN THIS SPECIFIC CASE
                 return new ResponseEntity<>(
@@ -77,7 +78,8 @@ public class BidController {
             UserDetails userDetails = (UserDetails) auth.getPrincipal();
             String email = userDetails.getUsername();
             User user = userRepository.findByEmail(email);
-            ProductDetails productDetails = productDetailsRepository.findByIdProductDetails(req.getIdProductDetails());
+            Product product = productRepository.findByRef(req.getRef());
+            ProductDetails productDetails = productDetailsRepository.findByProductAndSize(product, req.getSize());
             Bid bid = bidRepository.findByUserAndProductDetails(user, productDetails);
             if (bid == null){
                 return new ResponseEntity<>(
