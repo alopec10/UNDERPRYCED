@@ -4,6 +4,9 @@ import router from './router'
 import store from './store'
 import "@/assets/css/tailwind.css";
 import Axios from 'axios'
+import VueTailwindModal from "vue-tailwind-modal"
+Vue.component("VueTailwindModal", VueTailwindModal)
+
 
 Vue.prototype.$http = Axios;
 const token = localStorage.getItem('token')
