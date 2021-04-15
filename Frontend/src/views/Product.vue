@@ -13,22 +13,50 @@
         </h1>
       </div>
       <div id="LastSale"
-           class="w-32 h-20 sm:w-48 sm:h-24 bg-purple-300 rounded-lg mr-4 flex justify-center items-center">
-        <h1 class="text-white text-md sm:text-2xl ">
-          LAST SALE: {{ lastSale }}
-        </h1>
+           class="w-32 h-20 sm:w-48 sm:h-24 bg-purple-300 rounded-lg mr-4 flex justify-center items-center px-2 divide-x">
+
+        <div class="block w-3/5">
+          <h1 class="text-white text-md sm:text-md ">
+            LAST SALE
+          </h1>
+          <h1 class="text-white text-md sm:text-2xl ">
+            {{ lastSale }}
+          </h1>
+        </div>
       </div>
       <div id="LowestAsk"
-           class="w-32 h-20 sm:w-48 sm:h-24 bg-purple-700 rounded-lg m-auto flex justify-center items-center">
-        <h1 class="text-white text-md sm:text-2xl m-auto">
-          LOWEST ASK: {{ lowestAsk }}
-        </h1>
+           class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-500 rounded-lg mr-4 flex justify-center items-center px-2 divide-x"
+           @click="pushBuy">
+        <div class="block w-3/5">
+          <h1 class="text-white text-md sm:text-md ">
+            LOWEST ASK
+          </h1>
+          <h1 class="text-white text-md sm:text-3xl ">
+            {{ lowestAsk }}
+          </h1>
+        </div>
+        <div class="block w-2/5">
+          <h1 class="text-white text-md sm:text-sm ">
+            COMPRAR<br>o pujar
+          </h1>
+        </div>
       </div>
       <div id="HighestBid"
-           class="w-32 h-20 sm:w-48 sm:h-24 bg-purple-500 rounded-lg mx-4 flex justify-center items-center">
-        <h1 class="text-white text-md sm:text-2xl ">
-          HIGHEST BID: {{ highestBid }}
-        </h1>
+           class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-700 rounded-lg mr-4 flex justify-center items-center px-2 divide-x"
+           @click="pushSell">
+        <div class="block w-3/5">
+          <h1 class="text-white text-md sm:text-md ">
+            HIGHEST BID
+          </h1>
+          <h1 class="text-white text-md sm:text-3xl ">
+            {{ highestBid }}
+          </h1>
+        </div>
+        <div class="block w-2/5">
+          <h1 class="text-white text-md sm:text-sm ">
+            VENDER<br>u ofertar
+          </h1>
+        </div>
       </div>
     </div>
 
@@ -146,6 +174,24 @@ export default {
           .catch(err => {
           })
     },
+    pushBuy(){
+      this.$router.push({
+        name: "Comprar",
+        params:{
+          ref: this.product.ref,
+          size: this.size
+        }
+      });
+    },
+    pushSell(){
+      this.$router.push({
+        name: "Vender",
+        params:{
+          ref: this.product.ref,
+          size: this.size
+        }
+      });
+    }
 
   }
 }
