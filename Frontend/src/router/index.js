@@ -37,6 +37,20 @@ const routes = [
     component: function () {
       return import('../views/Product.vue')
     },
+  },
+  {
+    path: '/comprar/:ref',
+    name: 'Comprar',
+    component: function () {
+      return import('../views/Buy.vue')
+    },
+  },
+  {
+    path: '/vender/:ref',
+    name: 'Vender',
+    component: function () {
+      return import('../views/Sell.vue')
+    },
   }
 ]
 
