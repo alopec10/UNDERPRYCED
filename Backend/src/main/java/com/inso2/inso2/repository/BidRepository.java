@@ -12,6 +12,6 @@ import java.util.List;
 
 public interface BidRepository extends JpaRepository<Bid, Long> {
     Bid findByUserAndProductDetails(User user, ProductDetails productDetails);
-    @Query("SELECT b.price FROM Bid b WHERE b.productDetails = ?1 ORDER BY b.price ASC")
+    @Query("SELECT b.price FROM Bid b WHERE b.productDetails = ?1 ORDER BY b.price DESC")
     List<Integer> findPriceByProductDetails(ProductDetails productDetails);
 }
