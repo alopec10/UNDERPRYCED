@@ -119,12 +119,11 @@ public class AskController {
         }
     }
 
-    @RequestMapping(value = "/getAllAsks", method = RequestMethod.POST)
-    public ResponseEntity<?> getAllAsks(@RequestBody GetAllAsksRequest req){
+    @RequestMapping(value = "/getAll", method = RequestMethod.POST)
+    public ResponseEntity<?> getAll(@RequestBody GetAllAsksRequest req){
         try{
             Product product = productRepository.findByRef(req.getRef());
             ProductDetails productDetails = productDetailsRepository.findByProductAndSize(product, req.getSize());
-            System.out.println("KEKW");
             List<Integer> prices = askRepository.findPriceByProductDetails(productDetails);
             Set<Integer> mySet = new HashSet<>(prices);
             List<GetAllAsksResponse> asks = new ArrayList<>();

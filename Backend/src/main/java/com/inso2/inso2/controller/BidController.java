@@ -1,12 +1,17 @@
 package com.inso2.inso2.controller;
 
+import com.inso2.inso2.dto.ask.getAll.GetAllAsksRequest;
+import com.inso2.inso2.dto.ask.getAll.GetAllAsksResponse;
 import com.inso2.inso2.dto.bid.BidRequest;
 import com.inso2.inso2.dto.bid.delete.DeleteBidRequest;
+import com.inso2.inso2.dto.bid.getAll.GetAllBidsResponse;
 import com.inso2.inso2.model.Bid;
+import com.inso2.inso2.model.Product;
 import com.inso2.inso2.model.ProductDetails;
 import com.inso2.inso2.model.User;
 import com.inso2.inso2.repository.BidRepository;
 import com.inso2.inso2.repository.ProductDetailsRepository;
+import com.inso2.inso2.repository.ProductRepository;
 import com.inso2.inso2.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
+import java.util.*;
 
 @RestController
 @RequestMapping("/bid")
@@ -32,10 +37,13 @@ public class BidController {
 
     private BidRepository bidRepository;
 
-    public BidController(ProductDetailsRepository productDetailsRepository, UserRepository userRepository, BidRepository bidRepository) {
+    private ProductRepository productRepository;
+
+    public BidController(ProductDetailsRepository productDetailsRepository, UserRepository userRepository, BidRepository bidRepository, ProductRepository productRepository) {
         this.productDetailsRepository = productDetailsRepository;
         this.userRepository = userRepository;
         this.bidRepository = bidRepository;
+        this.productRepository = productRepository;
     }
 
     @RequestMapping(value = "/make", method = RequestMethod.POST)
@@ -109,6 +117,26 @@ public class BidController {
             bidRepository.deleteById(bid.getIdBid());
             return ResponseEntity.ok("Bid deleted");
         }catch(Exception e){
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
+    @RequestMapping(value = "/getAll", method = RequestMethod.POST)
+    public ResponseEntity<?> getAll(@RequestBody GetAllAsksRequest req){
+        try{
+            Product product = productRepository.findByRef(req.getRef());
+            ProductDetails productDetails = productDetailsRepository.findByProductAndSize(product, req.getSize());
+            List<Integer> prices = bidRepository.findPriceByProductDetails(productDetails);
+            Set<Integer> mySet = new HashSet<>(prices);
+            List<GetAllBidsResponse> asks = new ArrayList<>();
+            for(Integer i: mySet){
+                asks.add(new GetAllBidsResponse(i, Collections.frequency(prices,i)));
+            }
+            return ResponseEntity.ok(asks);
+        }
+        catch(Exception e){
             return new ResponseEntity<>(
                     e.getMessage(),
                     HttpStatus.SERVICE_UNAVAILABLE);
