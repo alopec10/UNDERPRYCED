@@ -61,7 +61,7 @@
         <div
             class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 my-6 mx-10">
 
-          <SmallCard v-for="(item, index) in mostPopular"
+          <SmallCard v-for="(item, index) in mostPopular" :key="item.ref"
                      :title="item.title"
                      :url="item.url"
                      :price="item.retailPrice"
@@ -77,7 +77,7 @@
         <div
             class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 my-6 mx-10"
             >
-          <SmallCard v-for="(item, index) in recommended"
+          <SmallCard v-for="(item, index) in recommended" :key="item.ref"
                      :title="item.title"
                      :url="item.url"
                      :price="item.retailPrice"

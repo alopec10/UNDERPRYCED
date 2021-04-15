@@ -1,5 +1,5 @@
 <template>
-  <div id="product" class="min-w-screen items-center mx-auto justify-center">
+  <div id="product" class="min-w-screen items-center mx-auto justify-center mt-12">
     <h1 class="text-6xl my-4">
       {{ product.title }}
     </h1>
@@ -36,8 +36,8 @@
       <option v-for="(item, index) in product.productDetails" :value="item.size">{{ item.size }}</option>
     </select>
 
-    <div class="mx-auto flex justify-center">
-      <img :src="product.url" class="my-6 mx-10 p-5 border-2 rounded-lg shadow-xl border-purple-300 w-4xl"/>
+    <div class="mx-auto flex justify-center w-5/12">
+      <img :src="product.url" class="my-6 mx-10 p-5 border-2 rounded-lg shadow-xl border-purple-300 "/>
     </div>
 
 
@@ -47,7 +47,7 @@
           <i class="fas fa-caret-right"></i>
         </div>
         <h1 class=" text-xl mx-4 text-black inline-block">
-          RETAIL PRICE {{ product.retail_price }}
+          RETAIL PRICE {{ product.retailPrice }} €
         </h1>
         <div class="text-purple-700 inline-block">
           <i class="fas fa-caret-left"></i>
@@ -65,8 +65,6 @@
         </div>
       </div>
     </div>
-
-    <button @click="update">a</button>
   </div>
 
 </template>
@@ -130,24 +128,6 @@ export default {
     }
   },
   methods: {
-    update() {
-      const dat = {
-        "specifications": [
-          {
-            "key": "brand",
-            "value": "Adidas",
-            "operator": "=="
-          }
-        ]
-      }
-
-      axios({url: 'http://localhost:8888/product/specification', data: dat, method: 'POST'})
-          .then(resp => {
-            console.log(resp)
-          })
-          .catch(err => {
-          })
-    },
     getProduct() {
       const dat = {
         "specifications": [
@@ -161,6 +141,7 @@ export default {
       axios({url: 'http://localhost:8888/product/specification', data: dat, method: 'POST'})
           .then(resp => {
             this.product = resp.data[0]
+            this.size = this.product.productDetails[0].size
           })
           .catch(err => {
           })
