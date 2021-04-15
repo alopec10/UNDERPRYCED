@@ -25,7 +25,7 @@
         </div>
       </div>
       <div id="LowestAsk"
-           class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-500 rounded-lg mr-4 flex justify-center items-center px-2 divide-x"
+           class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-500 rounded-lg mr-4 flex justify-center items-center px-2 divide-x cursor-pointer"
            @click="pushBuy">
         <div class="block w-3/5">
           <h1 class="text-white text-md sm:text-md ">
@@ -42,7 +42,7 @@
         </div>
       </div>
       <div id="HighestBid"
-           class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-700 rounded-lg mr-4 flex justify-center items-center px-2 divide-x"
+           class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-700 rounded-lg mr-4 flex justify-center items-center px-2 divide-x cursor-pointer"
            @click="pushSell">
         <div class="block w-3/5">
           <h1 class="text-white text-md sm:text-md ">
