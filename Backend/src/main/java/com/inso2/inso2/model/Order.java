@@ -39,15 +39,20 @@ public class Order {
     @OneToOne(mappedBy = "order")
     private Shipment shipment;
 
+    @OneToOne
+    @JoinColumn(name = "IdPayMethod", referencedColumnName = "IdPayMethod", nullable = false)
+    private PaymentMethod paymentMethod;
+
     public Order() {
     }
 
-    public Order(@Size(min = 1, max = 100) String ref, int price, User buyer, User seller, ProductDetails productDetails) {
+    public Order(@Size(min = 1, max = 100) String ref, int price, User buyer, User seller, ProductDetails productDetails, PaymentMethod paymentMethod) {
         this.ref = ref;
         this.price = price;
         this.buyer = buyer;
         this.seller = seller;
         this.productDetails = productDetails;
+        this.paymentMethod = paymentMethod;
     }
 
     public long getIdOrder() {
@@ -112,6 +117,14 @@ public class Order {
 
     public void setRef(String ref) {
         this.ref = ref;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     @Override

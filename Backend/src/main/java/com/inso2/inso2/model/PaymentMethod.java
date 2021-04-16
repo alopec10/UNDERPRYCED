@@ -40,6 +40,9 @@ public class PaymentMethod {
     @JoinColumn(name = "IdUser", nullable = false)
     private User user;
 
+    @OneToOne(mappedBy = "paymentMethod")
+    private Order order;
+
     public PaymentMethod() {
     }
 
@@ -113,6 +116,14 @@ public class PaymentMethod {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     @Override
