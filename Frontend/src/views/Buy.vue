@@ -83,7 +83,7 @@
             </h1>
             <div
                 class="w-32 h-20 sm:w-48 sm:h-20 bg-purple-500 rounded-lg justify-center items-center px-2 flex mx-auto mt-10 cursor-pointer"
-            @click="placeBid">
+                @click="placeBid">
               <h1 class="text-white text-md sm:text-2xl ">
                 CONTINUAR
               </h1>
@@ -121,7 +121,7 @@ export default {
         productDetails: []
       },
 
-      size: "40",
+      size: "",
       selectedBuy: true,
       price: 340,
       fees: 0,
@@ -135,8 +135,8 @@ export default {
     }
   },
   watch: {
-    customPrice: function() {
-      if(this.customPrice >= this.price) {
+    customPrice: function () {
+      if (this.customPrice >= this.price) {
         this.selectedBuy = true
         this.customPrice = 0
       }
@@ -146,7 +146,7 @@ export default {
   },
   mounted() {
     this.getProduct()
-
+    this.size = this.$route.params.size
   },
   methods: {
     getProduct() {
@@ -162,10 +162,13 @@ export default {
       axios({url: 'http://localhost:8888/product/specification', data: dat, method: 'POST'})
           .then(resp => {
             this.product = resp.data[0]
-            this.size = this.product.productDetails[0].size
-            this.price = this.product.productDetails[0].lowestAsk
-            this.fees = 0.1 * this.price
-            this.totalPrice = this.price + this.fees + this.shipping
+            for (let pd of this.product.productDetails) {
+              if (this.size == pd.size) {
+                this.price = pd.lowestAsk
+                this.fees = 0.1 * this.price
+                this.totalPrice = this.price + this.fees + this.shipping
+              }
+            }
           })
           .catch(err => {
           })
