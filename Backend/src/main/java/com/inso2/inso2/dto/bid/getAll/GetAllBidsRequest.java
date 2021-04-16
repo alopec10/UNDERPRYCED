@@ -1,18 +1,16 @@
-package com.inso2.inso2.dto.ask;
+package com.inso2.inso2.dto.bid.getAll;
 
 import java.io.Serializable;
 
-public class AskRequest implements Serializable {
+public class GetAllBidsRequest implements Serializable {
     private String ref, size;
-    private int price;
 
-    public AskRequest() {
+    public GetAllBidsRequest() {
     }
 
-    public AskRequest(String ref, String size, int price) {
+    public GetAllBidsRequest(String ref, String size) {
         this.ref = ref;
         this.size = size;
-        this.price = price;
     }
 
     public String getRef() {
@@ -29,13 +27,5 @@ public class AskRequest implements Serializable {
 
     public void setSize(String size) {
         this.size = size;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
     }
 }
