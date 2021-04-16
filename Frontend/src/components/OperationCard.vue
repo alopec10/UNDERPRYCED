@@ -1,0 +1,87 @@
+<template>
+  <div class="cont flex border-2 border-purple-500 rounded-lg">
+    <div class="flex contImg justify-center items-center">
+      <img class="mx-auto" :src="op.url"/>
+    </div>
+    <div class="inline contText pr-2">
+      <h1 class="text-lg mt-4  leading-tight line-clamp-1">
+        {{ op.title }}
+      </h1>
+      <div class="flex mt-2 space-x-7 justify-center">
+        <div class="">
+          <h1>Precio</h1>
+          <h1 class="text-xl">{{ op.price }}€</h1>
+        </div>
+        <div class="">
+          <h1>Talla</h1>
+          <h1 class="text-xl">{{ op.size }}</h1>
+        </div>
+        <div class="">
+          <h1>Fecha</h1>
+          <h1 class="text-xl">{{ op.date }}</h1>
+        </div>
+      </div>
+    </div>
+    <div class="contIcons justify-center items-center text-purple-500">
+      <i class="fas fa-edit block text-xl mt-6 mr-1 cursor-pointer"></i>
+      <i class="fas fa-trash-alt block text-xl mt-4 mr-2 cursor-pointer" @click="deleteOperation"></i>
+    </div>
+  </div>
+</template>
+
+<script>
+const axios = require("axios");
+export default {
+  name: "OperationCard",
+  props: {
+    op: {
+      type: Object,
+      required: true
+    },
+    typeOp: {
+      type: String,
+      required: true
+    }
+  },
+  methods: {
+    deleteOperation() {
+      const dat = {
+        "idProductDetails": this.op.idProductDetails
+      }
+      axios({url: 'http://localhost:8888/'+this.typeOp+'/delete', data: dat, method: 'POST'})
+          .then(resp => {
+            this.$emit("delete");
+          })
+          .catch(err => {
+          })
+    }
+  }
+}
+</script>
+
+<style scoped>
+.cont {
+  width: 420px !important
+}
+
+.contImg {
+  height: 120px;
+  width: 120px;
+}
+
+.contText {
+  height: 120px;
+  width: 280px;
+}
+
+.contIcons {
+  height: 120px;
+  width: 40px;
+}
+
+img {
+  max-width: 100px;
+  max-height: 100px
+}
+
+</style>
