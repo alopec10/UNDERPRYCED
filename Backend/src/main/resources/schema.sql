@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS `userRoles`
 CREATE TABLE IF NOT EXISTS `paymentMethods`
 (
     `IdPayMethod` int(11) NOT NULL AUTO_INCREMENT,
+    `Name` nvarchar(50) NOT NULL,
     `Number` nvarchar(100) NOT NULL,
     `CVV` nvarchar(100) NOT NULL,
     `ExpMonth` nvarchar(100) NOT NULL,

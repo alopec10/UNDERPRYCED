@@ -39,6 +39,21 @@ const routes = [
     },
   },
   {
+    path: '/datosUsuario',
+    name: 'DatosUsuario',
+    component: function () {
+      return import('../views/UserData.vue')
+    }
+  },
+  {
+    path: '/metodosPago',
+    name: 'MetodosPago',
+    component: function () {
+      return import('../views/PaymentMethods.vue')
+    }
+
+  },
+  {
     path: '/comprar/:ref/:size',
     name: 'Comprar',
     component: function () {
@@ -51,6 +66,7 @@ const routes = [
     component: function () {
       return import('../views/Sell.vue')
     },
+
   }
 ]
 

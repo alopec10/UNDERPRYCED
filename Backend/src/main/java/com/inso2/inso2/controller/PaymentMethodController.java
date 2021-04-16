@@ -49,6 +49,7 @@ public class PaymentMethodController {
                         "16 digits required",
                         HttpStatus.SERVICE_UNAVAILABLE);
             }
+            paymentMethod.setName(req.getName());
             paymentMethod.setNumber(Encrypter.encrypt(req.getNumber()));
             paymentMethod.setCvv(Encrypter.encrypt(req.getCvv()));
             paymentMethod.setExpMonth(Encrypter.encrypt(req.getExpMonth()));
@@ -76,6 +77,7 @@ public class PaymentMethodController {
             for(PaymentMethod p:paymentMethods) {
                 PaymentMethodResponse pr = new PaymentMethodResponse();
                 pr.setIdPayMethod(p.getIdPayMethod());
+                pr.setName(p.getName());
                 pr.setDefaultMethod(p.isDefaultMethod());
                 pr.setExpMonth(Encrypter.decrypt(p.getExpMonth()));
                 pr.setExpYear(Encrypter.decrypt(p.getExpYear()));
