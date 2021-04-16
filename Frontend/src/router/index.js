@@ -32,17 +32,11 @@ const routes = [
     }
   },
   {
-    path: '/producto',
+    path: '/producto/:ref',
     name: 'Producto',
     component: function () {
       return import('../views/Product.vue')
     },
-    props: {
-      title: "LEBRON XVIII CHRISTMAS PARTY",
-      url: "https://images.stockx.com/images/Nike-Lebron-18-X-Mas-in-LA.png?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1609203421",
-      rel_date: "27/05/2021",
-      retail_price: '177$'
-    }
   },
   {
     path: '/datosUsuario',
@@ -57,6 +51,22 @@ const routes = [
     component: function () {
       return import('../views/PaymentMethods.vue')
     }
+
+  },
+  {
+    path: '/comprar/:ref/:size',
+    name: 'Comprar',
+    component: function () {
+      return import('../views/Buy.vue')
+    },
+  },
+  {
+    path: '/vender/:ref/:size',
+    name: 'Vender',
+    component: function () {
+      return import('../views/Sell.vue')
+    },
+
   }
 ]
 
