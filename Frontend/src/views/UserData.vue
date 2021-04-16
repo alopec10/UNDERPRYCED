@@ -37,7 +37,7 @@
 
         <div class="mt-10">
           <button @click="update" type="button"
-                  class="bg-purple-500  p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+                  class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
             Guardar cambios
           </button>
         </div>
