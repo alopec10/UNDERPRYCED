@@ -4,14 +4,12 @@
     <div>
       <h1 class="text-2xl">ACTIVE ASKS</h1>
       <div
-          class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 my-10 mx-2 sm:mx-20">
-<div class="">
-  <OperationCard v-for="(op, index) in asks" :key="op.ref"
-                 :op="op"
-                 typeOp="ask"
-                 v-on:delete="getAsks">
-  </OperationCard>
-</div>
+          class="grid gap-6 grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 my-10 mx-2 sm:mx-20">
+        <OperationCard v-for="(op, index) in asks" :key="op.ref"
+                       :op="op"
+                       typeOp="ask"
+                       v-on:delete="getAsks">
+        </OperationCard>
 
       </div>
     </div>
