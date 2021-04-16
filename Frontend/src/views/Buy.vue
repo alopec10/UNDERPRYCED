@@ -136,7 +136,7 @@ export default {
   },
   watch: {
     customPrice: function () {
-      if (this.customPrice >= this.price) {
+      if (this.customPrice >= this.price && this.price != null) {
         this.selectedBuy = true
         this.customPrice = 0
       }
