@@ -40,19 +40,25 @@ public class Order {
     private Shipment shipment;
 
     @OneToOne
-    @JoinColumn(name = "IdPayMethod", referencedColumnName = "IdPayMethod", nullable = false)
-    private PaymentMethod paymentMethod;
+    @JoinColumn(name = "IdPayMethodBuyer", referencedColumnName = "IdPayMethod", nullable = false)
+    private PaymentMethod buyerPaymentMethod;
+
+    @OneToOne
+    @JoinColumn(name = "IdPayMethodSeller", referencedColumnName = "IdPayMethod", nullable = false)
+    private PaymentMethod sellerPaymentMethod;
 
     public Order() {
     }
 
-    public Order(@Size(min = 1, max = 100) String ref, int price, User buyer, User seller, ProductDetails productDetails, PaymentMethod paymentMethod) {
+    public Order(@Size(min = 1, max = 100) String ref, int price, Date date, User buyer, User seller, ProductDetails productDetails, PaymentMethod buyerPaymentMethod, PaymentMethod sellerPaymentMethod) {
         this.ref = ref;
         this.price = price;
+        this.date = date;
         this.buyer = buyer;
         this.seller = seller;
         this.productDetails = productDetails;
-        this.paymentMethod = paymentMethod;
+        this.buyerPaymentMethod = buyerPaymentMethod;
+        this.sellerPaymentMethod = sellerPaymentMethod;
     }
 
     public long getIdOrder() {
@@ -119,12 +125,20 @@ public class Order {
         this.ref = ref;
     }
 
-    public PaymentMethod getPaymentMethod() {
-        return paymentMethod;
+    public PaymentMethod getBuyerPaymentMethod() {
+        return buyerPaymentMethod;
     }
 
-    public void setPaymentMethod(PaymentMethod paymentMethod) {
-        this.paymentMethod = paymentMethod;
+    public void setBuyerPaymentMethod(PaymentMethod buyerPaymentMethod) {
+        this.buyerPaymentMethod = buyerPaymentMethod;
+    }
+
+    public PaymentMethod getSellerPaymentMethod() {
+        return sellerPaymentMethod;
+    }
+
+    public void setSellerPaymentMethod(PaymentMethod sellerPaymentMethod) {
+        this.sellerPaymentMethod = sellerPaymentMethod;
     }
 
     @Override

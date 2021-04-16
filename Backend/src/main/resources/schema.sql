@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS `paymentMethods`
     `IdUser` int(11) NOT NULL,
     KEY `FK_PAYMENTMETHOD_USER` (`IdUser`),
     CONSTRAINT `FK_PAYMENTMETHOD_USER` FOREIGN KEY (`IdUser`) REFERENCES `users` (`IdUser`),
+    UNIQUE(`Number`),
     PRIMARY KEY (`IDPayMethod`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ^;
 
@@ -134,15 +135,18 @@ CREATE TABLE IF NOT EXISTS `orders`
     `IdBuyer` int(11) NOT NULL,
     `IdSeller` int(11) NOT NULL,
     `IdProductDetails` int(11) NOT NULL,
-    `IdPayMethod` int(11) NOT NULL,
+    `IdPayMethodBuyer` int(11) NOT NULL,
+    `IdPayMethodSeller` int(11) NOT NULL,
     KEY `FK_ORDER_BUYER` (`IdBuyer`),
     CONSTRAINT `FK_ORDER_BUYER` FOREIGN KEY (`IdBuyer`) REFERENCES `users` (`IdUser`),
     KEY `FK_ORDER_SELLER` (`IdSeller`),
     CONSTRAINT `FK_ORDER_SELLER` FOREIGN KEY (`IdSeller`) REFERENCES `users` (`IdUser`),
     KEY `FK_ORDER_PRODUCTDETAILS` (`IdProductDetails`),
     CONSTRAINT `FK_ORDER_PRODUCTDETAILS` FOREIGN KEY (`IdProductDetails`) REFERENCES `productDetails` (`IdProductDetails`),
-    KEY `FK_ORDER_PAYMENT` (`IdPayMethod`),
-    CONSTRAINT `FK_ORDER_PAYMENT` FOREIGN KEY (`IdPayMethod`) REFERENCES `paymentMethods` (`IdPayMethod`),
+    KEY `FK_ORDER_PAYMENTBUYER` (`IdPayMethodBuyer`),
+    CONSTRAINT `FK_ORDER_PAYMENTBUYER` FOREIGN KEY (`IdPayMethodBuyer`) REFERENCES `paymentMethods` (`IdPayMethod`),
+    KEY `FK_ORDER_PAYMENTSELLER` (`IdPayMethodSeller`),
+    CONSTRAINT `FK_ORDER_PAYMENTSELLER` FOREIGN KEY (`IdPayMethodSeller`) REFERENCES `paymentMethods` (`IdPayMethod`),
     UNIQUE(`Ref`),
     PRIMARY KEY (`IdOrder`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ^;
