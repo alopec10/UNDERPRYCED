@@ -1,6 +1,7 @@
 package com.inso2.inso2.controller;
 
 import com.inso2.inso2.dto.ask.AskRequest;
+import com.inso2.inso2.dto.ask.GetAllAsksByUserResponse;
 import com.inso2.inso2.dto.ask.delete.DeleteAskRequest;
 import com.inso2.inso2.dto.ask.getAll.GetAllAsksRequest;
 import com.inso2.inso2.dto.ask.getAll.GetAllAsksResponse;
@@ -133,6 +134,27 @@ public class AskController {
                 asks.add(new GetAllAsksResponse(i, Collections.frequency(prices,i)));
             }
             return ResponseEntity.ok(asks);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
+    @RequestMapping(value = "/getAllByUser", method = RequestMethod.GET)
+    public ResponseEntity<?> getAllByUser(){
+        try{
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            String email = userDetails.getUsername();
+            User user = userRepository.findByEmail(email);
+            List<Ask> asks = askRepository.findByUser(user);
+            List<GetAllAsksByUserResponse> aresp = new ArrayList<>();
+            for(Ask a: asks){
+                aresp.add(new GetAllAsksByUserResponse().build(a));
+            }
+            return ResponseEntity.ok(aresp);
         }
         catch(Exception e){
             return new ResponseEntity<>(

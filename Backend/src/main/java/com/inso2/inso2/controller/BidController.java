@@ -1,14 +1,13 @@
 package com.inso2.inso2.controller;
 
+import com.inso2.inso2.dto.ask.GetAllAsksByUserResponse;
 import com.inso2.inso2.dto.ask.getAll.GetAllAsksRequest;
 import com.inso2.inso2.dto.ask.getAll.GetAllAsksResponse;
 import com.inso2.inso2.dto.bid.BidRequest;
+import com.inso2.inso2.dto.bid.GetAllBidsByUserResponse;
 import com.inso2.inso2.dto.bid.delete.DeleteBidRequest;
 import com.inso2.inso2.dto.bid.getAll.GetAllBidsResponse;
-import com.inso2.inso2.model.Bid;
-import com.inso2.inso2.model.Product;
-import com.inso2.inso2.model.ProductDetails;
-import com.inso2.inso2.model.User;
+import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.BidRepository;
 import com.inso2.inso2.repository.ProductDetailsRepository;
 import com.inso2.inso2.repository.ProductRepository;
@@ -137,6 +136,27 @@ public class BidController {
                 asks.add(new GetAllBidsResponse(i, Collections.frequency(prices,i)));
             }
             return ResponseEntity.ok(asks);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
+    @RequestMapping(value = "/getAllByUser", method = RequestMethod.GET)
+    public ResponseEntity<?> getAllByUser(){
+        try{
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            String email = userDetails.getUsername();
+            User user = userRepository.findByEmail(email);
+            List<Bid> bids = bidRepository.findByUser(user);
+            List<GetAllBidsByUserResponse> bresp = new ArrayList<>();
+            for(Bid b: bids){
+                bresp.add(new GetAllBidsByUserResponse().build(b));
+            }
+            return ResponseEntity.ok(bresp);
         }
         catch(Exception e){
             return new ResponseEntity<>(
