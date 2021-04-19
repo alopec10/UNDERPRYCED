@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS `paymentMethods`
     `ExpMonth` nvarchar(100) NOT NULL,
     `ExpYear` nvarchar(100) NOT NULL,
     `DefaultMethod` bit(1) NOT NULL DEFAULT b'0',
+    `IsActive` bit(1) NOT NULL DEFAULT b'1',
     `IdUser` int(11) NOT NULL,
     KEY `FK_PAYMENTMETHOD_USER` (`IdUser`),
     CONSTRAINT `FK_PAYMENTMETHOD_USER` FOREIGN KEY (`IdUser`) REFERENCES `users` (`IdUser`),

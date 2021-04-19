@@ -34,14 +34,14 @@ VALUES ((SELECT IdRole FROM roles WHERE Name = 'ROLE_USER'),
         (SELECT IdUser FROM users WHERE Email = 'user2@user.com'))^;
 
 /* PAYMENT METHODS */
-INSERT IGNORE INTO paymentMethods (Name, Number, CVV, ExpMonth, ExpYear, DefaultMethod, IdUser)
-VALUES ('User User', 'SbwcEVenGSm4sjJV+5wgXY9VUODwp2CtTnWQSxlUZqQ=', 'NmC7te8QtgfJyTysOwiXiQ==', '5dMG8a6/5tTzwIIRNmT+EA==', '5dMG8a6/5tTzwIIRNmT+EA==', 1, 2)^;
+INSERT IGNORE INTO paymentMethods (Name, Number, CVV, ExpMonth, ExpYear, DefaultMethod, IsActive, IdUser)
+VALUES ('User User', 'SbwcEVenGSm4sjJV+5wgXY9VUODwp2CtTnWQSxlUZqQ=', 'NmC7te8QtgfJyTysOwiXiQ==', '5dMG8a6/5tTzwIIRNmT+EA==', '5dMG8a6/5tTzwIIRNmT+EA==', 1, 1, 2)^;
 
-INSERT IGNORE INTO paymentMethods (Name, Number, CVV, ExpMonth, ExpYear, DefaultMethod, IdUser)
-VALUES ('User User', 'sOVC/hgza8MF/2jvTdezlSxC9eB/fkUsb3y/Eqi6xSM=', 'NQog9zEmpu80u5h5VFAdgQ==', 'GssQiQZlot4eSKWn+mDYew==', 'SchmHhUO5FQ0ikOQZAmylw==', 0, 2)^;
+INSERT IGNORE INTO paymentMethods (Name, Number, CVV, ExpMonth, ExpYear, DefaultMethod, IsActive, IdUser)
+VALUES ('User User', 'sOVC/hgza8MF/2jvTdezlSxC9eB/fkUsb3y/Eqi6xSM=', 'NQog9zEmpu80u5h5VFAdgQ==', 'GssQiQZlot4eSKWn+mDYew==', 'SchmHhUO5FQ0ikOQZAmylw==', 0, 1, 2)^;
 
-INSERT IGNORE INTO paymentMethods (Name, Number, CVV, ExpMonth, ExpYear, DefaultMethod, IdUser)
-VALUES ('User2 User2', 'rkLYU9qn7hvIkOcGuqC8gylD8f/lZZwoWzJ4FU6GODA=', 'NmC7te8QtgfJyTysOwiXiQ==', '5dMG8a6/5tTzwIIRNmT+EA==', '5dMG8a6/5tTzwIIRNmT+EA==', 1, 3)^;
+INSERT IGNORE INTO paymentMethods (Name, Number, CVV, ExpMonth, ExpYear, DefaultMethod, IsActive, IdUser)
+VALUES ('User2 User2', 'rkLYU9qn7hvIkOcGuqC8gylD8f/lZZwoWzJ4FU6GODA=', 'NmC7te8QtgfJyTysOwiXiQ==', '5dMG8a6/5tTzwIIRNmT+EA==', '5dMG8a6/5tTzwIIRNmT+EA==', 1, 1, 3)^;
 
 /* CATEGORIES */
 INSERT IGNORE INTO categories (Type)
