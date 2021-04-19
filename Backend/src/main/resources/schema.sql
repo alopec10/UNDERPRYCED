@@ -265,4 +265,10 @@ BEGIN
         UPDATE productDetails
         SET lastSale = NEW.Price
         WHERE IdProductDetails = NEW.IdProductDetails;
+        UPDATE users
+        SET PurchasesCompleted = PurchasesCompleted + 1
+        WHERE IdUser = NEW.IdBuyer;
+        UPDATE users
+        SET SellsCompleted = SellsCompleted + 1
+        WHERE IdUser = NEW.IdSeller;
 END ^;

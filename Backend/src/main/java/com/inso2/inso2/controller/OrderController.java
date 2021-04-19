@@ -1,6 +1,7 @@
 package com.inso2.inso2.controller;
 
 import com.inso2.inso2.dto.order.create.CreateOrderBuyRequest;
+import com.inso2.inso2.dto.order.create.CreateOrderSellRequest;
 import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.*;
 import com.inso2.inso2.service.user.LoadUserService;
@@ -23,16 +24,18 @@ public class OrderController {
     private LoadUserService loadUserService;
     private ProductRepository productRepository;
     private ProductDetailsRepository productDetailsRepository;
-    PaymentMethodRepository paymentMethodRepository;
+    private PaymentMethodRepository paymentMethodRepository;
     private AskRepository askRepository;
+    private BidRepository bidRepository;
 
-    public OrderController(OrderRepository orderRepository, LoadUserService loadUserService, ProductRepository productRepository, ProductDetailsRepository productDetailsRepository, PaymentMethodRepository paymentMethodRepository, AskRepository askRepository) {
+    public OrderController(OrderRepository orderRepository, LoadUserService loadUserService, ProductRepository productRepository, ProductDetailsRepository productDetailsRepository, PaymentMethodRepository paymentMethodRepository, AskRepository askRepository, BidRepository bidRepository) {
         this.orderRepository = orderRepository;
         this.loadUserService = loadUserService;
         this.productRepository = productRepository;
         this.productDetailsRepository = productDetailsRepository;
         this.paymentMethodRepository = paymentMethodRepository;
         this.askRepository = askRepository;
+        this.bidRepository = bidRepository;
     }
 
     @RequestMapping(value = "/createBuy", method = RequestMethod.POST)
@@ -54,6 +57,33 @@ public class OrderController {
             Order order = new Order(UUID.randomUUID().toString(),ask.getPrice(),new Date(),user, ask.getUser(), productDetails, buyerPaymentMethod, sellerPaymentMethod);
             orderRepository.saveAndFlush(order);
             askRepository.deleteById(ask.getIdAsk());
+            return ResponseEntity.ok("Order created");
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
+    @RequestMapping(value = "/createSell", method = RequestMethod.POST)
+    public ResponseEntity<?> createSell(@RequestBody CreateOrderSellRequest req){
+        try{
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User user = loadUserService.load(auth);
+            Product product = productRepository.findByRef(req.getRef());
+            ProductDetails productDetails = productDetailsRepository.findByProductAndSize(product, req.getSize());
+            Bid bid = bidRepository.findFirstByProductDetailsAndPriceOrderByIdBidAsc(productDetails, productDetails.getHighestBid());
+            if(bid.getUser().equals(user)){
+                return new ResponseEntity<>(
+                        "It's not possible to sell a product to yourself",
+                        HttpStatus.SERVICE_UNAVAILABLE);
+            }
+            PaymentMethod sellerPaymentMethod = paymentMethodRepository.findByUserAndIdPayMethod(user, req.getIdPayMethod());
+            PaymentMethod buyerPaymentMethod = paymentMethodRepository.findFirstByUserAndIsActiveOrderByIdPayMethodAsc(bid.getUser(), true);
+            Order order = new Order(UUID.randomUUID().toString(),bid.getPrice(),new Date(),bid.getUser(), user, productDetails, buyerPaymentMethod, sellerPaymentMethod);
+            orderRepository.saveAndFlush(order);
+            bidRepository.deleteById(bid.getIdBid());
             return ResponseEntity.ok("Order created");
         }
         catch(Exception e){

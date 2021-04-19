@@ -217,16 +217,13 @@ VALUES (821, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'), 30)^;
 /* ORDERS */
 
 INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
-VALUES ('7321401552789517581', 330, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'),
-        (SELECT IdUser FROM users WHERE Email = 'user@user.com'), 15, 3, 2)^;
+VALUES ('7321401552789517581', 330, 3, 2, 15, 3, 2)^;
 
 INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
-VALUES ('7376701552706717555', 215, (SELECT IdUser FROM users WHERE Email = 'user@user.com'),
-        (SELECT IdUser FROM users WHERE Email = 'user2@user.com'), 25, 2, 3)^;
+VALUES ('7376701552706717555', 215, 2, 3, 25, 2, 3)^;
 
 INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
-VALUES ('7376213552988817555', 223, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'),
-        (SELECT IdUser FROM users WHERE Email = 'user@user.com'), 1, 3, 2)^;
+VALUES ('7376213552988817555', 223, 3, 2, 1, 3, 2)^;
 
 /* SHIPMENTS */
 
