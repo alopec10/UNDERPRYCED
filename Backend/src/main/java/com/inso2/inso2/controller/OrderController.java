@@ -43,13 +43,14 @@ public class OrderController {
             Product product = productRepository.findByRef(req.getRef());
             ProductDetails productDetails = productDetailsRepository.findByProductAndSize(product, req.getSize());
             Ask ask = askRepository.findFirstByProductDetailsAndPriceOrderByIdAskAsc(productDetails, productDetails.getLowestAsk());
+
             if(ask.getUser().equals(user)){
                 return new ResponseEntity<>(
                         "It's not possible to buy your own product",
                         HttpStatus.SERVICE_UNAVAILABLE);
             }
             PaymentMethod buyerPaymentMethod = paymentMethodRepository.findByUserAndIdPayMethod(user, req.getIdPayMethod());
-            PaymentMethod sellerPaymentMethod = paymentMethodRepository.findFirstByUserOrderByIdPayMethodAsc(ask.getUser());
+            PaymentMethod sellerPaymentMethod = paymentMethodRepository.findFirstByUserAndIsActiveOrderByIdPayMethodAsc(ask.getUser(), true);
             Order order = new Order(UUID.randomUUID().toString(),ask.getPrice(),new Date(),user, ask.getUser(), productDetails, buyerPaymentMethod, sellerPaymentMethod);
             orderRepository.saveAndFlush(order);
             askRepository.deleteById(ask.getIdAsk());
