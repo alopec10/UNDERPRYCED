@@ -254,3 +254,14 @@ BEGIN
         WHERE IdProductDetails = OLD.IdProductDetails;
     END IF;
 END ^;
+
+/* Update last sale value in productDetails when an order is inserted in the database */
+DROP TRIGGER IF EXISTS modify_last_sale_after_insert ^;
+CREATE TRIGGER modify_last_sale_after_insert
+    AFTER INSERT
+    ON `orders` FOR EACH ROW
+BEGIN
+        UPDATE productDetails
+        SET lastSale = NEW.Price
+        WHERE IdProductDetails = NEW.IdProductDetails;
+END ^;

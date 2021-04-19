@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -268,5 +269,18 @@ public class User {
                 ", sells=" + sells +
                 ", purchases=" + purchases +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return getIdUser() == user.getIdUser() && getSellsCompleted() == user.getSellsCompleted() && getPurchasesCompleted() == user.getPurchasesCompleted() && getName().equals(user.getName()) && getSurname().equals(user.getSurname()) && getEmail().equals(user.getEmail()) && getPassword().equals(user.getPassword()) && Objects.equals(getAddress(), user.getAddress()) && Objects.equals(getCountry(), user.getCountry()) && Objects.equals(getZipCode(), user.getZipCode()) && Objects.equals(getPhoneNumber(), user.getPhoneNumber()) && Objects.equals(getPaymentMethods(), user.getPaymentMethods()) && Objects.equals(getAsks(), user.getAsks()) && Objects.equals(getBids(), user.getBids()) && Objects.equals(getSells(), user.getSells()) && Objects.equals(getPurchases(), user.getPurchases()) && Objects.equals(getRoles(), user.getRoles());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getIdUser(), getName(), getSurname(), getEmail(), getPassword(), getAddress(), getCountry(), getZipCode(), getPhoneNumber(), getSellsCompleted(), getPurchasesCompleted(), getPaymentMethods(), getAsks(), getBids(), getSells(), getPurchases(), getRoles());
     }
 }

@@ -11,5 +11,5 @@ import java.util.List;
 public interface PaymentMethodRepository extends JpaRepository<PaymentMethod, Long> {
     List<PaymentMethod> findByUser(User user);
     PaymentMethod findByUserAndIdPayMethod(User user, long idPayMethod);
-
+    PaymentMethod findFirstByUserOrderByIdPayMethodAsc(User user);
 }
