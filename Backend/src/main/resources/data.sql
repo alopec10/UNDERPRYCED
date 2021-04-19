@@ -218,27 +218,15 @@ VALUES (821, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'), 30)^;
 
 INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
 VALUES ('7321401552789517581', 330, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'),
-        (SELECT IdUser FROM users WHERE Email = 'user@user.com'), (SELECT IdProductDetails
-                                                                   FROM productDetails pd
-                                                                            INNER JOIN products p ON pd.IdProduct = p.IdProduct
-                                                                   WHERE p.Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'
-                                                                     AND pd.size = '43'), 3, 2)^;
+        (SELECT IdUser FROM users WHERE Email = 'user@user.com'), 15, 3, 2)^;
 
 INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
 VALUES ('7376701552706717555', 215, (SELECT IdUser FROM users WHERE Email = 'user@user.com'),
-        (SELECT IdUser FROM users WHERE Email = 'user2@user.com'), (SELECT IdProductDetails
-                                                                    FROM productDetails pd
-                                                                             INNER JOIN products p ON pd.IdProduct = p.IdProduct
-                                                                    WHERE p.Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'
-                                                                      AND pd.size = '44'), 2, 3)^;
+        (SELECT IdUser FROM users WHERE Email = 'user2@user.com'), 25, 2, 3)^;
 
 INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
 VALUES ('7376213552988817555', 223, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'),
-        (SELECT IdUser FROM users WHERE Email = 'user@user.com'), (SELECT IdProductDetails
-                                                                   FROM productDetails pd
-                                                                            INNER JOIN products p ON pd.IdProduct = p.IdProduct
-                                                                   WHERE p.Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'
-                                                                     AND pd.size = '40'), 3, 2)^;
+        (SELECT IdUser FROM users WHERE Email = 'user@user.com'), 1, 3, 2)^;
 
 /* SHIPMENTS */
 
