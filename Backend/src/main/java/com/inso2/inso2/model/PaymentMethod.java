@@ -1,8 +1,12 @@
 package com.inso2.inso2.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "paymentMethods")
@@ -36,15 +40,22 @@ public class PaymentMethod {
     @Column(name = "DefaultMethod", nullable = false)
     private boolean defaultMethod;
 
+    @Column(name = "IsActive", nullable = false)
+    private boolean isActive;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "IdUser", nullable = false)
     private User user;
 
-    @OneToOne(mappedBy = "buyerPaymentMethod")
-    private Order buyerOrder;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="paymentMethodBuyer")
+    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private List<Order> buyerOrders;
 
-    @OneToOne(mappedBy = "sellerPaymentMethod")
-    private Order sellerOrder;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="paymentMethodSeller")
+    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private List<Order> sellerOrders;
 
     public PaymentMethod() {
     }
@@ -113,6 +124,14 @@ public class PaymentMethod {
         this.defaultMethod = defaultMethod;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
     public User getUser() {
         return user;
     }
@@ -121,20 +140,20 @@ public class PaymentMethod {
         this.user = user;
     }
 
-    public Order getBuyerOrder() {
-        return buyerOrder;
+    public List<Order> getBuyerOrders() {
+        return buyerOrders;
     }
 
-    public void setBuyerOrder(Order buyerOrder) {
-        this.buyerOrder = buyerOrder;
+    public void setBuyerOrders(List<Order> buyerOrders) {
+        this.buyerOrders = buyerOrders;
     }
 
-    public Order getSellerOrder() {
-        return sellerOrder;
+    public List<Order> getSellerOrders() {
+        return sellerOrders;
     }
 
-    public void setSellerOrder(Order sellerOrder) {
-        this.sellerOrder = sellerOrder;
+    public void setSellerOrders(List<Order> sellerOrders) {
+        this.sellerOrders = sellerOrders;
     }
 
     @Override
