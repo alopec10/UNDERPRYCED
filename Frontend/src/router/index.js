@@ -54,6 +54,14 @@ const routes = [
 
   },
   {
+    path: '/historial',
+    name: 'Historial',
+    component: function () {
+      return import('../views/History.vue')
+    }
+
+  },
+  {
     path: '/comprar/:ref/:size',
     name: 'Comprar',
     component: function () {

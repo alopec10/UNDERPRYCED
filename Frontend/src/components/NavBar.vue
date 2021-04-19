@@ -18,6 +18,7 @@
           <li><a class="lg:p-4 py-3 px-0 block border-b-2 border-transparent hover:border-indigo-400" href="/producto">Producto</a></li>
           <li><a class="lg:p-4 py-3 px-0 block border-b-2 border-transparent hover:border-indigo-400" href="/datosUsuario">Datos usuario</a></li>
           <li><a class="lg:p-4 py-3 px-0 block border-b-2 border-transparent hover:border-indigo-400" href="/metodosPago">Metodos pago</a></li>
+          <li><a class="lg:p-4 py-3 px-0 block border-b-2 border-transparent hover:border-indigo-400" href="/historial">Historial</a></li>
         </ul>
       </nav>
       <a @click='logout' href="#" class="lg:ml-4 flex items-center justify-start lg:mb-0 mb-4 pointer-cursor">
