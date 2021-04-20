@@ -2,6 +2,7 @@ package com.inso2.inso2.controller;
 
 import com.inso2.inso2.dto.order.create.CreateOrderBuyRequest;
 import com.inso2.inso2.dto.order.create.CreateOrderSellRequest;
+import com.inso2.inso2.dto.order.get.GetOrderInformationResponse;
 import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.*;
 import com.inso2.inso2.service.user.LoadUserService;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -93,4 +96,22 @@ public class OrderController {
         }
     }
 
+    @RequestMapping(value = "/getPurchases", method = RequestMethod.GET)
+    public ResponseEntity<?> getPurchases(){
+        try{
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User user = loadUserService.load(auth);
+            List<Order> purchases = orderRepository.findByBuyerOrderByIdOrderDesc(user);
+            List<GetOrderInformationResponse> response = new ArrayList<>();
+            for(Order o:purchases){
+                response.add(new GetOrderInformationResponse().build(o));
+            }
+            return ResponseEntity.ok(response);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
 }
