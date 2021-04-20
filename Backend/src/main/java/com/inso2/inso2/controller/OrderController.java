@@ -114,4 +114,23 @@ public class OrderController {
                     HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
+
+    @RequestMapping(value = "/getSells", method = RequestMethod.GET)
+    public ResponseEntity<?> getSells(){
+        try{
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User user = loadUserService.load(auth);
+            List<Order> purchases = orderRepository.findBySellerOrderByIdOrderDesc(user);
+            List<GetOrderInformationResponse> response = new ArrayList<>();
+            for(Order o:purchases){
+                response.add(new GetOrderInformationResponse().build(o));
+            }
+            return ResponseEntity.ok(response);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
 }
