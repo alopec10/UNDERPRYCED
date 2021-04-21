@@ -34,7 +34,6 @@ export default new Vuex.Store({
         commit('auth_request')
         axios({url: 'http://localhost:8888/user/authenticate', data: user, method: 'POST' })
             .then(resp => {
-              console.log('a')
               const token = 'Bearer ' + resp.data.jwt
               const user = resp.data.user
               localStorage.setItem('token', token)
