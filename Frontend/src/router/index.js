@@ -11,7 +11,8 @@ const routes = [
         name: 'Home',
         component: Home,
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            userAuth: true
         }
     },
     {
@@ -41,7 +42,8 @@ const routes = [
             return import('../views/Product.vue')
         },
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            userAuth: true
         }
     },
     {
@@ -51,7 +53,8 @@ const routes = [
             return import('../views/UserData.vue')
         },
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            userAuth: true
         }
     },
     {
@@ -61,7 +64,8 @@ const routes = [
             return import('../views/PaymentMethods.vue')
         },
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            userAuth: true
         }
     },
     {
@@ -71,9 +75,9 @@ const routes = [
             return import('../views/History.vue')
         },
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            userAuth: true
         }
-
     },
     {
         path: '/comprar/:ref/:size',
@@ -82,7 +86,8 @@ const routes = [
             return import('../views/Buy.vue')
         },
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            userAuth: true
         }
     },
     {
@@ -92,7 +97,19 @@ const routes = [
             return import('../views/Sell.vue')
         },
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            userAuth: true
+        }
+    },
+    {
+        path: '/inicioAdmin',
+        name: 'InicioAdmin',
+        component: function () {
+            return import('../views/AdminHome.vue')
+        },
+        meta: {
+            requiresAuth: true,
+            adminAuth: true
         }
     }
 ]
@@ -104,26 +121,49 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!store.getters.isLoggedIn) {
-      next({ path: '/iniciarsesion' });
-    } else {
-      next();
+    if(to.meta.requiresAuth) {
+        if(!store.getters.isLoggedIn) {
+            next("/iniciarSesion")
+        }
+        else if(to.meta.userAuth) {
+            var role = store.getters.authRole;
+            if(role === "ROLE_USER") {
+                next()
+            }else {
+                next('/inicioAdmin')
+            }
+        } else if(to.meta.adminAuth) {
+            const role = store.getters.authRole;
+            if(role === 'ROLE_ADMIN') {
+                next()
+            }else {
+                next('/')
+            }
+        }
+        else{
+            next()
+        }
     }
-
-  } else {
-    next();
-  }
-
-  if (to.matched.some(record => record.meta.hideForAuth)) {
-    if (store.getters.isLoggedIn) {
-      next({ path: '/' });
-    } else {
-      next();
+    else if(to.meta.hideForAuth){
+        if(!store.getters.isLoggedIn) {
+            next()
+        }
+        else{
+            const role = store.getters.authRole
+            if(role === "ROLE_ADMIN"){
+                next('/inicioAdmin')
+            }
+            else if(role === "ROLE_USER"){
+                next("/")
+            }
+            else{
+                next()
+            }
+        }
     }
-  } else {
-    next();
-  }
+    else {
+        next()
+    }
 })
 
 export default router
