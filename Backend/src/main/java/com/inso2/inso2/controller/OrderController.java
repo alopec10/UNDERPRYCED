@@ -23,13 +23,13 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/order")
 public class OrderController {
-    private OrderRepository orderRepository;
-    private LoadUserService loadUserService;
-    private ProductRepository productRepository;
-    private ProductDetailsRepository productDetailsRepository;
-    private PaymentMethodRepository paymentMethodRepository;
-    private AskRepository askRepository;
-    private BidRepository bidRepository;
+    private final OrderRepository orderRepository;
+    private final LoadUserService loadUserService;
+    private final ProductRepository productRepository;
+    private final ProductDetailsRepository productDetailsRepository;
+    private final PaymentMethodRepository paymentMethodRepository;
+    private final AskRepository askRepository;
+    private final BidRepository bidRepository;
 
     public OrderController(OrderRepository orderRepository, LoadUserService loadUserService, ProductRepository productRepository, ProductDetailsRepository productDetailsRepository, PaymentMethodRepository paymentMethodRepository, AskRepository askRepository, BidRepository bidRepository) {
         this.orderRepository = orderRepository;

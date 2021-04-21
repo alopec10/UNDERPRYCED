@@ -23,8 +23,11 @@ import java.util.List;
 @RequestMapping("/product")
 public class ProductController {
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+
+    public ProductController(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @RequestMapping(value = "/specification", method = RequestMethod.POST)
     public ResponseEntity<?> getProductsBySpecification(@RequestBody ProductSpecificationRequest req){

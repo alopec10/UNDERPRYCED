@@ -34,17 +34,17 @@ import java.util.*;
 @RequestMapping("/bid")
 public class BidController {
 
-    private ProductDetailsRepository productDetailsRepository;
+    private final ProductDetailsRepository productDetailsRepository;
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private BidRepository bidRepository;
+    private final BidRepository bidRepository;
 
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    private CreateBidService createBidService;
+    private final CreateBidService createBidService;
 
-    private ModifyBidService modifyBidService;
+    private final ModifyBidService modifyBidService;
 
     public BidController(ProductDetailsRepository productDetailsRepository, UserRepository userRepository, BidRepository bidRepository, ProductRepository productRepository, CreateBidService createBidService, ModifyBidService modifyBidService) {
         this.productDetailsRepository = productDetailsRepository;

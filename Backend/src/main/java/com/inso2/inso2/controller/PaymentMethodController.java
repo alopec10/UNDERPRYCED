@@ -27,16 +27,13 @@ import java.util.List;
 public class PaymentMethodController {
     private Encrypter encrypter;
 
-    private LoadUserService loadUserService;
+    private final LoadUserService loadUserService;
 
-    private UserRepository userRepository;
+    private final PaymentMethodRepository paymentMethodRepository;
 
-    private PaymentMethodRepository paymentMethodRepository;
-
-    public PaymentMethodController(Encrypter encrypter, LoadUserService loadUserService, UserRepository userRepository, PaymentMethodRepository paymentMethodRepository) {
+    public PaymentMethodController(Encrypter encrypter, LoadUserService loadUserService, PaymentMethodRepository paymentMethodRepository) {
         this.encrypter = encrypter;
         this.loadUserService = loadUserService;
-        this.userRepository = userRepository;
         this.paymentMethodRepository = paymentMethodRepository;
     }
 

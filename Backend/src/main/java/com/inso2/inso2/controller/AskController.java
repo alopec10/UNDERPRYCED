@@ -28,17 +28,17 @@ import java.util.*;
 @RequestMapping("/ask")
 public class AskController {
 
-    private ProductDetailsRepository productDetailsRepository;
+    private final ProductDetailsRepository productDetailsRepository;
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private AskRepository askRepository;
+    private final AskRepository askRepository;
 
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    private CreateAskService createAskService;
+    private final CreateAskService createAskService;
 
-    private ModifyAskService modifyAskService;
+    private final ModifyAskService modifyAskService;
 
     public AskController(ProductDetailsRepository productDetailsRepository, UserRepository userRepository, AskRepository askRepository, ProductRepository productRepository, CreateAskService createAskService, ModifyAskService modifyAskService) {
         this.productDetailsRepository = productDetailsRepository;
