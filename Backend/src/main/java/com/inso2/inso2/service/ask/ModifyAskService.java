@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ModifyAskService {
-    private AskRepository askRepository;
+    private final AskRepository askRepository;
 
     public ModifyAskService(AskRepository askRepository) {
         this.askRepository = askRepository;
