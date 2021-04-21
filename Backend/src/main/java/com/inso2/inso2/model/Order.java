@@ -39,15 +39,27 @@ public class Order {
     @OneToOne(mappedBy = "order")
     private Shipment shipment;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "IdPayMethodBuyer", nullable = false)
+    private PaymentMethod paymentMethodBuyer;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "IdPayMethodSeller", nullable = false)
+    private PaymentMethod paymentMethodSeller;
+
+
     public Order() {
     }
 
-    public Order(@Size(min = 1, max = 100) String ref, int price, User buyer, User seller, ProductDetails productDetails) {
+    public Order(@Size(min = 1, max = 100) String ref, int price, Date date, User buyer, User seller, ProductDetails productDetails, PaymentMethod paymentMethodBuyer, PaymentMethod paymentMethodSeller) {
         this.ref = ref;
         this.price = price;
+        this.date = date;
         this.buyer = buyer;
         this.seller = seller;
         this.productDetails = productDetails;
+        this.paymentMethodBuyer = paymentMethodBuyer;
+        this.paymentMethodSeller = paymentMethodSeller;
     }
 
     public long getIdOrder() {
@@ -112,6 +124,22 @@ public class Order {
 
     public void setRef(String ref) {
         this.ref = ref;
+    }
+
+    public PaymentMethod getPaymentMethodBuyer() {
+        return paymentMethodBuyer;
+    }
+
+    public void setPaymentMethodBuyer(PaymentMethod paymentMethodBuyer) {
+        this.paymentMethodBuyer = paymentMethodBuyer;
+    }
+
+    public PaymentMethod getPaymentMethodSeller() {
+        return paymentMethodSeller;
+    }
+
+    public void setPaymentMethodSeller(PaymentMethod paymentMethodSeller) {
+        this.paymentMethodSeller = paymentMethodSeller;
     }
 
     @Override

@@ -43,9 +43,11 @@ CREATE TABLE IF NOT EXISTS `paymentMethods`
     `ExpMonth` nvarchar(100) NOT NULL,
     `ExpYear` nvarchar(100) NOT NULL,
     `DefaultMethod` bit(1) NOT NULL DEFAULT b'0',
+    `IsActive` bit(1) NOT NULL DEFAULT b'1',
     `IdUser` int(11) NOT NULL,
     KEY `FK_PAYMENTMETHOD_USER` (`IdUser`),
     CONSTRAINT `FK_PAYMENTMETHOD_USER` FOREIGN KEY (`IdUser`) REFERENCES `users` (`IdUser`),
+    UNIQUE(`Number`, `IdUser`),
     PRIMARY KEY (`IDPayMethod`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ^;
 
@@ -134,12 +136,18 @@ CREATE TABLE IF NOT EXISTS `orders`
     `IdBuyer` int(11) NOT NULL,
     `IdSeller` int(11) NOT NULL,
     `IdProductDetails` int(11) NOT NULL,
+    `IdPayMethodBuyer` int(11) NOT NULL,
+    `IdPayMethodSeller` int(11) NOT NULL,
     KEY `FK_ORDER_BUYER` (`IdBuyer`),
     CONSTRAINT `FK_ORDER_BUYER` FOREIGN KEY (`IdBuyer`) REFERENCES `users` (`IdUser`),
     KEY `FK_ORDER_SELLER` (`IdSeller`),
     CONSTRAINT `FK_ORDER_SELLER` FOREIGN KEY (`IdSeller`) REFERENCES `users` (`IdUser`),
     KEY `FK_ORDER_PRODUCTDETAILS` (`IdProductDetails`),
     CONSTRAINT `FK_ORDER_PRODUCTDETAILS` FOREIGN KEY (`IdProductDetails`) REFERENCES `productDetails` (`IdProductDetails`),
+    KEY `FK_ORDER_PAYMENTBUYER` (`IdPayMethodBuyer`),
+    CONSTRAINT `FK_ORDER_PAYMENTBUYER` FOREIGN KEY (`IdPayMethodBuyer`) REFERENCES `paymentMethods` (`IdPayMethod`),
+    KEY `FK_ORDER_PAYMENTSELLER` (`IdPayMethodSeller`),
+    CONSTRAINT `FK_ORDER_PAYMENTSELLER` FOREIGN KEY (`IdPayMethodSeller`) REFERENCES `paymentMethods` (`IdPayMethod`),
     UNIQUE(`Ref`),
     PRIMARY KEY (`IdOrder`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ^;
@@ -246,4 +254,21 @@ BEGIN
         SET HighestBid = @newHighestBid
         WHERE IdProductDetails = OLD.IdProductDetails;
     END IF;
+END ^;
+
+/* Update last sale value in productDetails when an order is inserted in the database */
+DROP TRIGGER IF EXISTS modify_last_sale_after_insert ^;
+CREATE TRIGGER modify_last_sale_after_insert
+    AFTER INSERT
+    ON `orders` FOR EACH ROW
+BEGIN
+        UPDATE productDetails
+        SET lastSale = NEW.Price
+        WHERE IdProductDetails = NEW.IdProductDetails;
+        UPDATE users
+        SET PurchasesCompleted = PurchasesCompleted + 1
+        WHERE IdUser = NEW.IdBuyer;
+        UPDATE users
+        SET SellsCompleted = SellsCompleted + 1
+        WHERE IdUser = NEW.IdSeller;
 END ^;

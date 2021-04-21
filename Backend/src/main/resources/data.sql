@@ -33,6 +33,16 @@ INSERT IGNORE INTO userRoles (idrole, iduser)
 VALUES ((SELECT IdRole FROM roles WHERE Name = 'ROLE_USER'),
         (SELECT IdUser FROM users WHERE Email = 'user2@user.com'))^;
 
+/* PAYMENT METHODS */
+INSERT IGNORE INTO paymentMethods (Name, Number, CVV, ExpMonth, ExpYear, DefaultMethod, IsActive, IdUser)
+VALUES ('User User', 'SbwcEVenGSm4sjJV+5wgXY9VUODwp2CtTnWQSxlUZqQ=', 'NmC7te8QtgfJyTysOwiXiQ==', '5dMG8a6/5tTzwIIRNmT+EA==', '5dMG8a6/5tTzwIIRNmT+EA==', 1, 1, 2)^;
+
+INSERT IGNORE INTO paymentMethods (Name, Number, CVV, ExpMonth, ExpYear, DefaultMethod, IsActive, IdUser)
+VALUES ('User User', 'sOVC/hgza8MF/2jvTdezlSxC9eB/fkUsb3y/Eqi6xSM=', 'NQog9zEmpu80u5h5VFAdgQ==', 'GssQiQZlot4eSKWn+mDYew==', 'SchmHhUO5FQ0ikOQZAmylw==', 0, 1, 2)^;
+
+INSERT IGNORE INTO paymentMethods (Name, Number, CVV, ExpMonth, ExpYear, DefaultMethod, IsActive, IdUser)
+VALUES ('User2 User2', 'rkLYU9qn7hvIkOcGuqC8gylD8f/lZZwoWzJ4FU6GODA=', 'NmC7te8QtgfJyTysOwiXiQ==', '5dMG8a6/5tTzwIIRNmT+EA==', '5dMG8a6/5tTzwIIRNmT+EA==', 1, 1, 3)^;
+
 /* CATEGORIES */
 INSERT IGNORE INTO categories (Type)
 VALUES ('Zapatillas')^;
@@ -206,29 +216,14 @@ VALUES (821, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'), 30)^;
 
 /* ORDERS */
 
-INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails)
-VALUES ('7321401552789517581', 330, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'),
-        (SELECT IdUser FROM users WHERE Email = 'user@user.com'), (SELECT IdProductDetails
-                                                                   FROM productDetails pd
-                                                                            INNER JOIN products p ON pd.IdProduct = p.IdProduct
-                                                                   WHERE p.Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'
-                                                                     AND pd.size = '43'))^;
+INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
+VALUES ('7321401552789517581', 330, 3, 2, 15, 3, 2)^;
 
-INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails)
-VALUES ('7376701552706717555', 215, (SELECT IdUser FROM users WHERE Email = 'user@user.com'),
-        (SELECT IdUser FROM users WHERE Email = 'user2@user.com'), (SELECT IdProductDetails
-                                                                    FROM productDetails pd
-                                                                             INNER JOIN products p ON pd.IdProduct = p.IdProduct
-                                                                    WHERE p.Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'
-                                                                      AND pd.size = '44'))^;
+INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
+VALUES ('7376701552706717555', 215, 2, 3, 25, 2, 3)^;
 
-INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails)
-VALUES ('7376213552988817555', 223, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'),
-        (SELECT IdUser FROM users WHERE Email = 'user@user.com'), (SELECT IdProductDetails
-                                                                   FROM productDetails pd
-                                                                            INNER JOIN products p ON pd.IdProduct = p.IdProduct
-                                                                   WHERE p.Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'
-                                                                     AND pd.size = '40'))^;
+INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
+VALUES ('7376213552988817555', 223, 3, 2, 1, 3, 2)^;
 
 /* SHIPMENTS */
 
