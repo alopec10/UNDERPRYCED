@@ -13,7 +13,7 @@ import java.util.Date;
 @Service
 public class CreateBidService {
 
-private BidRepository bidRepository;
+private final BidRepository bidRepository;
 
     public CreateBidService(BidRepository bidRepository) {
         this.bidRepository = bidRepository;

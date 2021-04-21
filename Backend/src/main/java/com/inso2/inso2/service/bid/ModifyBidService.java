@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ModifyBidService {
 
-    private BidRepository bidRepository;
+    private final BidRepository bidRepository;
 
     public ModifyBidService(BidRepository bidRepository) {
         this.bidRepository = bidRepository;

@@ -1,8 +1,6 @@
 package com.inso2.inso2.controller;
 
-import com.inso2.inso2.dto.ask.GetAllAsksByUserResponse;
 import com.inso2.inso2.dto.ask.getAll.GetAllAsksRequest;
-import com.inso2.inso2.dto.ask.getAll.GetAllAsksResponse;
 import com.inso2.inso2.dto.bid.BidRequest;
 import com.inso2.inso2.dto.bid.GetAllBidsByUserResponse;
 import com.inso2.inso2.dto.bid.delete.DeleteBidRequest;
@@ -11,18 +9,13 @@ import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.BidRepository;
 import com.inso2.inso2.repository.ProductDetailsRepository;
 import com.inso2.inso2.repository.ProductRepository;
-import com.inso2.inso2.repository.UserRepository;
-import com.inso2.inso2.service.ask.CreateAskService;
-import com.inso2.inso2.service.ask.ModifyAskService;
 import com.inso2.inso2.service.bid.CreateBidService;
 import com.inso2.inso2.service.bid.ModifyBidService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.inso2.inso2.service.user.LoadUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,34 +27,33 @@ import java.util.*;
 @RequestMapping("/bid")
 public class BidController {
 
-    private ProductDetailsRepository productDetailsRepository;
+    private final ProductDetailsRepository productDetailsRepository;
 
-    private UserRepository userRepository;
 
-    private BidRepository bidRepository;
+    private final BidRepository bidRepository;
 
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    private CreateBidService createBidService;
+    private final CreateBidService createBidService;
 
-    private ModifyBidService modifyBidService;
+    private final ModifyBidService modifyBidService;
 
-    public BidController(ProductDetailsRepository productDetailsRepository, UserRepository userRepository, BidRepository bidRepository, ProductRepository productRepository, CreateBidService createBidService, ModifyBidService modifyBidService) {
+    private final LoadUserService loadUserService;
+
+    public BidController(ProductDetailsRepository productDetailsRepository, BidRepository bidRepository, ProductRepository productRepository, CreateBidService createBidService, ModifyBidService modifyBidService, LoadUserService loadUserService) {
         this.productDetailsRepository = productDetailsRepository;
-        this.userRepository = userRepository;
         this.bidRepository = bidRepository;
         this.productRepository = productRepository;
         this.createBidService = createBidService;
         this.modifyBidService = modifyBidService;
+        this.loadUserService = loadUserService;
     }
 
     @RequestMapping(value = "/make", method = RequestMethod.POST)
     public ResponseEntity<?> makeBid(@RequestBody BidRequest req){
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            UserDetails userDetails = (UserDetails) auth.getPrincipal();
-            String email = userDetails.getUsername();
-            User user = userRepository.findByEmail(email);
+            User user = loadUserService.load(auth);
             Product product = productRepository.findByRef(req.getRef());
             ProductDetails productDetails = productDetailsRepository.findByProductAndSize(product, req.getSize());
             Bid bid = bidRepository.findByUserAndProductDetails(user, productDetails);
@@ -83,9 +75,7 @@ public class BidController {
     public ResponseEntity<?> delete(@RequestBody DeleteBidRequest req){
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            UserDetails userDetails = (UserDetails) auth.getPrincipal();
-            String email = userDetails.getUsername();
-            User user = userRepository.findByEmail(email);
+            User user = loadUserService.load(auth);
             ProductDetails productDetails = productDetailsRepository.findByIdProductDetails(req.getIdProductDetails());
             Bid bid = bidRepository.findByUserAndProductDetails(user, productDetails);
             if (bid == null){
@@ -126,9 +116,7 @@ public class BidController {
     public ResponseEntity<?> getAllByUser(){
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            UserDetails userDetails = (UserDetails) auth.getPrincipal();
-            String email = userDetails.getUsername();
-            User user = userRepository.findByEmail(email);
+            User user = loadUserService.load(auth);
             List<Bid> bids = bidRepository.findByUser(user);
             List<GetAllBidsByUserResponse> bresp = new ArrayList<>();
             for(Bid b: bids){

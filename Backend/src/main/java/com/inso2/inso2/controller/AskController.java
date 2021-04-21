@@ -9,14 +9,13 @@ import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.AskRepository;
 import com.inso2.inso2.repository.ProductDetailsRepository;
 import com.inso2.inso2.repository.ProductRepository;
-import com.inso2.inso2.repository.UserRepository;
 import com.inso2.inso2.service.ask.CreateAskService;
 import com.inso2.inso2.service.ask.ModifyAskService;
+import com.inso2.inso2.service.user.LoadUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,34 +27,33 @@ import java.util.*;
 @RequestMapping("/ask")
 public class AskController {
 
-    private ProductDetailsRepository productDetailsRepository;
+    private final ProductDetailsRepository productDetailsRepository;
 
-    private UserRepository userRepository;
 
-    private AskRepository askRepository;
+    private final AskRepository askRepository;
 
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    private CreateAskService createAskService;
+    private final CreateAskService createAskService;
 
-    private ModifyAskService modifyAskService;
+    private final ModifyAskService modifyAskService;
 
-    public AskController(ProductDetailsRepository productDetailsRepository, UserRepository userRepository, AskRepository askRepository, ProductRepository productRepository, CreateAskService createAskService, ModifyAskService modifyAskService) {
+    private final LoadUserService loadUserService;
+
+    public AskController(ProductDetailsRepository productDetailsRepository, AskRepository askRepository, ProductRepository productRepository, CreateAskService createAskService, ModifyAskService modifyAskService, LoadUserService loadUserService) {
         this.productDetailsRepository = productDetailsRepository;
-        this.userRepository = userRepository;
         this.askRepository = askRepository;
         this.productRepository = productRepository;
         this.createAskService = createAskService;
         this.modifyAskService = modifyAskService;
+        this.loadUserService = loadUserService;
     }
 
     @RequestMapping(value = "/make", method = RequestMethod.POST)
     public ResponseEntity<?> makeAsk(@RequestBody AskRequest req){
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            UserDetails userDetails = (UserDetails) auth.getPrincipal();
-            String email = userDetails.getUsername();
-            User user = userRepository.findByEmail(email);
+            User user = loadUserService.load(auth);
             Product product = productRepository.findByRef(req.getRef());
             ProductDetails productDetails = productDetailsRepository.findByProductAndSize(product, req.getSize());
             Ask ask = askRepository.findByUserAndProductDetails(user, productDetails);
@@ -77,9 +75,7 @@ public class AskController {
     public ResponseEntity<?> delete(@RequestBody DeleteAskRequest req){
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            UserDetails userDetails = (UserDetails) auth.getPrincipal();
-            String email = userDetails.getUsername();
-            User user = userRepository.findByEmail(email);
+            User user = loadUserService.load(auth);
             ProductDetails productDetails = productDetailsRepository.findByIdProductDetails(req.getIdProductDetails());
             Ask ask = askRepository.findByUserAndProductDetails(user, productDetails);
             if(ask == null){
@@ -120,9 +116,7 @@ public class AskController {
     public ResponseEntity<?> getAllByUser(){
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            UserDetails userDetails = (UserDetails) auth.getPrincipal();
-            String email = userDetails.getUsername();
-            User user = userRepository.findByEmail(email);
+            User user = loadUserService.load(auth);
             List<Ask> asks = askRepository.findByUser(user);
             List<GetAllAsksByUserResponse> aresp = new ArrayList<>();
             for(Ask a: asks){

@@ -13,7 +13,7 @@ import java.util.Date;
 
 @Service
 public class CreateAskService {
-    private AskRepository askRepository;
+    private final AskRepository askRepository;
 
     public CreateAskService(AskRepository askRepository) {
         this.askRepository = askRepository;

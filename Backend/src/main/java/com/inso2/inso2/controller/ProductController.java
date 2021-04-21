@@ -9,7 +9,6 @@ import com.inso2.inso2.repository.ProductRepository;
 import com.inso2.inso2.repository.specification.SearchCriteria;
 import com.inso2.inso2.repository.specification.SearchOperationUtils;
 import com.inso2.inso2.repository.specification.product.ProductSpecification;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +22,11 @@ import java.util.List;
 @RequestMapping("/product")
 public class ProductController {
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+
+    public ProductController(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @RequestMapping(value = "/specification", method = RequestMethod.POST)
     public ResponseEntity<?> getProductsBySpecification(@RequestBody ProductSpecificationRequest req){
@@ -33,7 +35,7 @@ public class ProductController {
             specification.add(new SearchCriteria(sp.getKey(), sp.getValue(), SearchOperationUtils.convert(sp.getOperator())));
         }
         List<Product> products = productRepository.findAll(specification);
-        ArrayList<ProductSpecificationResponse> resp = new ArrayList<ProductSpecificationResponse>();
+        ArrayList<ProductSpecificationResponse> resp = new ArrayList<>();
         for(Product p: products){
             resp.add(new ProductSpecificationResponse().build(p));
         }
@@ -43,7 +45,7 @@ public class ProductController {
     @RequestMapping(value = "/ref", method = RequestMethod.POST)
     public ResponseEntity<?> getProductsByRef(@RequestBody ProductByRefRequest req){
         List<Product> products = productRepository.findByRefIn(req.getRefs());
-        ArrayList<ProductSpecificationResponse> resp = new ArrayList<ProductSpecificationResponse>();
+        ArrayList<ProductSpecificationResponse> resp = new ArrayList<>();
         for(Product p: products){
             resp.add(new ProductSpecificationResponse().build(p));
         }

@@ -1,7 +1,5 @@
 package com.inso2.inso2.dto.user.payment;
 
-import com.inso2.inso2.model.PaymentMethod;
-
 public class PaymentMethodResponse {
     private long idPayMethod;
     private String name, number, expMonth, expYear;

@@ -1,19 +1,16 @@
 package com.inso2.inso2.controller;
 
-import com.inso2.inso2.dto.ask.delete.DeleteAskRequest;
 import com.inso2.inso2.dto.user.payment.PaymentMethodDeleteRequest;
 import com.inso2.inso2.dto.user.payment.PaymentMethodRequest;
 import com.inso2.inso2.dto.user.payment.PaymentMethodResponse;
 import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.PaymentMethodRepository;
-import com.inso2.inso2.repository.UserRepository;
 import com.inso2.inso2.security.Encrypter;
 import com.inso2.inso2.service.user.LoadUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,16 +24,13 @@ import java.util.List;
 public class PaymentMethodController {
     private Encrypter encrypter;
 
-    private LoadUserService loadUserService;
+    private final LoadUserService loadUserService;
 
-    private UserRepository userRepository;
+    private final PaymentMethodRepository paymentMethodRepository;
 
-    private PaymentMethodRepository paymentMethodRepository;
-
-    public PaymentMethodController(Encrypter encrypter, LoadUserService loadUserService, UserRepository userRepository, PaymentMethodRepository paymentMethodRepository) {
+    public PaymentMethodController(Encrypter encrypter, LoadUserService loadUserService, PaymentMethodRepository paymentMethodRepository) {
         this.encrypter = encrypter;
         this.loadUserService = loadUserService;
-        this.userRepository = userRepository;
         this.paymentMethodRepository = paymentMethodRepository;
     }
 
@@ -61,18 +55,15 @@ public class PaymentMethodController {
                 paymentMethod.setExpYear(Encrypter.encrypt(req.getExpYear()));
                 paymentMethod.setUser(user);
                 paymentMethod.setDefaultMethod(req.isDefaultMethod());
-                paymentMethod.setActive(true);
-                paymentMethodRepository.save(paymentMethod);
-                return ResponseEntity.ok("Payment Method added");
             }
             else {
                 paymentMethod.setCvv(Encrypter.encrypt(req.getCvv()));
                 paymentMethod.setExpMonth(Encrypter.encrypt(req.getExpMonth()));
                 paymentMethod.setExpYear(Encrypter.encrypt(req.getExpYear()));
-                paymentMethod.setActive(true);
-                paymentMethodRepository.save(paymentMethod);
-                return ResponseEntity.ok("Payment Method added");
             }
+            paymentMethod.setActive(true);
+            paymentMethodRepository.save(paymentMethod);
+            return ResponseEntity.ok("Payment Method added");
 
         } catch (Exception e) {
             return new ResponseEntity<>(
@@ -87,7 +78,7 @@ public class PaymentMethodController {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
             List<PaymentMethod> paymentMethods = paymentMethodRepository.findByUserAndIsActive(user, true);
-            ArrayList<PaymentMethodResponse> paymentMethodsResponse = new ArrayList<PaymentMethodResponse>();
+            ArrayList<PaymentMethodResponse> paymentMethodsResponse = new ArrayList<>();
             for (PaymentMethod p : paymentMethods) {
                 PaymentMethodResponse pr = new PaymentMethodResponse();
                 pr.setIdPayMethod(p.getIdPayMethod());

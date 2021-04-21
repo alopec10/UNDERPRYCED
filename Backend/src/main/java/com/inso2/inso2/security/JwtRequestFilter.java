@@ -1,7 +1,6 @@
 package com.inso2.inso2.security;
 
 import com.inso2.inso2.service.MyUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,11 +16,14 @@ import java.io.IOException;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter{
-    @Autowired
-    private MyUserDetailsService userDetailsService;
+    private final MyUserDetailsService userDetailsService;
 
-    @Autowired
-    private JwtUtils jwtUtils;
+    private final JwtUtils jwtUtils;
+
+    public JwtRequestFilter(MyUserDetailsService userDetailsService, JwtUtils jwtUtils) {
+        this.userDetailsService = userDetailsService;
+        this.jwtUtils = jwtUtils;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)

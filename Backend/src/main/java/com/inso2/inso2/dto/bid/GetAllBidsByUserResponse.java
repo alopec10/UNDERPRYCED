@@ -1,6 +1,5 @@
 package com.inso2.inso2.dto.bid;
 
-import com.inso2.inso2.model.Ask;
 import com.inso2.inso2.model.Bid;
 
 import java.io.Serializable;
