@@ -1,8 +1,6 @@
 package com.inso2.inso2.controller;
 
-import com.inso2.inso2.dto.ask.GetAllAsksByUserResponse;
 import com.inso2.inso2.dto.ask.getAll.GetAllAsksRequest;
-import com.inso2.inso2.dto.ask.getAll.GetAllAsksResponse;
 import com.inso2.inso2.dto.bid.BidRequest;
 import com.inso2.inso2.dto.bid.GetAllBidsByUserResponse;
 import com.inso2.inso2.dto.bid.delete.DeleteBidRequest;
@@ -11,19 +9,13 @@ import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.BidRepository;
 import com.inso2.inso2.repository.ProductDetailsRepository;
 import com.inso2.inso2.repository.ProductRepository;
-import com.inso2.inso2.repository.UserRepository;
-import com.inso2.inso2.service.ask.CreateAskService;
-import com.inso2.inso2.service.ask.ModifyAskService;
 import com.inso2.inso2.service.bid.CreateBidService;
 import com.inso2.inso2.service.bid.ModifyBidService;
 import com.inso2.inso2.service.user.LoadUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

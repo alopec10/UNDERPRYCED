@@ -37,7 +37,7 @@ public class ProductSpecificationResponse implements Serializable {
         this.retailPrice = p.getRetailPrice();
         this.date = p.getReleaseDate().toString().substring(0,10);
         this.categoryType = p.getCategory().getType();
-        this.productDetails = new ArrayList<ProductDetailsResponse>();
+        this.productDetails = new ArrayList<>();
         for(ProductDetails pd: p.getProductDetails()){
             this.productDetails.add(new ProductDetailsResponse().build(pd));
         }

@@ -13,7 +13,6 @@ import com.inso2.inso2.repository.UserRepository;
 import com.inso2.inso2.security.JwtUtils;
 import com.inso2.inso2.service.MyUserDetailsService;
 import com.inso2.inso2.service.user.LoadUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
