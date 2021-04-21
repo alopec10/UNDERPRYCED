@@ -58,18 +58,15 @@ public class PaymentMethodController {
                 paymentMethod.setExpYear(Encrypter.encrypt(req.getExpYear()));
                 paymentMethod.setUser(user);
                 paymentMethod.setDefaultMethod(req.isDefaultMethod());
-                paymentMethod.setActive(true);
-                paymentMethodRepository.save(paymentMethod);
-                return ResponseEntity.ok("Payment Method added");
             }
             else {
                 paymentMethod.setCvv(Encrypter.encrypt(req.getCvv()));
                 paymentMethod.setExpMonth(Encrypter.encrypt(req.getExpMonth()));
                 paymentMethod.setExpYear(Encrypter.encrypt(req.getExpYear()));
-                paymentMethod.setActive(true);
-                paymentMethodRepository.save(paymentMethod);
-                return ResponseEntity.ok("Payment Method added");
             }
+            paymentMethod.setActive(true);
+            paymentMethodRepository.save(paymentMethod);
+            return ResponseEntity.ok("Payment Method added");
 
         } catch (Exception e) {
             return new ResponseEntity<>(

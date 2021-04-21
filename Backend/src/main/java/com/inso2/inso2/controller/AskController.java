@@ -31,7 +31,6 @@ public class AskController {
 
     private final ProductDetailsRepository productDetailsRepository;
 
-    private final UserRepository userRepository;
 
     private final AskRepository askRepository;
 
@@ -43,9 +42,8 @@ public class AskController {
 
     private final LoadUserService loadUserService;
 
-    public AskController(ProductDetailsRepository productDetailsRepository, UserRepository userRepository, AskRepository askRepository, ProductRepository productRepository, CreateAskService createAskService, ModifyAskService modifyAskService, LoadUserService loadUserService) {
+    public AskController(ProductDetailsRepository productDetailsRepository, AskRepository askRepository, ProductRepository productRepository, CreateAskService createAskService, ModifyAskService modifyAskService, LoadUserService loadUserService) {
         this.productDetailsRepository = productDetailsRepository;
-        this.userRepository = userRepository;
         this.askRepository = askRepository;
         this.productRepository = productRepository;
         this.createAskService = createAskService;

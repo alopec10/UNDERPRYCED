@@ -37,7 +37,6 @@ public class BidController {
 
     private final ProductDetailsRepository productDetailsRepository;
 
-    private final UserRepository userRepository;
 
     private final BidRepository bidRepository;
 
@@ -49,9 +48,8 @@ public class BidController {
 
     private final LoadUserService loadUserService;
 
-    public BidController(ProductDetailsRepository productDetailsRepository, UserRepository userRepository, BidRepository bidRepository, ProductRepository productRepository, CreateBidService createBidService, ModifyBidService modifyBidService, LoadUserService loadUserService) {
+    public BidController(ProductDetailsRepository productDetailsRepository, BidRepository bidRepository, ProductRepository productRepository, CreateBidService createBidService, ModifyBidService modifyBidService, LoadUserService loadUserService) {
         this.productDetailsRepository = productDetailsRepository;
-        this.userRepository = userRepository;
         this.bidRepository = bidRepository;
         this.productRepository = productRepository;
         this.createBidService = createBidService;
