@@ -12,6 +12,7 @@ import com.inso2.inso2.repository.RoleRepository;
 import com.inso2.inso2.repository.UserRepository;
 import com.inso2.inso2.security.JwtUtils;
 import com.inso2.inso2.service.MyUserDetailsService;
+import com.inso2.inso2.service.user.LoadUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,13 +46,16 @@ public class UserController {
 
     private final RoleRepository roleRepository;
 
-    public UserController(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, JwtUtils jwtTokenUtils, MyUserDetailsService userDetailsService, UserRepository userRepository, RoleRepository roleRepository) {
+    private final LoadUserService loadUserService;
+
+    public UserController(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, JwtUtils jwtTokenUtils, MyUserDetailsService userDetailsService, UserRepository userRepository, RoleRepository roleRepository, LoadUserService loadUserService) {
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenUtils = jwtTokenUtils;
         this.userDetailsService = userDetailsService;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.loadUserService = loadUserService;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -128,9 +132,7 @@ public class UserController {
 
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            UserDetails userDetails = (UserDetails) auth.getPrincipal();
-            String email = userDetails.getUsername();
-            User user = userRepository.findByEmail(email);
+            User user = loadUserService.load(auth);
             if(!user.getName().equals(req.getName())){
                 user.setName(req.getName());
             }
@@ -146,11 +148,9 @@ public class UserController {
             }
             if(user.getAddress() == null || !user.getAddress().equals(req.getAddress())){
                 if (req.getAddress() == null || req.getAddress().isBlank()){
-                    System.out.println("KEKW");
                     user.setAddress(null);
                 }
                 else{
-                    System.out.println("KEKW2");
                     user.setAddress(req.getAddress());
                 }
             }
@@ -192,9 +192,7 @@ public class UserController {
     public ResponseEntity<?> data() throws Exception {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            UserDetails userDetails = (UserDetails) auth.getPrincipal();
-            String email = userDetails.getUsername();
-            User user = userRepository.findByEmail(email);
+            User user = loadUserService.load(auth);
             return ResponseEntity.ok(new UserDataResponse().build(user));
         }
         catch (Exception e) {
