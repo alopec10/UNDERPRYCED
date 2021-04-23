@@ -235,9 +235,10 @@ CREATE TRIGGER modify_highest_bid_after_update
     ON `bids` FOR EACH ROW
 BEGIN
     SET @highestBid = (SELECT HighestBid FROM productDetails WHERE IdProductDetails = NEW.IdProductDetails);
-    IF @highestBid IS NULL OR @highestBid < NEW.Price THEN
+    IF @highestBid IS NULL OR @highestBid < NEW.Price OR @highestBid = OLD.Price THEN
+        SET @newHighestBid = (SELECT MAX(Price) FROM bids WHERE IdProductDetails = NEW.IdProductDetails);
         UPDATE productDetails
-        SET HighestBid = NEW.Price
+        SET HighestBid = @newHighestBid
         WHERE IdProductDetails = NEW.IdProductDetails;
     END IF;
 END ^;
