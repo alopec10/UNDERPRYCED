@@ -191,9 +191,10 @@ CREATE TRIGGER modify_lowest_ask_after_update
     ON `asks` FOR EACH ROW
 BEGIN
     SET @lowestAsk = (SELECT LowestAsk FROM productDetails WHERE IdProductDetails = NEW.IdProductDetails);
-    IF @lowestAsk IS NULL OR @lowestAsk > NEW.Price THEN
+    IF @lowestAsk IS NULL OR @lowestAsk = OLD.Price OR @lowestAsk > NEW.Price THEN
+        SET @newLowestAsk = (SELECT MIN(Price) FROM asks WHERE IdProductDetails = NEW.IdProductDetails);
         UPDATE productDetails
-        SET LowestAsk = NEW.Price
+        SET LowestAsk = @newLowestAsk
         WHERE IdProductDetails = NEW.IdProductDetails;
     END IF;
 END ^;
