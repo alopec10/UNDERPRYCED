@@ -5,12 +5,9 @@ import com.inso2.inso2.model.PaymentMethod;
 import com.inso2.inso2.model.User;
 import com.inso2.inso2.repository.PaymentMethodRepository;
 import com.inso2.inso2.security.Encrypter;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

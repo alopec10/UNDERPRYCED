@@ -7,6 +7,7 @@ import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.PaymentMethodRepository;
 import com.inso2.inso2.security.Encrypter;
 import com.inso2.inso2.service.paymentMethod.CreatePaymentMethodService;
+import com.inso2.inso2.service.paymentMethod.GetAllPaymentMethodsService;
 import com.inso2.inso2.service.user.LoadUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,11 +32,14 @@ public class PaymentMethodController {
 
     private final CreatePaymentMethodService createPaymentMethodService;
 
-    public PaymentMethodController(Encrypter encrypter, LoadUserService loadUserService, PaymentMethodRepository paymentMethodRepository, CreatePaymentMethodService createPaymentMethodService) {
+    private final GetAllPaymentMethodsService getAllPaymentMethodsService;
+
+    public PaymentMethodController(Encrypter encrypter, LoadUserService loadUserService, PaymentMethodRepository paymentMethodRepository, CreatePaymentMethodService createPaymentMethodService, GetAllPaymentMethodsService getAllPaymentMethodsService) {
         this.encrypter = encrypter;
         this.loadUserService = loadUserService;
         this.paymentMethodRepository = paymentMethodRepository;
         this.createPaymentMethodService = createPaymentMethodService;
+        this.getAllPaymentMethodsService = getAllPaymentMethodsService;
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -57,21 +61,7 @@ public class PaymentMethodController {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            List<PaymentMethod> paymentMethods = paymentMethodRepository.findByUserAndIsActive(user, true);
-            ArrayList<PaymentMethodResponse> paymentMethodsResponse = new ArrayList<>();
-            for (PaymentMethod p : paymentMethods) {
-                PaymentMethodResponse pr = new PaymentMethodResponse();
-                pr.setIdPayMethod(p.getIdPayMethod());
-                pr.setName(p.getName());
-                pr.setDefaultMethod(p.isDefaultMethod());
-                pr.setExpMonth(Encrypter.decrypt(p.getExpMonth()));
-                pr.setExpYear(Encrypter.decrypt(p.getExpYear()));
-                String num = Encrypter.decrypt(p.getNumber());
-                num = num.substring(12);
-                pr.setNumber(num);
-                paymentMethodsResponse.add(pr);
-            }
-            return ResponseEntity.ok(paymentMethodsResponse);
+            return ResponseEntity.ok(getAllPaymentMethodsService.get(user));
         } catch (Exception e) {
             return new ResponseEntity<>(
                     e.getMessage(),
