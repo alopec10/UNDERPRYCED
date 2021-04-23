@@ -10,6 +10,7 @@ import com.inso2.inso2.repository.BidRepository;
 import com.inso2.inso2.repository.ProductDetailsRepository;
 import com.inso2.inso2.repository.ProductRepository;
 import com.inso2.inso2.service.bid.CreateBidService;
+import com.inso2.inso2.service.bid.DeleteBidService;
 import com.inso2.inso2.service.bid.ModifyBidService;
 import com.inso2.inso2.service.user.LoadUserService;
 import org.springframework.http.HttpStatus;
@@ -40,13 +41,16 @@ public class BidController {
 
     private final LoadUserService loadUserService;
 
-    public BidController(ProductDetailsRepository productDetailsRepository, BidRepository bidRepository, ProductRepository productRepository, CreateBidService createBidService, ModifyBidService modifyBidService, LoadUserService loadUserService) {
+    private final DeleteBidService deleteBidService;
+
+    public BidController(ProductDetailsRepository productDetailsRepository, BidRepository bidRepository, ProductRepository productRepository, CreateBidService createBidService, ModifyBidService modifyBidService, LoadUserService loadUserService, DeleteBidService deleteBidService) {
         this.productDetailsRepository = productDetailsRepository;
         this.bidRepository = bidRepository;
         this.productRepository = productRepository;
         this.createBidService = createBidService;
         this.modifyBidService = modifyBidService;
         this.loadUserService = loadUserService;
+        this.deleteBidService = deleteBidService;
     }
 
     @RequestMapping(value = "/make", method = RequestMethod.POST)
@@ -76,14 +80,7 @@ public class BidController {
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            ProductDetails productDetails = productDetailsRepository.findByIdProductDetails(req.getIdProductDetails());
-            Bid bid = bidRepository.findByUserAndProductDetails(user, productDetails);
-            if (bid == null){
-                return new ResponseEntity<>(
-                        "The bid doesn't exist",
-                        HttpStatus.SERVICE_UNAVAILABLE);
-            }
-            bidRepository.deleteById(bid.getIdBid());
+            deleteBidService.delete(req, user);
             return ResponseEntity.ok("Bid deleted");
         }catch(Exception e){
             return new ResponseEntity<>(
