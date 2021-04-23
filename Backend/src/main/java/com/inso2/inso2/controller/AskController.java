@@ -10,6 +10,7 @@ import com.inso2.inso2.repository.AskRepository;
 import com.inso2.inso2.repository.ProductDetailsRepository;
 import com.inso2.inso2.repository.ProductRepository;
 import com.inso2.inso2.service.ask.CreateAskService;
+import com.inso2.inso2.service.ask.DeleteAskService;
 import com.inso2.inso2.service.ask.ModifyAskService;
 import com.inso2.inso2.service.user.LoadUserService;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,6 @@ public class AskController {
 
     private final ProductDetailsRepository productDetailsRepository;
 
-
     private final AskRepository askRepository;
 
     private final ProductRepository productRepository;
@@ -40,13 +40,16 @@ public class AskController {
 
     private final LoadUserService loadUserService;
 
-    public AskController(ProductDetailsRepository productDetailsRepository, AskRepository askRepository, ProductRepository productRepository, CreateAskService createAskService, ModifyAskService modifyAskService, LoadUserService loadUserService) {
+    private final DeleteAskService deleteAskService;
+
+    public AskController(ProductDetailsRepository productDetailsRepository, AskRepository askRepository, ProductRepository productRepository, CreateAskService createAskService, ModifyAskService modifyAskService, LoadUserService loadUserService, DeleteAskService deleteAskService) {
         this.productDetailsRepository = productDetailsRepository;
         this.askRepository = askRepository;
         this.productRepository = productRepository;
         this.createAskService = createAskService;
         this.modifyAskService = modifyAskService;
         this.loadUserService = loadUserService;
+        this.deleteAskService = deleteAskService;
     }
 
     @RequestMapping(value = "/make", method = RequestMethod.POST)
@@ -76,14 +79,7 @@ public class AskController {
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            ProductDetails productDetails = productDetailsRepository.findByIdProductDetails(req.getIdProductDetails());
-            Ask ask = askRepository.findByUserAndProductDetails(user, productDetails);
-            if(ask == null){
-                return new ResponseEntity<>(
-                        "The ask doesn't exist",
-                        HttpStatus.SERVICE_UNAVAILABLE);
-            }
-            askRepository.deleteById(ask.getIdAsk());
+            deleteAskService.delete(req, user);
             return ResponseEntity.ok("Ask deleted");
         }catch(Exception e){
             return new ResponseEntity<>(
