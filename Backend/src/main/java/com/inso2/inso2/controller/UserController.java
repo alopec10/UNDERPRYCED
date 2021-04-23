@@ -14,6 +14,7 @@ import com.inso2.inso2.security.JwtUtils;
 import com.inso2.inso2.service.MyUserDetailsService;
 import com.inso2.inso2.service.user.LoadUserService;
 import com.inso2.inso2.service.user.RegisterUserService;
+import com.inso2.inso2.service.user.UpdateUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -50,7 +51,9 @@ public class UserController {
 
     private final RegisterUserService registerUserService;
 
-    public UserController(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, JwtUtils jwtTokenUtils, MyUserDetailsService userDetailsService, UserRepository userRepository, RoleRepository roleRepository, LoadUserService loadUserService, RegisterUserService registerUserService) {
+    private final UpdateUserService updateUserService;
+
+    public UserController(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, JwtUtils jwtTokenUtils, MyUserDetailsService userDetailsService, UserRepository userRepository, RoleRepository roleRepository, LoadUserService loadUserService, RegisterUserService registerUserService, UpdateUserService updateUserService) {
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenUtils = jwtTokenUtils;
@@ -59,6 +62,7 @@ public class UserController {
         this.roleRepository = roleRepository;
         this.loadUserService = loadUserService;
         this.registerUserService = registerUserService;
+        this.updateUserService = updateUserService;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -106,52 +110,7 @@ public class UserController {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            if(!user.getName().equals(req.getName())){
-                user.setName(req.getName());
-            }
-            if(!user.getSurname().equals(req.getSurname())){
-                user.setSurname(req.getSurname());
-            }
-            if(!user.getEmail().equals(req.getEmail())){
-                user.setEmail(req.getEmail());
-            }
-            String new_pass = passwordEncoder.encode(req.getPassword());
-            if(req.getPassword() != null && !req.getPassword().equals("") && !user.getPassword().equals(new_pass)){
-                user.setPassword(new_pass);
-            }
-            if(user.getAddress() == null || !user.getAddress().equals(req.getAddress())){
-                if (req.getAddress() == null || req.getAddress().isBlank()){
-                    user.setAddress(null);
-                }
-                else{
-                    user.setAddress(req.getAddress());
-                }
-            }
-            if(user.getCountry() == null || !user.getCountry().equals(req.getCountry())){
-                if (req.getCountry() == null || req.getCountry().isBlank()){
-                    user.setCountry(null);
-                }
-                else{
-                    user.setCountry(req.getCountry());
-                }
-            }
-            if(user.getZipCode() == null || !user.getZipCode().equals(req.getZipCode())){
-                if (req.getZipCode() == null || req.getZipCode().isBlank()){
-                    user.setZipCode(null);
-                }
-                else{
-                    user.setZipCode(req.getZipCode());
-                }
-            }
-            if(user.getPhoneNumber() == null || !user.getPhoneNumber().equals(req.getPhoneNumber())){
-                if (req.getPhoneNumber() == null || req.getPhoneNumber().isBlank()){
-                    user.setPhoneNumber(null);
-                }
-                else{
-                    user.setPhoneNumber(req.getPhoneNumber());
-                }
-            }
-            userRepository.save(user);
+            updateUserService.update(req, user);
             return ResponseEntity.ok("User updated");
         }
         catch (Exception e) {
