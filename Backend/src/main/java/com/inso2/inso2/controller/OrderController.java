@@ -5,6 +5,7 @@ import com.inso2.inso2.dto.order.create.CreateOrderSellRequest;
 import com.inso2.inso2.dto.order.get.GetOrderInformationResponse;
 import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.*;
+import com.inso2.inso2.service.order.CreateBuyService;
 import com.inso2.inso2.service.user.LoadUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +31,9 @@ public class OrderController {
     private final PaymentMethodRepository paymentMethodRepository;
     private final AskRepository askRepository;
     private final BidRepository bidRepository;
+    private final CreateBuyService createBuyService;
 
-    public OrderController(OrderRepository orderRepository, LoadUserService loadUserService, ProductRepository productRepository, ProductDetailsRepository productDetailsRepository, PaymentMethodRepository paymentMethodRepository, AskRepository askRepository, BidRepository bidRepository) {
+    public OrderController(OrderRepository orderRepository, LoadUserService loadUserService, ProductRepository productRepository, ProductDetailsRepository productDetailsRepository, PaymentMethodRepository paymentMethodRepository, AskRepository askRepository, BidRepository bidRepository, CreateBuyService createBuyService) {
         this.orderRepository = orderRepository;
         this.loadUserService = loadUserService;
         this.productRepository = productRepository;
@@ -39,6 +41,7 @@ public class OrderController {
         this.paymentMethodRepository = paymentMethodRepository;
         this.askRepository = askRepository;
         this.bidRepository = bidRepository;
+        this.createBuyService = createBuyService;
     }
 
     @RequestMapping(value = "/createBuy", method = RequestMethod.POST)
@@ -46,20 +49,7 @@ public class OrderController {
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            Product product = productRepository.findByRef(req.getRef());
-            ProductDetails productDetails = productDetailsRepository.findByProductAndSize(product, req.getSize());
-            Ask ask = askRepository.findFirstByProductDetailsAndPriceOrderByIdAskAsc(productDetails, productDetails.getLowestAsk());
-
-            if(ask.getUser().equals(user)){
-                return new ResponseEntity<>(
-                        "It's not possible to buy your own product",
-                        HttpStatus.SERVICE_UNAVAILABLE);
-            }
-            PaymentMethod buyerPaymentMethod = paymentMethodRepository.findByUserAndIdPayMethod(user, req.getIdPayMethod());
-            PaymentMethod sellerPaymentMethod = paymentMethodRepository.findFirstByUserAndIsActiveOrderByIdPayMethodAsc(ask.getUser(), true);
-            Order order = new Order(UUID.randomUUID().toString(),ask.getPrice(),new Date(),user, ask.getUser(), productDetails, buyerPaymentMethod, sellerPaymentMethod);
-            orderRepository.saveAndFlush(order);
-            askRepository.deleteById(ask.getIdAsk());
+            createBuyService.create(req, user);
             return ResponseEntity.ok("Order created");
         }
         catch(Exception e){
