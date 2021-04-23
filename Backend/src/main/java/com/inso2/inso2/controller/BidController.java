@@ -4,13 +4,13 @@ import com.inso2.inso2.dto.ask.getAll.GetAllAsksRequest;
 import com.inso2.inso2.dto.bid.BidRequest;
 import com.inso2.inso2.dto.bid.GetAllBidsByUserResponse;
 import com.inso2.inso2.dto.bid.delete.DeleteBidRequest;
+import com.inso2.inso2.dto.bid.getAll.GetAllBidsRequest;
 import com.inso2.inso2.dto.bid.getAll.GetAllBidsResponse;
 import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.BidRepository;
 import com.inso2.inso2.repository.ProductDetailsRepository;
 import com.inso2.inso2.repository.ProductRepository;
-import com.inso2.inso2.service.bid.CreateBidService;
-import com.inso2.inso2.service.bid.ModifyBidService;
+import com.inso2.inso2.service.bid.*;
 import com.inso2.inso2.service.user.LoadUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,26 +27,22 @@ import java.util.*;
 @RequestMapping("/bid")
 public class BidController {
 
-    private final ProductDetailsRepository productDetailsRepository;
-
-
-    private final BidRepository bidRepository;
-
-    private final ProductRepository productRepository;
-
-    private final CreateBidService createBidService;
-
-    private final ModifyBidService modifyBidService;
-
     private final LoadUserService loadUserService;
 
-    public BidController(ProductDetailsRepository productDetailsRepository, BidRepository bidRepository, ProductRepository productRepository, CreateBidService createBidService, ModifyBidService modifyBidService, LoadUserService loadUserService) {
-        this.productDetailsRepository = productDetailsRepository;
-        this.bidRepository = bidRepository;
-        this.productRepository = productRepository;
-        this.createBidService = createBidService;
-        this.modifyBidService = modifyBidService;
+    private final DeleteBidService deleteBidService;
+
+    private final GetBidsOfProductService getBidsOfProductService;
+
+    private final GetBidsOfUserService getBidsOfUserService;
+
+    private final CreateOrModifyBidService createOrModifyBidService;
+
+    public BidController(LoadUserService loadUserService, DeleteBidService deleteBidService, GetBidsOfProductService getBidsOfProductService, GetBidsOfUserService getBidsOfUserService, CreateOrModifyBidService createOrModifyBidService) {
         this.loadUserService = loadUserService;
+        this.deleteBidService = deleteBidService;
+        this.getBidsOfProductService = getBidsOfProductService;
+        this.getBidsOfUserService = getBidsOfUserService;
+        this.createOrModifyBidService = createOrModifyBidService;
     }
 
     @RequestMapping(value = "/make", method = RequestMethod.POST)
@@ -54,16 +50,7 @@ public class BidController {
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            Product product = productRepository.findByRef(req.getRef());
-            ProductDetails productDetails = productDetailsRepository.findByProductAndSize(product, req.getSize());
-            Bid bid = bidRepository.findByUserAndProductDetails(user, productDetails);
-            if (bid == null){
-                return createBidService.create(req.getPrice(), user, productDetails);
-            }
-            else {
-                return modifyBidService.modify(req.getPrice(), productDetails, bid);
-            }
-
+            return ResponseEntity.ok(createOrModifyBidService.createOrModify(req, user));
         }catch(Exception e){
             return new ResponseEntity<>(
                     e.getMessage(),
@@ -76,14 +63,7 @@ public class BidController {
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            ProductDetails productDetails = productDetailsRepository.findByIdProductDetails(req.getIdProductDetails());
-            Bid bid = bidRepository.findByUserAndProductDetails(user, productDetails);
-            if (bid == null){
-                return new ResponseEntity<>(
-                        "The bid doesn't exist",
-                        HttpStatus.SERVICE_UNAVAILABLE);
-            }
-            bidRepository.deleteById(bid.getIdBid());
+            deleteBidService.delete(req, user);
             return ResponseEntity.ok("Bid deleted");
         }catch(Exception e){
             return new ResponseEntity<>(
@@ -93,17 +73,9 @@ public class BidController {
     }
 
     @RequestMapping(value = "/getAll", method = RequestMethod.POST)
-    public ResponseEntity<?> getAll(@RequestBody GetAllAsksRequest req){
+    public ResponseEntity<?> getAll(@RequestBody GetAllBidsRequest req){
         try{
-            Product product = productRepository.findByRef(req.getRef());
-            ProductDetails productDetails = productDetailsRepository.findByProductAndSize(product, req.getSize());
-            List<Integer> prices = bidRepository.findPriceByProductDetails(productDetails);
-            Set<Integer> mySet = new HashSet<>(prices);
-            List<GetAllBidsResponse> asks = new ArrayList<>();
-            for(Integer i: mySet){
-                asks.add(new GetAllBidsResponse(i, Collections.frequency(prices,i)));
-            }
-            return ResponseEntity.ok(asks);
+            return ResponseEntity.ok(getBidsOfProductService.get(req));
         }
         catch(Exception e){
             return new ResponseEntity<>(
@@ -117,12 +89,7 @@ public class BidController {
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            List<Bid> bids = bidRepository.findByUser(user);
-            List<GetAllBidsByUserResponse> bresp = new ArrayList<>();
-            for(Bid b: bids){
-                bresp.add(new GetAllBidsByUserResponse().build(b));
-            }
-            return ResponseEntity.ok(bresp);
+            return ResponseEntity.ok(getBidsOfUserService.get(user));
         }
         catch(Exception e){
             return new ResponseEntity<>(

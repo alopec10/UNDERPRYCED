@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.List;
@@ -29,6 +31,8 @@ public class User {
 
     @Size(min = 5, max = 30)
     @Column(name = "Email", length = 30, nullable = false)
+    @Email
+    @NotBlank
     private String email;
 
     @Size(min = 1, max = 100)

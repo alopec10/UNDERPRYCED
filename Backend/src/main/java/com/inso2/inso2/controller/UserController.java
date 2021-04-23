@@ -12,7 +12,10 @@ import com.inso2.inso2.repository.RoleRepository;
 import com.inso2.inso2.repository.UserRepository;
 import com.inso2.inso2.security.JwtUtils;
 import com.inso2.inso2.service.MyUserDetailsService;
+import com.inso2.inso2.service.user.GenerateAuthenticationTokenService;
 import com.inso2.inso2.service.user.LoadUserService;
+import com.inso2.inso2.service.user.RegisterUserService;
+import com.inso2.inso2.service.user.UpdateUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,73 +38,33 @@ public class UserController {
 
     private final AuthenticationManager authenticationManager;
 
-    private final PasswordEncoder passwordEncoder;
-
-    private final JwtUtils jwtTokenUtils;
-
-    private final MyUserDetailsService userDetailsService;
-
-    private final UserRepository userRepository;
-
-    private final RoleRepository roleRepository;
-
     private final LoadUserService loadUserService;
 
-    public UserController(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, JwtUtils jwtTokenUtils, MyUserDetailsService userDetailsService, UserRepository userRepository, RoleRepository roleRepository, LoadUserService loadUserService) {
+    private final RegisterUserService registerUserService;
+
+    private final UpdateUserService updateUserService;
+
+    private final GenerateAuthenticationTokenService generateAuthenticationTokenService;
+
+    public UserController(AuthenticationManager authenticationManager, LoadUserService loadUserService, RegisterUserService registerUserService, UpdateUserService updateUserService, GenerateAuthenticationTokenService generateAuthenticationTokenService) {
         this.authenticationManager = authenticationManager;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtTokenUtils = jwtTokenUtils;
-        this.userDetailsService = userDetailsService;
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
         this.loadUserService = loadUserService;
+        this.registerUserService = registerUserService;
+        this.updateUserService = updateUserService;
+        this.generateAuthenticationTokenService = generateAuthenticationTokenService;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> register(@RequestBody RegisterRequest req) throws Exception {
         try {
-           User u = new User();
-           u.setName(req.getName());
-           u.setSurname(req.getSurname());
-           u.setEmail(req.getEmail());
-           u.setPassword(passwordEncoder.encode(req.getPassword()));
-           u.setAddress(req.getAddress());
-           u.setCountry(req.getCountry());
-           u.setZipCode(req.getZipCode());
-           u.setPhoneNumber(req.getPhoneNumber());
-           Set<String> strRoles = req.getRole();
-           Set<Role> roles = new HashSet<>();
-            if (strRoles == null) {
-                Role userRole = roleRepository.findByName(RoleName.ROLE_USER);
-                roles.add(userRole);
-            }
-            else {
-                strRoles.forEach(role -> {
-                    if (role.equals("admin")) {
-                        Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN);
-                        roles.add(adminRole);
-
-                    }
-                    else {
-                            Role userRole = roleRepository.findByName(RoleName.ROLE_USER);
-                            roles.add(userRole);
-                    }
-                });
-            }
-            u.setRoles(roles);
-           userRepository.save(u);
+           registerUserService.register(req);
+            return ResponseEntity.ok(generateAuthenticationTokenService.generate(req.getEmail()));
         }
         catch (Exception e){
             return new ResponseEntity<>(
-                    "Cannot register, email just registered",
+                    "Cannot register, validation problems",
                     HttpStatus.CONFLICT);
         }
-        final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(req.getEmail());
-
-        final String jwt = jwtTokenUtils.generateToken(userDetails);
-
-        return ResponseEntity.ok(new AuthenticationResponse(jwt, userDetails.getAuthorities().iterator().next()));
     }
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
@@ -111,19 +74,13 @@ public class UserController {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword())
             );
+            return ResponseEntity.ok(generateAuthenticationTokenService.generate(authenticationRequest.getEmail()));
         }
         catch (Exception e) {
             return new ResponseEntity<>(
                     "Invalid username or password",
                     HttpStatus.UNAUTHORIZED);
         }
-
-        final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(authenticationRequest.getEmail());
-
-        final String jwt = jwtTokenUtils.generateToken(userDetails);
-
-        return ResponseEntity.ok(new AuthenticationResponse(jwt, userDetails.getAuthorities().iterator().next()));
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -132,52 +89,7 @@ public class UserController {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            if(!user.getName().equals(req.getName())){
-                user.setName(req.getName());
-            }
-            if(!user.getSurname().equals(req.getSurname())){
-                user.setSurname(req.getSurname());
-            }
-            if(!user.getEmail().equals(req.getEmail())){
-                user.setEmail(req.getEmail());
-            }
-            String new_pass = passwordEncoder.encode(req.getPassword());
-            if(req.getPassword() != null && !req.getPassword().equals("") && !user.getPassword().equals(new_pass)){
-                user.setPassword(new_pass);
-            }
-            if(user.getAddress() == null || !user.getAddress().equals(req.getAddress())){
-                if (req.getAddress() == null || req.getAddress().isBlank()){
-                    user.setAddress(null);
-                }
-                else{
-                    user.setAddress(req.getAddress());
-                }
-            }
-            if(user.getCountry() == null || !user.getCountry().equals(req.getCountry())){
-                if (req.getCountry() == null || req.getCountry().isBlank()){
-                    user.setCountry(null);
-                }
-                else{
-                    user.setCountry(req.getCountry());
-                }
-            }
-            if(user.getZipCode() == null || !user.getZipCode().equals(req.getZipCode())){
-                if (req.getZipCode() == null || req.getZipCode().isBlank()){
-                    user.setZipCode(null);
-                }
-                else{
-                    user.setZipCode(req.getZipCode());
-                }
-            }
-            if(user.getPhoneNumber() == null || !user.getPhoneNumber().equals(req.getPhoneNumber())){
-                if (req.getPhoneNumber() == null || req.getPhoneNumber().isBlank()){
-                    user.setPhoneNumber(null);
-                }
-                else{
-                    user.setPhoneNumber(req.getPhoneNumber());
-                }
-            }
-            userRepository.save(user);
+            updateUserService.update(req, user);
             return ResponseEntity.ok("User updated");
         }
         catch (Exception e) {

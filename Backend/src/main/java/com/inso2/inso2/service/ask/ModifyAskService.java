@@ -15,15 +15,18 @@ public class ModifyAskService {
         this.askRepository = askRepository;
     }
 
-    public ResponseEntity<?> modify (int price, ProductDetails productDetails, Ask ask) {
+    public void modify (int price, ProductDetails productDetails, Ask ask) throws Exception{
         if(productDetails.getHighestBid() != null && productDetails.getHighestBid() >= price){
-            // IMPORTANT TO DETERMINE THE STRATEGY IN THIS SPECIFIC CASE
-            return new ResponseEntity<>(
-                    "It's not possible to make an ask lower than the highest bid",
-                    HttpStatus.SERVICE_UNAVAILABLE);
+            throw new Exception("It's not possible to make an ask lower than the highest bid");
+        }
+        if(!this.isPriceValid(price)){
+            throw new Exception("Price must be a positive integer number");
         }
         ask.setPrice(price);
         askRepository.saveAndFlush(ask);
-        return ResponseEntity.ok("Ask modified");
+    }
+
+    private boolean isPriceValid(int price){
+        return price > 0;
     }
 }

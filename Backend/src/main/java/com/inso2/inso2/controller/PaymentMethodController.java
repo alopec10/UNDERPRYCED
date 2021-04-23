@@ -6,6 +6,10 @@ import com.inso2.inso2.dto.user.payment.PaymentMethodResponse;
 import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.PaymentMethodRepository;
 import com.inso2.inso2.security.Encrypter;
+import com.inso2.inso2.service.paymentMethod.CompletelyDeletePaymentMethodService;
+import com.inso2.inso2.service.paymentMethod.CreatePaymentMethodService;
+import com.inso2.inso2.service.paymentMethod.DeletePaymentMethodService;
+import com.inso2.inso2.service.paymentMethod.GetAllPaymentMethodsService;
 import com.inso2.inso2.service.user.LoadUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,16 +26,23 @@ import java.util.List;
 @RestController
 @RequestMapping("/payMethod")
 public class PaymentMethodController {
-    private Encrypter encrypter;
 
     private final LoadUserService loadUserService;
 
-    private final PaymentMethodRepository paymentMethodRepository;
+    private final CreatePaymentMethodService createPaymentMethodService;
 
-    public PaymentMethodController(Encrypter encrypter, LoadUserService loadUserService, PaymentMethodRepository paymentMethodRepository) {
-        this.encrypter = encrypter;
+    private final GetAllPaymentMethodsService getAllPaymentMethodsService;
+
+    private final DeletePaymentMethodService deletePaymentMethodService;
+
+    private final CompletelyDeletePaymentMethodService completelyDeletePaymentMethodService;
+
+    public PaymentMethodController(LoadUserService loadUserService, CreatePaymentMethodService createPaymentMethodService, GetAllPaymentMethodsService getAllPaymentMethodsService, DeletePaymentMethodService deletePaymentMethodService, CompletelyDeletePaymentMethodService completelyDeletePaymentMethodService) {
         this.loadUserService = loadUserService;
-        this.paymentMethodRepository = paymentMethodRepository;
+        this.createPaymentMethodService = createPaymentMethodService;
+        this.getAllPaymentMethodsService = getAllPaymentMethodsService;
+        this.deletePaymentMethodService = deletePaymentMethodService;
+        this.completelyDeletePaymentMethodService = completelyDeletePaymentMethodService;
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -39,32 +50,8 @@ public class PaymentMethodController {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-
-            if (req.getNumber().length() != 16) {
-                return new ResponseEntity<>(
-                        "16 digits required",
-                        HttpStatus.SERVICE_UNAVAILABLE);
-            }
-            PaymentMethod paymentMethod = paymentMethodRepository.findByUserAndNumber(user, Encrypter.encrypt(req.getNumber()));
-            if (paymentMethod == null) {
-                paymentMethod = new PaymentMethod();
-                paymentMethod.setName(req.getName());
-                paymentMethod.setNumber(Encrypter.encrypt(req.getNumber()));
-                paymentMethod.setCvv(Encrypter.encrypt(req.getCvv()));
-                paymentMethod.setExpMonth(Encrypter.encrypt(req.getExpMonth()));
-                paymentMethod.setExpYear(Encrypter.encrypt(req.getExpYear()));
-                paymentMethod.setUser(user);
-                paymentMethod.setDefaultMethod(req.isDefaultMethod());
-            }
-            else {
-                paymentMethod.setCvv(Encrypter.encrypt(req.getCvv()));
-                paymentMethod.setExpMonth(Encrypter.encrypt(req.getExpMonth()));
-                paymentMethod.setExpYear(Encrypter.encrypt(req.getExpYear()));
-            }
-            paymentMethod.setActive(true);
-            paymentMethodRepository.save(paymentMethod);
+            createPaymentMethodService.create(req, user);
             return ResponseEntity.ok("Payment Method added");
-
         } catch (Exception e) {
             return new ResponseEntity<>(
                     e.getMessage(),
@@ -77,21 +64,7 @@ public class PaymentMethodController {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            List<PaymentMethod> paymentMethods = paymentMethodRepository.findByUserAndIsActive(user, true);
-            ArrayList<PaymentMethodResponse> paymentMethodsResponse = new ArrayList<>();
-            for (PaymentMethod p : paymentMethods) {
-                PaymentMethodResponse pr = new PaymentMethodResponse();
-                pr.setIdPayMethod(p.getIdPayMethod());
-                pr.setName(p.getName());
-                pr.setDefaultMethod(p.isDefaultMethod());
-                pr.setExpMonth(Encrypter.decrypt(p.getExpMonth()));
-                pr.setExpYear(Encrypter.decrypt(p.getExpYear()));
-                String num = Encrypter.decrypt(p.getNumber());
-                num = num.substring(12);
-                pr.setNumber(num);
-                paymentMethodsResponse.add(pr);
-            }
-            return ResponseEntity.ok(paymentMethodsResponse);
+            return ResponseEntity.ok(getAllPaymentMethodsService.get(user));
         } catch (Exception e) {
             return new ResponseEntity<>(
                     e.getMessage(),
@@ -104,14 +77,7 @@ public class PaymentMethodController {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            PaymentMethod p = paymentMethodRepository.findByUserAndIdPayMethod(user, req.getIdPaymentMethod());
-            if (p == null) {
-                return new ResponseEntity<>(
-                        "Payment method does not exist",
-                        HttpStatus.SERVICE_UNAVAILABLE);
-            }
-            p.setActive(false);
-            paymentMethodRepository.saveAndFlush(p);
+            deletePaymentMethodService.delete(req, user);
             return ResponseEntity.ok("Payment method deleted");
         } catch (Exception e) {
             return new ResponseEntity<>(
@@ -125,14 +91,8 @@ public class PaymentMethodController {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            PaymentMethod p = paymentMethodRepository.findByUserAndIdPayMethod(user, req.getIdPaymentMethod());
-            if (p == null) {
-                return new ResponseEntity<>(
-                        "Payment method does not exist",
-                        HttpStatus.SERVICE_UNAVAILABLE);
-            }
-            paymentMethodRepository.deleteById(p.getIdPayMethod());
-            return ResponseEntity.ok("Payment method deleted");
+            completelyDeletePaymentMethodService.delete(req, user);
+            return ResponseEntity.ok("Payment method completely deleted");
         } catch (Exception e) {
             return new ResponseEntity<>(
                     e.getMessage(),

@@ -9,8 +9,7 @@ import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.AskRepository;
 import com.inso2.inso2.repository.ProductDetailsRepository;
 import com.inso2.inso2.repository.ProductRepository;
-import com.inso2.inso2.service.ask.CreateAskService;
-import com.inso2.inso2.service.ask.ModifyAskService;
+import com.inso2.inso2.service.ask.*;
 import com.inso2.inso2.service.user.LoadUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,26 +26,22 @@ import java.util.*;
 @RequestMapping("/ask")
 public class AskController {
 
-    private final ProductDetailsRepository productDetailsRepository;
-
-
-    private final AskRepository askRepository;
-
-    private final ProductRepository productRepository;
-
-    private final CreateAskService createAskService;
-
-    private final ModifyAskService modifyAskService;
-
     private final LoadUserService loadUserService;
 
-    public AskController(ProductDetailsRepository productDetailsRepository, AskRepository askRepository, ProductRepository productRepository, CreateAskService createAskService, ModifyAskService modifyAskService, LoadUserService loadUserService) {
-        this.productDetailsRepository = productDetailsRepository;
-        this.askRepository = askRepository;
-        this.productRepository = productRepository;
-        this.createAskService = createAskService;
-        this.modifyAskService = modifyAskService;
+    private final DeleteAskService deleteAskService;
+
+    private final GetAsksOfProductService getAsksOfProductService;
+
+    private final GetAsksOfUserService getAsksOfUserService;
+
+    private final CreateOrModifyAskService createOrModifyAskService;
+
+    public AskController(LoadUserService loadUserService, DeleteAskService deleteAskService, GetAsksOfProductService getAsksOfProductService, GetAsksOfUserService getAsksOfUserService, CreateOrModifyAskService createOrModifyAskService) {
         this.loadUserService = loadUserService;
+        this.deleteAskService = deleteAskService;
+        this.getAsksOfProductService = getAsksOfProductService;
+        this.getAsksOfUserService = getAsksOfUserService;
+        this.createOrModifyAskService = createOrModifyAskService;
     }
 
     @RequestMapping(value = "/make", method = RequestMethod.POST)
@@ -54,15 +49,7 @@ public class AskController {
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            Product product = productRepository.findByRef(req.getRef());
-            ProductDetails productDetails = productDetailsRepository.findByProductAndSize(product, req.getSize());
-            Ask ask = askRepository.findByUserAndProductDetails(user, productDetails);
-            if(ask == null){
-                return createAskService.create(req.getPrice(), user, productDetails);
-            }
-            else {
-                return modifyAskService.modify(req.getPrice(), productDetails, ask);
-            }
+            return ResponseEntity.ok(createOrModifyAskService.createOrModify(req, user));
         }catch(Exception e){
             return new ResponseEntity<>(
                     e.getMessage(),
@@ -76,14 +63,7 @@ public class AskController {
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            ProductDetails productDetails = productDetailsRepository.findByIdProductDetails(req.getIdProductDetails());
-            Ask ask = askRepository.findByUserAndProductDetails(user, productDetails);
-            if(ask == null){
-                return new ResponseEntity<>(
-                        "The ask doesn't exist",
-                        HttpStatus.SERVICE_UNAVAILABLE);
-            }
-            askRepository.deleteById(ask.getIdAsk());
+            deleteAskService.delete(req, user);
             return ResponseEntity.ok("Ask deleted");
         }catch(Exception e){
             return new ResponseEntity<>(
@@ -95,15 +75,7 @@ public class AskController {
     @RequestMapping(value = "/getAll", method = RequestMethod.POST)
     public ResponseEntity<?> getAll(@RequestBody GetAllAsksRequest req){
         try{
-            Product product = productRepository.findByRef(req.getRef());
-            ProductDetails productDetails = productDetailsRepository.findByProductAndSize(product, req.getSize());
-            List<Integer> prices = askRepository.findPriceByProductDetails(productDetails);
-            Set<Integer> mySet = new HashSet<>(prices);
-            List<GetAllAsksResponse> asks = new ArrayList<>();
-            for(Integer i: mySet){
-                asks.add(new GetAllAsksResponse(i, Collections.frequency(prices,i)));
-            }
-            return ResponseEntity.ok(asks);
+            return ResponseEntity.ok(getAsksOfProductService.get(req));
         }
         catch(Exception e){
             return new ResponseEntity<>(
@@ -117,12 +89,7 @@ public class AskController {
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            List<Ask> asks = askRepository.findByUser(user);
-            List<GetAllAsksByUserResponse> aresp = new ArrayList<>();
-            for(Ask a: asks){
-                aresp.add(new GetAllAsksByUserResponse().build(a));
-            }
-            return ResponseEntity.ok(aresp);
+            return ResponseEntity.ok(getAsksOfUserService.get(user));
         }
         catch(Exception e){
             return new ResponseEntity<>(

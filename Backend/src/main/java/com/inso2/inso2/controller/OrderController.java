@@ -5,6 +5,10 @@ import com.inso2.inso2.dto.order.create.CreateOrderSellRequest;
 import com.inso2.inso2.dto.order.get.GetOrderInformationResponse;
 import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.*;
+import com.inso2.inso2.service.order.CreateBuyService;
+import com.inso2.inso2.service.order.CreateSellService;
+import com.inso2.inso2.service.order.GetPurchasesOfUserService;
+import com.inso2.inso2.service.order.GetSellsOfUserService;
 import com.inso2.inso2.service.user.LoadUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,29 +20,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/order")
 public class OrderController {
-    private final OrderRepository orderRepository;
     private final LoadUserService loadUserService;
-    private final ProductRepository productRepository;
-    private final ProductDetailsRepository productDetailsRepository;
-    private final PaymentMethodRepository paymentMethodRepository;
-    private final AskRepository askRepository;
-    private final BidRepository bidRepository;
+    private final CreateBuyService createBuyService;
+    private final CreateSellService createSellService;
+    private final GetPurchasesOfUserService getPurchasesOfUserService;
+    private final GetSellsOfUserService getSellsOfUserService;
 
-    public OrderController(OrderRepository orderRepository, LoadUserService loadUserService, ProductRepository productRepository, ProductDetailsRepository productDetailsRepository, PaymentMethodRepository paymentMethodRepository, AskRepository askRepository, BidRepository bidRepository) {
-        this.orderRepository = orderRepository;
+    public OrderController(LoadUserService loadUserService, CreateBuyService createBuyService, CreateSellService createSellService, GetPurchasesOfUserService getPurchasesOfUserService, GetSellsOfUserService getSellsOfUserService) {
         this.loadUserService = loadUserService;
-        this.productRepository = productRepository;
-        this.productDetailsRepository = productDetailsRepository;
-        this.paymentMethodRepository = paymentMethodRepository;
-        this.askRepository = askRepository;
-        this.bidRepository = bidRepository;
+        this.createBuyService = createBuyService;
+        this.createSellService = createSellService;
+        this.getPurchasesOfUserService = getPurchasesOfUserService;
+        this.getSellsOfUserService = getSellsOfUserService;
     }
 
     @RequestMapping(value = "/createBuy", method = RequestMethod.POST)
@@ -46,20 +44,7 @@ public class OrderController {
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            Product product = productRepository.findByRef(req.getRef());
-            ProductDetails productDetails = productDetailsRepository.findByProductAndSize(product, req.getSize());
-            Ask ask = askRepository.findFirstByProductDetailsAndPriceOrderByIdAskAsc(productDetails, productDetails.getLowestAsk());
-
-            if(ask.getUser().equals(user)){
-                return new ResponseEntity<>(
-                        "It's not possible to buy your own product",
-                        HttpStatus.SERVICE_UNAVAILABLE);
-            }
-            PaymentMethod buyerPaymentMethod = paymentMethodRepository.findByUserAndIdPayMethod(user, req.getIdPayMethod());
-            PaymentMethod sellerPaymentMethod = paymentMethodRepository.findFirstByUserAndIsActiveOrderByIdPayMethodAsc(ask.getUser(), true);
-            Order order = new Order(UUID.randomUUID().toString(),ask.getPrice(),new Date(),user, ask.getUser(), productDetails, buyerPaymentMethod, sellerPaymentMethod);
-            orderRepository.saveAndFlush(order);
-            askRepository.deleteById(ask.getIdAsk());
+            createBuyService.create(req, user);
             return ResponseEntity.ok("Order created");
         }
         catch(Exception e){
@@ -74,19 +59,7 @@ public class OrderController {
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            Product product = productRepository.findByRef(req.getRef());
-            ProductDetails productDetails = productDetailsRepository.findByProductAndSize(product, req.getSize());
-            Bid bid = bidRepository.findFirstByProductDetailsAndPriceOrderByIdBidAsc(productDetails, productDetails.getHighestBid());
-            if(bid.getUser().equals(user)){
-                return new ResponseEntity<>(
-                        "It's not possible to sell a product to yourself",
-                        HttpStatus.SERVICE_UNAVAILABLE);
-            }
-            PaymentMethod sellerPaymentMethod = paymentMethodRepository.findByUserAndIdPayMethod(user, req.getIdPayMethod());
-            PaymentMethod buyerPaymentMethod = paymentMethodRepository.findFirstByUserAndIsActiveOrderByIdPayMethodAsc(bid.getUser(), true);
-            Order order = new Order(UUID.randomUUID().toString(),bid.getPrice(),new Date(),bid.getUser(), user, productDetails, buyerPaymentMethod, sellerPaymentMethod);
-            orderRepository.saveAndFlush(order);
-            bidRepository.deleteById(bid.getIdBid());
+            createSellService.create(req, user);
             return ResponseEntity.ok("Order created");
         }
         catch(Exception e){
@@ -101,12 +74,7 @@ public class OrderController {
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            List<Order> purchases = orderRepository.findByBuyerOrderByIdOrderDesc(user);
-            List<GetOrderInformationResponse> response = new ArrayList<>();
-            for(Order o:purchases){
-                response.add(new GetOrderInformationResponse().build(o));
-            }
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(getPurchasesOfUserService.get(user));
         }
         catch (Exception e){
             return new ResponseEntity<>(
@@ -120,12 +88,7 @@ public class OrderController {
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            List<Order> purchases = orderRepository.findBySellerOrderByIdOrderDesc(user);
-            List<GetOrderInformationResponse> response = new ArrayList<>();
-            for(Order o:purchases){
-                response.add(new GetOrderInformationResponse().build(o));
-            }
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(getSellsOfUserService.get(user));
         }
         catch (Exception e){
             return new ResponseEntity<>(

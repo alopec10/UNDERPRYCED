@@ -19,15 +19,18 @@ private final BidRepository bidRepository;
         this.bidRepository = bidRepository;
     }
 
-    public ResponseEntity<?> create (int price, User user, ProductDetails productDetails){
+    public void create (int price, User user, ProductDetails productDetails) throws Exception{
         if(productDetails.getLowestAsk() != null && productDetails.getLowestAsk() <= price){
-            // IMPORTANT TO DETERMINE THE STRATEGY IN THIS SPECIFIC CASE
-            return new ResponseEntity<>(
-                    "It's not possible to make a bid higher than the lowest ask",
-                    HttpStatus.SERVICE_UNAVAILABLE);
+            throw new Exception("It's not possible to make a bid higher than the lowest ask");
+        }
+        if(!this.isPriceValid(price)){
+            throw new Exception("Price must be a positive integer number");
         }
         Bid bid = new Bid(price, new Date(),user, productDetails);
         bidRepository.saveAndFlush(bid);
-        return ResponseEntity.ok("Bid created");
+    }
+
+    private boolean isPriceValid(int price){
+        return price > 0;
     }
 }
