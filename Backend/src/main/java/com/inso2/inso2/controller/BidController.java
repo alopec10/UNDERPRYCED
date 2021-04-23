@@ -10,10 +10,7 @@ import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.BidRepository;
 import com.inso2.inso2.repository.ProductDetailsRepository;
 import com.inso2.inso2.repository.ProductRepository;
-import com.inso2.inso2.service.bid.CreateBidService;
-import com.inso2.inso2.service.bid.DeleteBidService;
-import com.inso2.inso2.service.bid.GetBidsOfProductService;
-import com.inso2.inso2.service.bid.ModifyBidService;
+import com.inso2.inso2.service.bid.*;
 import com.inso2.inso2.service.user.LoadUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +43,9 @@ public class BidController {
 
     private final GetBidsOfProductService getBidsOfProductService;
 
-    public BidController(ProductDetailsRepository productDetailsRepository, BidRepository bidRepository, ProductRepository productRepository, CreateBidService createBidService, ModifyBidService modifyBidService, LoadUserService loadUserService, DeleteBidService deleteBidService, GetBidsOfProductService getBidsOfProductService) {
+    private final GetBidsOfUserService getBidsOfUserService;
+
+    public BidController(ProductDetailsRepository productDetailsRepository, BidRepository bidRepository, ProductRepository productRepository, CreateBidService createBidService, ModifyBidService modifyBidService, LoadUserService loadUserService, DeleteBidService deleteBidService, GetBidsOfProductService getBidsOfProductService, GetBidsOfUserService getBidsOfUserService) {
         this.productDetailsRepository = productDetailsRepository;
         this.bidRepository = bidRepository;
         this.productRepository = productRepository;
@@ -55,6 +54,7 @@ public class BidController {
         this.loadUserService = loadUserService;
         this.deleteBidService = deleteBidService;
         this.getBidsOfProductService = getBidsOfProductService;
+        this.getBidsOfUserService = getBidsOfUserService;
     }
 
     @RequestMapping(value = "/make", method = RequestMethod.POST)
@@ -110,12 +110,7 @@ public class BidController {
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            List<Bid> bids = bidRepository.findByUser(user);
-            List<GetAllBidsByUserResponse> bresp = new ArrayList<>();
-            for(Bid b: bids){
-                bresp.add(new GetAllBidsByUserResponse().build(b));
-            }
-            return ResponseEntity.ok(bresp);
+            return ResponseEntity.ok(getBidsOfUserService.get(user));
         }
         catch(Exception e){
             return new ResponseEntity<>(
