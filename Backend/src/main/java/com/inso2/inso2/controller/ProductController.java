@@ -9,6 +9,8 @@ import com.inso2.inso2.repository.ProductRepository;
 import com.inso2.inso2.repository.specification.SearchCriteria;
 import com.inso2.inso2.repository.specification.SearchOperationUtils;
 import com.inso2.inso2.repository.specification.product.ProductSpecification;
+import com.inso2.inso2.service.product.GetProductByRefService;
+import com.inso2.inso2.service.product.GetProductBySpecificationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,33 +24,22 @@ import java.util.List;
 @RequestMapping("/product")
 public class ProductController {
 
-    private final ProductRepository productRepository;
+    private final GetProductBySpecificationService getProductBySpecificationService;
 
-    public ProductController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    private final GetProductByRefService getProductByRefService;
+
+    public ProductController(GetProductBySpecificationService getProductBySpecificationService, GetProductByRefService getProductByRefService) {
+        this.getProductBySpecificationService = getProductBySpecificationService;
+        this.getProductByRefService = getProductByRefService;
     }
 
     @RequestMapping(value = "/specification", method = RequestMethod.POST)
     public ResponseEntity<?> getProductsBySpecification(@RequestBody ProductSpecificationRequest req){
-        ProductSpecification specification = new ProductSpecification();
-        for(SpecificationDTO sp: req.getSpecifications()){
-            specification.add(new SearchCriteria(sp.getKey(), sp.getValue(), SearchOperationUtils.convert(sp.getOperator())));
-        }
-        List<Product> products = productRepository.findAll(specification);
-        ArrayList<ProductSpecificationResponse> resp = new ArrayList<>();
-        for(Product p: products){
-            resp.add(new ProductSpecificationResponse().build(p));
-        }
-        return ResponseEntity.ok(resp);
+        return ResponseEntity.ok(getProductBySpecificationService.get(req));
     }
 
     @RequestMapping(value = "/ref", method = RequestMethod.POST)
     public ResponseEntity<?> getProductsByRef(@RequestBody ProductByRefRequest req){
-        List<Product> products = productRepository.findByRefIn(req.getRefs());
-        ArrayList<ProductSpecificationResponse> resp = new ArrayList<>();
-        for(Product p: products){
-            resp.add(new ProductSpecificationResponse().build(p));
-        }
-        return ResponseEntity.ok(resp);
+        return ResponseEntity.ok(getProductByRefService.get(req));
     }
 }

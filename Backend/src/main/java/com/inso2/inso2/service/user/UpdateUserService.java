@@ -81,7 +81,6 @@ public class UpdateUserService {
     private boolean isPasswordValid(String pass){
         Pattern pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,30}$");
         Matcher matcher = pattern.matcher(pass);
-        System.out.println(matcher.matches());
         return matcher.matches();
     }
 

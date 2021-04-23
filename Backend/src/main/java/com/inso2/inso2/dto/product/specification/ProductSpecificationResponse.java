@@ -41,9 +41,6 @@ public class ProductSpecificationResponse implements Serializable {
         for(ProductDetails pd: p.getProductDetails()){
             this.productDetails.add(new ProductDetailsResponse().build(pd));
         }
-        for(ProductDetailsResponse pd: this.productDetails){
-            System.out.println(pd);
-        }
         return this;
     }
 
