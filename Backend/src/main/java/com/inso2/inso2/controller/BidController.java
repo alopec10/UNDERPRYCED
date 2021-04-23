@@ -27,16 +27,6 @@ import java.util.*;
 @RequestMapping("/bid")
 public class BidController {
 
-    private final ProductDetailsRepository productDetailsRepository;
-
-    private final BidRepository bidRepository;
-
-    private final ProductRepository productRepository;
-
-    private final CreateBidService createBidService;
-
-    private final ModifyBidService modifyBidService;
-
     private final LoadUserService loadUserService;
 
     private final DeleteBidService deleteBidService;
@@ -45,16 +35,14 @@ public class BidController {
 
     private final GetBidsOfUserService getBidsOfUserService;
 
-    public BidController(ProductDetailsRepository productDetailsRepository, BidRepository bidRepository, ProductRepository productRepository, CreateBidService createBidService, ModifyBidService modifyBidService, LoadUserService loadUserService, DeleteBidService deleteBidService, GetBidsOfProductService getBidsOfProductService, GetBidsOfUserService getBidsOfUserService) {
-        this.productDetailsRepository = productDetailsRepository;
-        this.bidRepository = bidRepository;
-        this.productRepository = productRepository;
-        this.createBidService = createBidService;
-        this.modifyBidService = modifyBidService;
+    private final CreateOrModifyBidService createOrModifyBidService;
+
+    public BidController(LoadUserService loadUserService, DeleteBidService deleteBidService, GetBidsOfProductService getBidsOfProductService, GetBidsOfUserService getBidsOfUserService, CreateOrModifyBidService createOrModifyBidService) {
         this.loadUserService = loadUserService;
         this.deleteBidService = deleteBidService;
         this.getBidsOfProductService = getBidsOfProductService;
         this.getBidsOfUserService = getBidsOfUserService;
+        this.createOrModifyBidService = createOrModifyBidService;
     }
 
     @RequestMapping(value = "/make", method = RequestMethod.POST)
@@ -62,16 +50,7 @@ public class BidController {
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            Product product = productRepository.findByRef(req.getRef());
-            ProductDetails productDetails = productDetailsRepository.findByProductAndSize(product, req.getSize());
-            Bid bid = bidRepository.findByUserAndProductDetails(user, productDetails);
-            if (bid == null){
-                return createBidService.create(req.getPrice(), user, productDetails);
-            }
-            else {
-                return modifyBidService.modify(req.getPrice(), productDetails, bid);
-            }
-
+            return ResponseEntity.ok(createOrModifyBidService.createOrModify(req, user));
         }catch(Exception e){
             return new ResponseEntity<>(
                     e.getMessage(),
