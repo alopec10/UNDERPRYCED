@@ -26,16 +26,6 @@ import java.util.*;
 @RequestMapping("/ask")
 public class AskController {
 
-    private final ProductDetailsRepository productDetailsRepository;
-
-    private final AskRepository askRepository;
-
-    private final ProductRepository productRepository;
-
-    private final CreateAskService createAskService;
-
-    private final ModifyAskService modifyAskService;
-
     private final LoadUserService loadUserService;
 
     private final DeleteAskService deleteAskService;
@@ -44,16 +34,14 @@ public class AskController {
 
     private final GetAsksOfUserService getAsksOfUserService;
 
-    public AskController(ProductDetailsRepository productDetailsRepository, AskRepository askRepository, ProductRepository productRepository, CreateAskService createAskService, ModifyAskService modifyAskService, LoadUserService loadUserService, DeleteAskService deleteAskService, GetAsksOfProductService getAsksOfProductService, GetAsksOfUserService getAsksOfUserService) {
-        this.productDetailsRepository = productDetailsRepository;
-        this.askRepository = askRepository;
-        this.productRepository = productRepository;
-        this.createAskService = createAskService;
-        this.modifyAskService = modifyAskService;
+    private final CreateOrModifyAskService createOrModifyAskService;
+
+    public AskController(LoadUserService loadUserService, DeleteAskService deleteAskService, GetAsksOfProductService getAsksOfProductService, GetAsksOfUserService getAsksOfUserService, CreateOrModifyAskService createOrModifyAskService) {
         this.loadUserService = loadUserService;
         this.deleteAskService = deleteAskService;
         this.getAsksOfProductService = getAsksOfProductService;
         this.getAsksOfUserService = getAsksOfUserService;
+        this.createOrModifyAskService = createOrModifyAskService;
     }
 
     @RequestMapping(value = "/make", method = RequestMethod.POST)
@@ -61,15 +49,7 @@ public class AskController {
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            Product product = productRepository.findByRef(req.getRef());
-            ProductDetails productDetails = productDetailsRepository.findByProductAndSize(product, req.getSize());
-            Ask ask = askRepository.findByUserAndProductDetails(user, productDetails);
-            if(ask == null){
-                return createAskService.create(req.getPrice(), user, productDetails);
-            }
-            else {
-                return modifyAskService.modify(req.getPrice(), productDetails, ask);
-            }
+            return ResponseEntity.ok(createOrModifyAskService.createOrModify(req, user));
         }catch(Exception e){
             return new ResponseEntity<>(
                     e.getMessage(),
