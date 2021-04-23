@@ -6,6 +6,7 @@ import com.inso2.inso2.dto.user.payment.PaymentMethodResponse;
 import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.PaymentMethodRepository;
 import com.inso2.inso2.security.Encrypter;
+import com.inso2.inso2.service.paymentMethod.CreatePaymentMethodService;
 import com.inso2.inso2.service.user.LoadUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,10 +29,13 @@ public class PaymentMethodController {
 
     private final PaymentMethodRepository paymentMethodRepository;
 
-    public PaymentMethodController(Encrypter encrypter, LoadUserService loadUserService, PaymentMethodRepository paymentMethodRepository) {
+    private final CreatePaymentMethodService createPaymentMethodService;
+
+    public PaymentMethodController(Encrypter encrypter, LoadUserService loadUserService, PaymentMethodRepository paymentMethodRepository, CreatePaymentMethodService createPaymentMethodService) {
         this.encrypter = encrypter;
         this.loadUserService = loadUserService;
         this.paymentMethodRepository = paymentMethodRepository;
+        this.createPaymentMethodService = createPaymentMethodService;
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -39,32 +43,8 @@ public class PaymentMethodController {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-
-            if (req.getNumber().length() != 16) {
-                return new ResponseEntity<>(
-                        "16 digits required",
-                        HttpStatus.SERVICE_UNAVAILABLE);
-            }
-            PaymentMethod paymentMethod = paymentMethodRepository.findByUserAndNumber(user, Encrypter.encrypt(req.getNumber()));
-            if (paymentMethod == null) {
-                paymentMethod = new PaymentMethod();
-                paymentMethod.setName(req.getName());
-                paymentMethod.setNumber(Encrypter.encrypt(req.getNumber()));
-                paymentMethod.setCvv(Encrypter.encrypt(req.getCvv()));
-                paymentMethod.setExpMonth(Encrypter.encrypt(req.getExpMonth()));
-                paymentMethod.setExpYear(Encrypter.encrypt(req.getExpYear()));
-                paymentMethod.setUser(user);
-                paymentMethod.setDefaultMethod(req.isDefaultMethod());
-            }
-            else {
-                paymentMethod.setCvv(Encrypter.encrypt(req.getCvv()));
-                paymentMethod.setExpMonth(Encrypter.encrypt(req.getExpMonth()));
-                paymentMethod.setExpYear(Encrypter.encrypt(req.getExpYear()));
-            }
-            paymentMethod.setActive(true);
-            paymentMethodRepository.save(paymentMethod);
+            createPaymentMethodService.create(req, user);
             return ResponseEntity.ok("Payment Method added");
-
         } catch (Exception e) {
             return new ResponseEntity<>(
                     e.getMessage(),
