@@ -9,10 +9,7 @@ import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.AskRepository;
 import com.inso2.inso2.repository.ProductDetailsRepository;
 import com.inso2.inso2.repository.ProductRepository;
-import com.inso2.inso2.service.ask.CreateAskService;
-import com.inso2.inso2.service.ask.DeleteAskService;
-import com.inso2.inso2.service.ask.GetAsksOfProductService;
-import com.inso2.inso2.service.ask.ModifyAskService;
+import com.inso2.inso2.service.ask.*;
 import com.inso2.inso2.service.user.LoadUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +42,9 @@ public class AskController {
 
     private final GetAsksOfProductService getAsksOfProductService;
 
-    public AskController(ProductDetailsRepository productDetailsRepository, AskRepository askRepository, ProductRepository productRepository, CreateAskService createAskService, ModifyAskService modifyAskService, LoadUserService loadUserService, DeleteAskService deleteAskService, GetAsksOfProductService getAsksOfProductService) {
+    private final GetAsksOfUserService getAsksOfUserService;
+
+    public AskController(ProductDetailsRepository productDetailsRepository, AskRepository askRepository, ProductRepository productRepository, CreateAskService createAskService, ModifyAskService modifyAskService, LoadUserService loadUserService, DeleteAskService deleteAskService, GetAsksOfProductService getAsksOfProductService, GetAsksOfUserService getAsksOfUserService) {
         this.productDetailsRepository = productDetailsRepository;
         this.askRepository = askRepository;
         this.productRepository = productRepository;
@@ -54,6 +53,7 @@ public class AskController {
         this.loadUserService = loadUserService;
         this.deleteAskService = deleteAskService;
         this.getAsksOfProductService = getAsksOfProductService;
+        this.getAsksOfUserService = getAsksOfUserService;
     }
 
     @RequestMapping(value = "/make", method = RequestMethod.POST)
@@ -109,12 +109,7 @@ public class AskController {
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            List<Ask> asks = askRepository.findByUser(user);
-            List<GetAllAsksByUserResponse> aresp = new ArrayList<>();
-            for(Ask a: asks){
-                aresp.add(new GetAllAsksByUserResponse().build(a));
-            }
-            return ResponseEntity.ok(aresp);
+            return ResponseEntity.ok(getAsksOfUserService.get(user));
         }
         catch(Exception e){
             return new ResponseEntity<>(
