@@ -7,7 +7,8 @@ import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.*;
 import com.inso2.inso2.service.order.CreateBuyService;
 import com.inso2.inso2.service.order.CreateSellService;
-import com.inso2.inso2.service.order.GetPurchasesService;
+import com.inso2.inso2.service.order.GetPurchasesOfUserService;
+import com.inso2.inso2.service.order.GetSellsOfUserService;
 import com.inso2.inso2.service.user.LoadUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,33 +20,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/order")
 public class OrderController {
-    private final OrderRepository orderRepository;
     private final LoadUserService loadUserService;
-    private final ProductRepository productRepository;
-    private final ProductDetailsRepository productDetailsRepository;
-    private final PaymentMethodRepository paymentMethodRepository;
-    private final BidRepository bidRepository;
     private final CreateBuyService createBuyService;
     private final CreateSellService createSellService;
-    private final GetPurchasesService getPurchasesService;
+    private final GetPurchasesOfUserService getPurchasesOfUserService;
+    private final GetSellsOfUserService getSellsOfUserService;
 
-    public OrderController(OrderRepository orderRepository, LoadUserService loadUserService, ProductRepository productRepository, ProductDetailsRepository productDetailsRepository, PaymentMethodRepository paymentMethodRepository, BidRepository bidRepository, CreateBuyService createBuyService, CreateSellService createSellService, GetPurchasesService getPurchasesService) {
-        this.orderRepository = orderRepository;
+    public OrderController(LoadUserService loadUserService, CreateBuyService createBuyService, CreateSellService createSellService, GetPurchasesOfUserService getPurchasesOfUserService, GetSellsOfUserService getSellsOfUserService) {
         this.loadUserService = loadUserService;
-        this.productRepository = productRepository;
-        this.productDetailsRepository = productDetailsRepository;
-        this.paymentMethodRepository = paymentMethodRepository;
-        this.bidRepository = bidRepository;
         this.createBuyService = createBuyService;
         this.createSellService = createSellService;
-        this.getPurchasesService = getPurchasesService;
+        this.getPurchasesOfUserService = getPurchasesOfUserService;
+        this.getSellsOfUserService = getSellsOfUserService;
     }
 
     @RequestMapping(value = "/createBuy", method = RequestMethod.POST)
@@ -83,7 +74,7 @@ public class OrderController {
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            return ResponseEntity.ok(getPurchasesService.get(user));
+            return ResponseEntity.ok(getPurchasesOfUserService.get(user));
         }
         catch (Exception e){
             return new ResponseEntity<>(
@@ -97,12 +88,7 @@ public class OrderController {
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            List<Order> purchases = orderRepository.findBySellerOrderByIdOrderDesc(user);
-            List<GetOrderInformationResponse> response = new ArrayList<>();
-            for(Order o:purchases){
-                response.add(new GetOrderInformationResponse().build(o));
-            }
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(getSellsOfUserService.get(user));
         }
         catch (Exception e){
             return new ResponseEntity<>(

@@ -10,15 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class GetPurchasesService {
+public class GetSellsOfUserService {
     private final OrderRepository orderRepository;
 
-    public GetPurchasesService(OrderRepository orderRepository) {
+    public GetSellsOfUserService(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
 
     public List<GetOrderInformationResponse> get(User user){
-        List<Order> purchases = orderRepository.findByBuyerOrderByIdOrderDesc(user);
+        List<Order> purchases = orderRepository.findBySellerOrderByIdOrderDesc(user);
         List<GetOrderInformationResponse> response = new ArrayList<>();
         for(Order o:purchases){
             response.add(new GetOrderInformationResponse().build(o));
