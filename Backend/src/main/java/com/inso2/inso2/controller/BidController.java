@@ -4,6 +4,7 @@ import com.inso2.inso2.dto.ask.getAll.GetAllAsksRequest;
 import com.inso2.inso2.dto.bid.BidRequest;
 import com.inso2.inso2.dto.bid.GetAllBidsByUserResponse;
 import com.inso2.inso2.dto.bid.delete.DeleteBidRequest;
+import com.inso2.inso2.dto.bid.getAll.GetAllBidsRequest;
 import com.inso2.inso2.dto.bid.getAll.GetAllBidsResponse;
 import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.BidRepository;
@@ -11,6 +12,7 @@ import com.inso2.inso2.repository.ProductDetailsRepository;
 import com.inso2.inso2.repository.ProductRepository;
 import com.inso2.inso2.service.bid.CreateBidService;
 import com.inso2.inso2.service.bid.DeleteBidService;
+import com.inso2.inso2.service.bid.GetBidsOfProductService;
 import com.inso2.inso2.service.bid.ModifyBidService;
 import com.inso2.inso2.service.user.LoadUserService;
 import org.springframework.http.HttpStatus;
@@ -30,7 +32,6 @@ public class BidController {
 
     private final ProductDetailsRepository productDetailsRepository;
 
-
     private final BidRepository bidRepository;
 
     private final ProductRepository productRepository;
@@ -43,7 +44,9 @@ public class BidController {
 
     private final DeleteBidService deleteBidService;
 
-    public BidController(ProductDetailsRepository productDetailsRepository, BidRepository bidRepository, ProductRepository productRepository, CreateBidService createBidService, ModifyBidService modifyBidService, LoadUserService loadUserService, DeleteBidService deleteBidService) {
+    private final GetBidsOfProductService getBidsOfProductService;
+
+    public BidController(ProductDetailsRepository productDetailsRepository, BidRepository bidRepository, ProductRepository productRepository, CreateBidService createBidService, ModifyBidService modifyBidService, LoadUserService loadUserService, DeleteBidService deleteBidService, GetBidsOfProductService getBidsOfProductService) {
         this.productDetailsRepository = productDetailsRepository;
         this.bidRepository = bidRepository;
         this.productRepository = productRepository;
@@ -51,6 +54,7 @@ public class BidController {
         this.modifyBidService = modifyBidService;
         this.loadUserService = loadUserService;
         this.deleteBidService = deleteBidService;
+        this.getBidsOfProductService = getBidsOfProductService;
     }
 
     @RequestMapping(value = "/make", method = RequestMethod.POST)
@@ -90,17 +94,9 @@ public class BidController {
     }
 
     @RequestMapping(value = "/getAll", method = RequestMethod.POST)
-    public ResponseEntity<?> getAll(@RequestBody GetAllAsksRequest req){
+    public ResponseEntity<?> getAll(@RequestBody GetAllBidsRequest req){
         try{
-            Product product = productRepository.findByRef(req.getRef());
-            ProductDetails productDetails = productDetailsRepository.findByProductAndSize(product, req.getSize());
-            List<Integer> prices = bidRepository.findPriceByProductDetails(productDetails);
-            Set<Integer> mySet = new HashSet<>(prices);
-            List<GetAllBidsResponse> asks = new ArrayList<>();
-            for(Integer i: mySet){
-                asks.add(new GetAllBidsResponse(i, Collections.frequency(prices,i)));
-            }
-            return ResponseEntity.ok(asks);
+            return ResponseEntity.ok(getBidsOfProductService.get(req));
         }
         catch(Exception e){
             return new ResponseEntity<>(
