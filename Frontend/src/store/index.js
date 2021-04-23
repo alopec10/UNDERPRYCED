@@ -60,10 +60,13 @@ export default new Vuex.Store({
                 axios({url: 'http://localhost:8888/user/register', data: user, method: 'POST'})
                     .then(resp => {
                         const token = 'Bearer ' + resp.data.jwt
-                        const user = resp.data.user
+                        const payload = {
+                            token: 'Bearer ' + resp.data.jwt,
+                            role : resp.data.role
+                        }
                         localStorage.setItem('token', token)
                         axios.defaults.headers.common['Authorization'] = token
-                        commit('auth_success', token, user)
+                        commit('auth_success', payload)
                         resolve(resp)
                     })
                     .catch(err => {
