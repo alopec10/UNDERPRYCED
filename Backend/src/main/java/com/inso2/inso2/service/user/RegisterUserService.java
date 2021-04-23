@@ -40,18 +40,6 @@ public class RegisterUserService {
         else{
             throw new Exception("Password format is not correct");
         }
-        u.setAddress(req.getAddress());
-        u.setCountry(req.getCountry());
-        u.setZipCode(req.getZipCode());
-        if(isPhoneNumberValid(req.getPhoneNumber())){
-            u.setPhoneNumber(req.getPhoneNumber());
-        }
-        else if(req.getPhoneNumber()==null || req.getPhoneNumber().isBlank()){
-            u.setPhoneNumber(null);
-        }
-        else{
-            throw new Exception("Phone number format is not correct");
-        }
         Set<String> strRoles = req.getRole();
         Set<Role> roles = new HashSet<>();
         if (strRoles == null) {
@@ -76,18 +64,10 @@ public class RegisterUserService {
     }
 
     private boolean isPasswordValid(String pass){
-        Pattern pattern = Pattern.compile("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\\\S+$).{8,}");
+        Pattern pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");
         Matcher matcher = pattern.matcher(pass);
+        System.out.println(matcher.matches());
         return matcher.matches();
     }
 
-    private boolean isPhoneNumberValid(String phoneNumber){
-        String patterns
-                = "^(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$"
-                + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?){2}\\d{3}$"
-                + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?)(\\d{2}[ ]?){2}\\d{2}$";
-        Pattern pattern = Pattern.compile(patterns);
-        Matcher matcher = pattern.matcher(phoneNumber);
-        return matcher.matches();
-    }
 }

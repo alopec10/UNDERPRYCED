@@ -74,7 +74,7 @@ public class UserController {
         }
         catch (Exception e){
             return new ResponseEntity<>(
-                    "Cannot register, email just registered",
+                    "Cannot register, validation problems",
                     HttpStatus.CONFLICT);
         }
     }
