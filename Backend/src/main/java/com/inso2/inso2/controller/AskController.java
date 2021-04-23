@@ -11,6 +11,7 @@ import com.inso2.inso2.repository.ProductDetailsRepository;
 import com.inso2.inso2.repository.ProductRepository;
 import com.inso2.inso2.service.ask.CreateAskService;
 import com.inso2.inso2.service.ask.DeleteAskService;
+import com.inso2.inso2.service.ask.GetAsksOfProductService;
 import com.inso2.inso2.service.ask.ModifyAskService;
 import com.inso2.inso2.service.user.LoadUserService;
 import org.springframework.http.HttpStatus;
@@ -42,7 +43,9 @@ public class AskController {
 
     private final DeleteAskService deleteAskService;
 
-    public AskController(ProductDetailsRepository productDetailsRepository, AskRepository askRepository, ProductRepository productRepository, CreateAskService createAskService, ModifyAskService modifyAskService, LoadUserService loadUserService, DeleteAskService deleteAskService) {
+    private final GetAsksOfProductService getAsksOfProductService;
+
+    public AskController(ProductDetailsRepository productDetailsRepository, AskRepository askRepository, ProductRepository productRepository, CreateAskService createAskService, ModifyAskService modifyAskService, LoadUserService loadUserService, DeleteAskService deleteAskService, GetAsksOfProductService getAsksOfProductService) {
         this.productDetailsRepository = productDetailsRepository;
         this.askRepository = askRepository;
         this.productRepository = productRepository;
@@ -50,6 +53,7 @@ public class AskController {
         this.modifyAskService = modifyAskService;
         this.loadUserService = loadUserService;
         this.deleteAskService = deleteAskService;
+        this.getAsksOfProductService = getAsksOfProductService;
     }
 
     @RequestMapping(value = "/make", method = RequestMethod.POST)
@@ -91,15 +95,7 @@ public class AskController {
     @RequestMapping(value = "/getAll", method = RequestMethod.POST)
     public ResponseEntity<?> getAll(@RequestBody GetAllAsksRequest req){
         try{
-            Product product = productRepository.findByRef(req.getRef());
-            ProductDetails productDetails = productDetailsRepository.findByProductAndSize(product, req.getSize());
-            List<Integer> prices = askRepository.findPriceByProductDetails(productDetails);
-            Set<Integer> mySet = new HashSet<>(prices);
-            List<GetAllAsksResponse> asks = new ArrayList<>();
-            for(Integer i: mySet){
-                asks.add(new GetAllAsksResponse(i, Collections.frequency(prices,i)));
-            }
-            return ResponseEntity.ok(asks);
+            return ResponseEntity.ok(getAsksOfProductService.get(req));
         }
         catch(Exception e){
             return new ResponseEntity<>(
