@@ -13,6 +13,7 @@ import com.inso2.inso2.repository.UserRepository;
 import com.inso2.inso2.security.JwtUtils;
 import com.inso2.inso2.service.MyUserDetailsService;
 import com.inso2.inso2.service.user.LoadUserService;
+import com.inso2.inso2.service.user.RegisterUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -47,7 +48,9 @@ public class UserController {
 
     private final LoadUserService loadUserService;
 
-    public UserController(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, JwtUtils jwtTokenUtils, MyUserDetailsService userDetailsService, UserRepository userRepository, RoleRepository roleRepository, LoadUserService loadUserService) {
+    private final RegisterUserService registerUserService;
+
+    public UserController(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, JwtUtils jwtTokenUtils, MyUserDetailsService userDetailsService, UserRepository userRepository, RoleRepository roleRepository, LoadUserService loadUserService, RegisterUserService registerUserService) {
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenUtils = jwtTokenUtils;
@@ -55,53 +58,25 @@ public class UserController {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.loadUserService = loadUserService;
+        this.registerUserService = registerUserService;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> register(@RequestBody RegisterRequest req) throws Exception {
         try {
-           User u = new User();
-           u.setName(req.getName());
-           u.setSurname(req.getSurname());
-           u.setEmail(req.getEmail());
-           u.setPassword(passwordEncoder.encode(req.getPassword()));
-           u.setAddress(req.getAddress());
-           u.setCountry(req.getCountry());
-           u.setZipCode(req.getZipCode());
-           u.setPhoneNumber(req.getPhoneNumber());
-           Set<String> strRoles = req.getRole();
-           Set<Role> roles = new HashSet<>();
-            if (strRoles == null) {
-                Role userRole = roleRepository.findByName(RoleName.ROLE_USER);
-                roles.add(userRole);
-            }
-            else {
-                strRoles.forEach(role -> {
-                    if (role.equals("admin")) {
-                        Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN);
-                        roles.add(adminRole);
+           registerUserService.register(req);
+            final UserDetails userDetails = userDetailsService
+                    .loadUserByUsername(req.getEmail());
 
-                    }
-                    else {
-                            Role userRole = roleRepository.findByName(RoleName.ROLE_USER);
-                            roles.add(userRole);
-                    }
-                });
-            }
-            u.setRoles(roles);
-           userRepository.save(u);
+            final String jwt = jwtTokenUtils.generateToken(userDetails);
+
+            return ResponseEntity.ok(new AuthenticationResponse(jwt, userDetails.getAuthorities().iterator().next()));
         }
         catch (Exception e){
             return new ResponseEntity<>(
                     "Cannot register, email just registered",
                     HttpStatus.CONFLICT);
         }
-        final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(req.getEmail());
-
-        final String jwt = jwtTokenUtils.generateToken(userDetails);
-
-        return ResponseEntity.ok(new AuthenticationResponse(jwt, userDetails.getAuthorities().iterator().next()));
     }
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
@@ -111,19 +86,18 @@ public class UserController {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword())
             );
+            final UserDetails userDetails = userDetailsService
+                    .loadUserByUsername(authenticationRequest.getEmail());
+
+            final String jwt = jwtTokenUtils.generateToken(userDetails);
+
+            return ResponseEntity.ok(new AuthenticationResponse(jwt, userDetails.getAuthorities().iterator().next()));
         }
         catch (Exception e) {
             return new ResponseEntity<>(
                     "Invalid username or password",
                     HttpStatus.UNAUTHORIZED);
         }
-
-        final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(authenticationRequest.getEmail());
-
-        final String jwt = jwtTokenUtils.generateToken(userDetails);
-
-        return ResponseEntity.ok(new AuthenticationResponse(jwt, userDetails.getAuthorities().iterator().next()));
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
