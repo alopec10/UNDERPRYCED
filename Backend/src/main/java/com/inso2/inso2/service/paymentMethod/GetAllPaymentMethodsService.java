@@ -15,7 +15,6 @@ public class GetAllPaymentMethodsService {
 
     private final PaymentMethodRepository paymentMethodRepository;
 
-
     public GetAllPaymentMethodsService(PaymentMethodRepository paymentMethodRepository) {
         this.paymentMethodRepository = paymentMethodRepository;
     }

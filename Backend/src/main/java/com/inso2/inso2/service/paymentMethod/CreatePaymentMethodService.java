@@ -27,19 +27,14 @@ public class CreatePaymentMethodService {
         PaymentMethod paymentMethod = paymentMethodRepository.findByUserAndNumber(user, Encrypter.encrypt(req.getNumber()));
         if (paymentMethod == null) {
             paymentMethod = new PaymentMethod();
-            paymentMethod.setName(req.getName());
             paymentMethod.setNumber(Encrypter.encrypt(req.getNumber()));
-            paymentMethod.setCvv(Encrypter.encrypt(req.getCvv()));
-            paymentMethod.setExpMonth(Encrypter.encrypt(req.getExpMonth()));
-            paymentMethod.setExpYear(Encrypter.encrypt(req.getExpYear()));
             paymentMethod.setUser(user);
             paymentMethod.setDefaultMethod(req.isDefaultMethod());
         }
-        else {
-            paymentMethod.setCvv(Encrypter.encrypt(req.getCvv()));
-            paymentMethod.setExpMonth(Encrypter.encrypt(req.getExpMonth()));
-            paymentMethod.setExpYear(Encrypter.encrypt(req.getExpYear()));
-        }
+        paymentMethod.setName(req.getName());
+        paymentMethod.setCvv(Encrypter.encrypt(req.getCvv()));
+        paymentMethod.setExpMonth(Encrypter.encrypt(req.getExpMonth()));
+        paymentMethod.setExpYear(Encrypter.encrypt(req.getExpYear()));
         paymentMethod.setActive(true);
         paymentMethodRepository.save(paymentMethod);
     }
