@@ -7,6 +7,7 @@ import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.*;
 import com.inso2.inso2.service.order.CreateBuyService;
 import com.inso2.inso2.service.order.CreateSellService;
+import com.inso2.inso2.service.order.GetPurchasesService;
 import com.inso2.inso2.service.user.LoadUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,8 +34,9 @@ public class OrderController {
     private final BidRepository bidRepository;
     private final CreateBuyService createBuyService;
     private final CreateSellService createSellService;
+    private final GetPurchasesService getPurchasesService;
 
-    public OrderController(OrderRepository orderRepository, LoadUserService loadUserService, ProductRepository productRepository, ProductDetailsRepository productDetailsRepository, PaymentMethodRepository paymentMethodRepository, BidRepository bidRepository, CreateBuyService createBuyService, CreateSellService createSellService) {
+    public OrderController(OrderRepository orderRepository, LoadUserService loadUserService, ProductRepository productRepository, ProductDetailsRepository productDetailsRepository, PaymentMethodRepository paymentMethodRepository, BidRepository bidRepository, CreateBuyService createBuyService, CreateSellService createSellService, GetPurchasesService getPurchasesService) {
         this.orderRepository = orderRepository;
         this.loadUserService = loadUserService;
         this.productRepository = productRepository;
@@ -43,6 +45,7 @@ public class OrderController {
         this.bidRepository = bidRepository;
         this.createBuyService = createBuyService;
         this.createSellService = createSellService;
+        this.getPurchasesService = getPurchasesService;
     }
 
     @RequestMapping(value = "/createBuy", method = RequestMethod.POST)
@@ -80,12 +83,7 @@ public class OrderController {
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            List<Order> purchases = orderRepository.findByBuyerOrderByIdOrderDesc(user);
-            List<GetOrderInformationResponse> response = new ArrayList<>();
-            for(Order o:purchases){
-                response.add(new GetOrderInformationResponse().build(o));
-            }
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(getPurchasesService.get(user));
         }
         catch (Exception e){
             return new ResponseEntity<>(
