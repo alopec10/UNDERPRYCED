@@ -12,6 +12,7 @@ import com.inso2.inso2.repository.RoleRepository;
 import com.inso2.inso2.repository.UserRepository;
 import com.inso2.inso2.security.JwtUtils;
 import com.inso2.inso2.service.MyUserDetailsService;
+import com.inso2.inso2.service.user.GenerateAuthenticationTokenService;
 import com.inso2.inso2.service.user.LoadUserService;
 import com.inso2.inso2.service.user.RegisterUserService;
 import com.inso2.inso2.service.user.UpdateUserService;
@@ -37,44 +38,27 @@ public class UserController {
 
     private final AuthenticationManager authenticationManager;
 
-    private final PasswordEncoder passwordEncoder;
-
-    private final JwtUtils jwtTokenUtils;
-
-    private final MyUserDetailsService userDetailsService;
-
-    private final UserRepository userRepository;
-
-    private final RoleRepository roleRepository;
-
     private final LoadUserService loadUserService;
 
     private final RegisterUserService registerUserService;
 
     private final UpdateUserService updateUserService;
 
-    public UserController(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, JwtUtils jwtTokenUtils, MyUserDetailsService userDetailsService, UserRepository userRepository, RoleRepository roleRepository, LoadUserService loadUserService, RegisterUserService registerUserService, UpdateUserService updateUserService) {
+    private final GenerateAuthenticationTokenService generateAuthenticationTokenService;
+
+    public UserController(AuthenticationManager authenticationManager, LoadUserService loadUserService, RegisterUserService registerUserService, UpdateUserService updateUserService, GenerateAuthenticationTokenService generateAuthenticationTokenService) {
         this.authenticationManager = authenticationManager;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtTokenUtils = jwtTokenUtils;
-        this.userDetailsService = userDetailsService;
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
         this.loadUserService = loadUserService;
         this.registerUserService = registerUserService;
         this.updateUserService = updateUserService;
+        this.generateAuthenticationTokenService = generateAuthenticationTokenService;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> register(@RequestBody RegisterRequest req) throws Exception {
         try {
            registerUserService.register(req);
-            final UserDetails userDetails = userDetailsService
-                    .loadUserByUsername(req.getEmail());
-
-            final String jwt = jwtTokenUtils.generateToken(userDetails);
-
-            return ResponseEntity.ok(new AuthenticationResponse(jwt, userDetails.getAuthorities().iterator().next()));
+            return ResponseEntity.ok(generateAuthenticationTokenService.generate(req.getEmail()));
         }
         catch (Exception e){
             return new ResponseEntity<>(
@@ -90,12 +74,7 @@ public class UserController {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword())
             );
-            final UserDetails userDetails = userDetailsService
-                    .loadUserByUsername(authenticationRequest.getEmail());
-
-            final String jwt = jwtTokenUtils.generateToken(userDetails);
-
-            return ResponseEntity.ok(new AuthenticationResponse(jwt, userDetails.getAuthorities().iterator().next()));
+            return ResponseEntity.ok(generateAuthenticationTokenService.generate(authenticationRequest.getEmail()));
         }
         catch (Exception e) {
             return new ResponseEntity<>(
