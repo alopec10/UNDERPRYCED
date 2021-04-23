@@ -6,6 +6,7 @@ import com.inso2.inso2.dto.order.get.GetOrderInformationResponse;
 import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.*;
 import com.inso2.inso2.service.order.CreateBuyService;
+import com.inso2.inso2.service.order.CreateSellService;
 import com.inso2.inso2.service.user.LoadUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,19 +30,19 @@ public class OrderController {
     private final ProductRepository productRepository;
     private final ProductDetailsRepository productDetailsRepository;
     private final PaymentMethodRepository paymentMethodRepository;
-    private final AskRepository askRepository;
     private final BidRepository bidRepository;
     private final CreateBuyService createBuyService;
+    private final CreateSellService createSellService;
 
-    public OrderController(OrderRepository orderRepository, LoadUserService loadUserService, ProductRepository productRepository, ProductDetailsRepository productDetailsRepository, PaymentMethodRepository paymentMethodRepository, AskRepository askRepository, BidRepository bidRepository, CreateBuyService createBuyService) {
+    public OrderController(OrderRepository orderRepository, LoadUserService loadUserService, ProductRepository productRepository, ProductDetailsRepository productDetailsRepository, PaymentMethodRepository paymentMethodRepository, BidRepository bidRepository, CreateBuyService createBuyService, CreateSellService createSellService) {
         this.orderRepository = orderRepository;
         this.loadUserService = loadUserService;
         this.productRepository = productRepository;
         this.productDetailsRepository = productDetailsRepository;
         this.paymentMethodRepository = paymentMethodRepository;
-        this.askRepository = askRepository;
         this.bidRepository = bidRepository;
         this.createBuyService = createBuyService;
+        this.createSellService = createSellService;
     }
 
     @RequestMapping(value = "/createBuy", method = RequestMethod.POST)
@@ -64,19 +65,7 @@ public class OrderController {
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
-            Product product = productRepository.findByRef(req.getRef());
-            ProductDetails productDetails = productDetailsRepository.findByProductAndSize(product, req.getSize());
-            Bid bid = bidRepository.findFirstByProductDetailsAndPriceOrderByIdBidAsc(productDetails, productDetails.getHighestBid());
-            if(bid.getUser().equals(user)){
-                return new ResponseEntity<>(
-                        "It's not possible to sell a product to yourself",
-                        HttpStatus.SERVICE_UNAVAILABLE);
-            }
-            PaymentMethod sellerPaymentMethod = paymentMethodRepository.findByUserAndIdPayMethod(user, req.getIdPayMethod());
-            PaymentMethod buyerPaymentMethod = paymentMethodRepository.findFirstByUserAndIsActiveOrderByIdPayMethodAsc(bid.getUser(), true);
-            Order order = new Order(UUID.randomUUID().toString(),bid.getPrice(),new Date(),bid.getUser(), user, productDetails, buyerPaymentMethod, sellerPaymentMethod);
-            orderRepository.saveAndFlush(order);
-            bidRepository.deleteById(bid.getIdBid());
+            createSellService.create(req, user);
             return ResponseEntity.ok("Order created");
         }
         catch(Exception e){
