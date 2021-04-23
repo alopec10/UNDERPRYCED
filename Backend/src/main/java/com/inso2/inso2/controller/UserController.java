@@ -101,7 +101,7 @@ public class UserController {
 
         final String jwt = jwtTokenUtils.generateToken(userDetails);
 
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+        return ResponseEntity.ok(new AuthenticationResponse(jwt, userDetails.getAuthorities().iterator().next()));
     }
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
@@ -123,7 +123,7 @@ public class UserController {
 
         final String jwt = jwtTokenUtils.generateToken(userDetails);
 
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+        return ResponseEntity.ok(new AuthenticationResponse(jwt, userDetails.getAuthorities().iterator().next()));
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)

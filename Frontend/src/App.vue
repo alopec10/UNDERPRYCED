@@ -38,21 +38,27 @@
 <script>
 import Footer from '@/components/Footer.vue'
 import NavBar from '@/components/NavBar.vue'
+import { mapActions } from 'vuex'
 export default {
   name: "App",
   components: {
     Footer,
     NavBar
   },
-  created: function () {
+  created() {
+    let self = this
     this.$http.interceptors.response.use(undefined, function (err) {
       return new Promise(function (resolve, reject) {
-        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-          this.$store.dispatch(logout)
+        if (err.response.status === 403 && err.config && !err.config.__isRetryRequest) {
+          self.logout()
+          self.$router.push('/iniciarsesion')
         }
         throw err;
       });
     });
+  },
+  methods: {
+    ...mapActions(['logout'])
   }
 }
 </script>
