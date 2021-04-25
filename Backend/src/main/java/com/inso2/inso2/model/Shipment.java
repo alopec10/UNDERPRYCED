@@ -21,8 +21,8 @@ public class Shipment {
     @Temporal(TemporalType.TIMESTAMP)
     private Date shipDate;
 
-    @Size(min = 1, max = 40)
-    @Column(name = "Address", length = 40, nullable = false)
+    @Size(min = 10, max = 150)
+    @Column(name = "Address", length = 150, nullable = false)
     private String address;
 
     @Size(min = 1, max = 10)
@@ -53,7 +53,7 @@ public class Shipment {
     public Shipment() {
     }
 
-    public Shipment(@Size(min = 1, max = 20) String trackingNumber, Date shipDate, @Size(min = 1, max = 40) String address, @Size(min = 1, max = 10) String zipCode, @Size(min = 1, max = 20) String country, boolean completed, Order order) {
+    public Shipment(@Size(min = 1, max = 20) String trackingNumber, Date shipDate, @Size(min = 10, max = 150) String address, @Size(min = 1, max = 10) String zipCode, @Size(min = 1, max = 20) String country, boolean completed, Order order) {
         this.trackingNumber = trackingNumber;
         this.shipDate = shipDate;
         this.address = address;

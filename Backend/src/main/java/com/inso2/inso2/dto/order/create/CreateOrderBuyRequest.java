@@ -4,16 +4,19 @@ import java.io.Serializable;
 
 public class CreateOrderBuyRequest implements Serializable {
     private long idPayMethod;
-    private String ref, size;
+    private String ref, size, address, country, zipCode;
     private int price;
 
     public CreateOrderBuyRequest() {
     }
 
-    public CreateOrderBuyRequest(long idPayMethod, String ref, String size, int price) {
+    public CreateOrderBuyRequest(long idPayMethod, String ref, String size, String address, String country, String zipCode, int price) {
         this.idPayMethod = idPayMethod;
         this.ref = ref;
         this.size = size;
+        this.address = address;
+        this.country = country;
+        this.zipCode = zipCode;
         this.price = price;
     }
 
@@ -47,5 +50,29 @@ public class CreateOrderBuyRequest implements Serializable {
 
     public void setSize(String size) {
         this.size = size;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 }

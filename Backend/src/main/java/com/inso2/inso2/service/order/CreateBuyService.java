@@ -3,13 +3,12 @@ package com.inso2.inso2.service.order;
 import com.inso2.inso2.dto.order.create.CreateOrderBuyRequest;
 import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.*;
-import com.inso2.inso2.service.user.LoadUserService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class CreateBuyService {
@@ -29,6 +28,9 @@ public class CreateBuyService {
     }
 
     public void create(CreateOrderBuyRequest req, User user) throws Exception{
+        if(!this.validateShipmentData(req.getAddress(), req.getCountry(), req.getZipCode())){
+            throw new Exception("Invalid shipment data");
+        }
         Product product = productRepository.findByRef(req.getRef());
         ProductDetails productDetails = productDetailsRepository.findByProductAndSize(product, req.getSize());
         Ask ask = askRepository.findFirstByProductDetailsAndPriceOrderByIdAskAsc(productDetails, productDetails.getLowestAsk());
@@ -40,5 +42,27 @@ public class CreateBuyService {
         Order order = new Order(UUID.randomUUID().toString(),ask.getPrice(),new Date(),user, ask.getUser(), productDetails, buyerPaymentMethod, sellerPaymentMethod);
         orderRepository.saveAndFlush(order);
         askRepository.deleteById(ask.getIdAsk());
+    }
+
+    private boolean validateShipmentData(String address, String country, String zipCode){
+        return validateAddress(address) && isCountryValid(country) && isZipCodeValid(zipCode);
+    }
+
+    private boolean validateAddress(String address){
+        Pattern pattern = Pattern.compile(".{10,150}");
+        Matcher matcher = pattern.matcher(address);
+        return matcher.matches();
+    }
+
+    private boolean isCountryValid(String country){
+        Pattern pattern = Pattern.compile("^[A-ZÀ-Ö][A-Za-zÀ-ÖØ-öø-ÿ\\s\\-]+$");
+        Matcher matcher = pattern.matcher(country);
+        return matcher.matches();
+    }
+
+    private boolean isZipCodeValid(String zipCode){
+        Pattern pattern = Pattern.compile("^\\d{5}(?:[-\\s]\\d{4})?$");
+        Matcher matcher = pattern.matcher(zipCode);
+        return matcher.matches();
     }
 }
