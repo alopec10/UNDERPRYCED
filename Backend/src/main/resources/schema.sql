@@ -164,6 +164,7 @@ CREATE TABLE IF NOT EXISTS `shipments`
     `Completed` bit(1)  NOT NULL DEFAULT b'0',
     `Sent` bit(1)  NOT NULL DEFAULT b'0',
     `Type` enum('WAREHOUSE', 'HOME') NOT NULL,
+    `Status` enum('PENDING_APPROVAL', 'ON_WAY', 'COMPLETED', 'CANCELLED') NOT NULL,
     `Approved`bit(1)  NOT NULL DEFAULT b'0',
     `IdOrder` int(11) NOT NULL,
     KEY `FK_SHIPMENT_ORDER` (`IDOrder`),

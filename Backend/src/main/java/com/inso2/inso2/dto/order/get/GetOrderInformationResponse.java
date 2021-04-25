@@ -1,9 +1,6 @@
 package com.inso2.inso2.dto.order.get;
 
-import com.inso2.inso2.model.Order;
-import com.inso2.inso2.model.Product;
-import com.inso2.inso2.model.Shipment;
-import com.inso2.inso2.model.ShipmentType;
+import com.inso2.inso2.model.*;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,6 +9,7 @@ public class GetOrderInformationResponse implements Serializable {
     private String orderRef, date, shipDate, arrivalDate, address, zipCode, country, trackingNumber, productRef, size, brand, colorway, title, url;
     private int price;
     private boolean completed, sent, approved;
+    private ShipmentStatus status;
 
     public GetOrderInformationResponse() {
     }
@@ -160,6 +158,14 @@ public class GetOrderInformationResponse implements Serializable {
         this.approved = approved;
     }
 
+    public ShipmentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ShipmentStatus status) {
+        this.status = status;
+    }
+
     public GetOrderInformationResponse build(Order o, ShipmentType shipmentType){
         this.orderRef = o.getRef();
         this.date = o.getDate().toString().substring(0,10);
@@ -181,6 +187,7 @@ public class GetOrderInformationResponse implements Serializable {
         this.completed = s.isCompleted();
         this.sent = s.isSent();
         this.approved = s.isApproved();
+        this.status = s.getStatus();
         return this;
     }
 

@@ -50,6 +50,10 @@ public class Shipment {
     @Column(name = "Type", nullable = false)
     private ShipmentType type;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "Status", nullable = false)
+    private ShipmentStatus status;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "IdOrder", nullable = false)
     private Order order;
@@ -161,6 +165,14 @@ public class Shipment {
 
     public void setType(ShipmentType type) {
         this.type = type;
+    }
+
+    public ShipmentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ShipmentStatus status) {
+        this.status = status;
     }
 
     @Override
