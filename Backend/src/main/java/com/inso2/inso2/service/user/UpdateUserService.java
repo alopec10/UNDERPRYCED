@@ -60,8 +60,11 @@ public class UpdateUserService {
             if (req.getZipCode() == null || req.getZipCode().isBlank()){
                 user.setZipCode(null);
             }
-            else{
+            else if(isZipCodeValid(req.getZipCode())){
                 user.setZipCode(req.getZipCode());
+            }
+            else{
+                throw new Exception("Zip Code format is not correct");
             }
         }
         if(user.getPhoneNumber() == null || !user.getPhoneNumber().equals(req.getPhoneNumber())){
@@ -91,6 +94,12 @@ public class UpdateUserService {
                 + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?)(\\d{2}[ ]?){2}\\d{2}$";
         Pattern pattern = Pattern.compile(patterns);
         Matcher matcher = pattern.matcher(phoneNumber);
+        return matcher.matches();
+    }
+    
+    private boolean isZipCodeValid(String zipCode){
+        Pattern pattern = Pattern.compile("^\\d{5}(?:[-\\s]\\d{4})?$");
+        Matcher matcher = pattern.matcher(zipCode);
         return matcher.matches();
     }
 }
