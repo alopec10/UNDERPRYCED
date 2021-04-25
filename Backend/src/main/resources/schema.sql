@@ -133,6 +133,7 @@ CREATE TABLE IF NOT EXISTS `orders`
     `Ref` nvarchar(100) NOT NULL,
     `Price` int NOT NULL,
     `Date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `Status` enum('PENDING_APPROVAL', 'ON_WAY', 'COMPLETED', 'CANCELLED') NOT NULL DEFAULT 'PENDING_APPROVAL',
     `IdBuyer` int(11) NOT NULL,
     `IdSeller` int(11) NOT NULL,
     `IdProductDetails` int(11) NOT NULL,

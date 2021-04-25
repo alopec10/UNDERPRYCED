@@ -39,6 +39,8 @@ public class ApproveOrderService {
         homeShipment.setApproved(true);
         homeShipment.setStatus(Status.ON_WAY);
         this.shipmentRepository.saveAndFlush(homeShipment);
+        order.setStatus(Status.ON_WAY);
+        this.orderRepository.save(order);
     }
 
     private Shipment getWarehouseShipment(Order o){

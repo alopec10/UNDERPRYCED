@@ -33,6 +33,8 @@ public class RejectOrderService {
         homeShipment.setCompleted(true);
         homeShipment.setStatus(Status.CANCELLED);
         this.shipmentRepository.saveAndFlush(homeShipment);
+        order.setStatus(Status.CANCELLED);
+        this.orderRepository.save(order);
     }
 
     private Shipment getWarehouseShipment(Order o){

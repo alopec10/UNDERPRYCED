@@ -28,6 +28,10 @@ public class Order {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "Status", nullable = false)
+    private Status status;
+
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "IdBuyer", nullable = false)
     private User buyer;
@@ -146,5 +150,13 @@ public class Order {
 
     public void setPaymentMethodSeller(PaymentMethod paymentMethodSeller) {
         this.paymentMethodSeller = paymentMethodSeller;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }
