@@ -1,4 +1,4 @@
-package com.inso2.inso2.service;
+package com.inso2.inso2.service.shipment;
 
 import com.inso2.inso2.model.Order;
 import com.inso2.inso2.model.Shipment;
@@ -12,32 +12,27 @@ import java.util.Date;
 import java.util.UUID;
 
 @Service
-public class CreateWarehouseShipmentService {
-
+public class CreateHomeShipmentService {
     private final ShipmentRepository shipmentRepository;
-    private static final String ADDRESS = "Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León";
-    private static final String ZIP_CODE = "24391";
-    private static final String COUNTRY = "Spain";
 
-    public CreateWarehouseShipmentService(ShipmentRepository shipmentRepository) {
+    public CreateHomeShipmentService(ShipmentRepository shipmentRepository) {
         this.shipmentRepository = shipmentRepository;
     }
 
-    public Shipment create(Order order){
+    public void create(Order order, Date shipDate, String address, String zipCode, String country){
         Shipment shipment = new Shipment();
         shipment.setTrackingNumber(UUID.randomUUID().toString());
-        shipment.setShipDate(new Date());
-        shipment.setArrivalDate(this.calculateDatePeriod(3));
-        shipment.setAddress(ADDRESS);
-        shipment.setZipCode(ZIP_CODE);
-        shipment.setCountry(COUNTRY);
+        shipment.setShipDate(shipDate);
+        shipment.setArrivalDate(this.calculateDatePeriod(shipDate,3));
+        shipment.setAddress(address);
+        shipment.setZipCode(zipCode);
+        shipment.setCountry(country);
         shipment.setCompleted(false);
-        shipment.setSent(true);
+        shipment.setSent(false);
         shipment.setApproved(false);
-        shipment.setType(ShipmentType.WAREHOUSE);
+        shipment.setType(ShipmentType.HOME);
         shipment.setOrder(order);
         shipmentRepository.saveAndFlush(shipment);
-        return shipment;
     }
 
     private long getAllDays(int dayOfWeek, long businessDays) {
@@ -59,8 +54,10 @@ public class CreateWarehouseShipmentService {
         return result;
     }
 
-    private Date calculateDatePeriod(long businessDays){
-        LocalDate startDate = LocalDate.now();
+    private Date calculateDatePeriod(Date date, long businessDays){
+        LocalDate startDate = date.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
         LocalDate endDate = startDate.plusDays(getAllDays(startDate.getDayOfWeek().getValue(), businessDays));
         return Date.from(endDate.atStartOfDay()
                 .atZone(ZoneId.systemDefault())

@@ -3,7 +3,8 @@ package com.inso2.inso2.service.order;
 import com.inso2.inso2.dto.order.create.CreateOrderBuyRequest;
 import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.*;
-import com.inso2.inso2.service.CreateWarehouseShipmentService;
+import com.inso2.inso2.service.shipment.CreateHomeShipmentService;
+import com.inso2.inso2.service.shipment.CreateWarehouseShipmentService;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -20,14 +21,16 @@ public class CreateBuyService {
     private final PaymentMethodRepository paymentMethodRepository;
     private final AskRepository askRepository;
     private final CreateWarehouseShipmentService createWarehouseShipmentService;
+    private final CreateHomeShipmentService createHomeShipmentService;
 
-    public CreateBuyService(OrderRepository orderRepository, ProductRepository productRepository, ProductDetailsRepository productDetailsRepository, PaymentMethodRepository paymentMethodRepository, AskRepository askRepository, CreateWarehouseShipmentService createWarehouseShipmentService) {
+    public CreateBuyService(OrderRepository orderRepository, ProductRepository productRepository, ProductDetailsRepository productDetailsRepository, PaymentMethodRepository paymentMethodRepository, AskRepository askRepository, CreateWarehouseShipmentService createWarehouseShipmentService, CreateHomeShipmentService createHomeShipmentService) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.productDetailsRepository = productDetailsRepository;
         this.paymentMethodRepository = paymentMethodRepository;
         this.askRepository = askRepository;
         this.createWarehouseShipmentService = createWarehouseShipmentService;
+        this.createHomeShipmentService = createHomeShipmentService;
     }
 
     public void create(CreateOrderBuyRequest req, User user) throws Exception{
@@ -46,6 +49,7 @@ public class CreateBuyService {
         orderRepository.saveAndFlush(order);
         askRepository.deleteById(ask.getIdAsk());
         Shipment warehouseShipment = createWarehouseShipmentService.create(order);
+        createHomeShipmentService.create(order, warehouseShipment.getArrivalDate(), req.getAddress(), req.getZipCode(), req.getCountry());
     }
 
     private boolean validateShipmentData(String address, String country, String zipCode){
