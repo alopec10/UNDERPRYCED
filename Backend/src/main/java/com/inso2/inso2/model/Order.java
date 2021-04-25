@@ -1,8 +1,12 @@
 package com.inso2.inso2.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -36,8 +40,10 @@ public class Order {
     @JoinColumn(name = "IdProductDetails", nullable = false)
     private ProductDetails productDetails;
 
-    @OneToOne(mappedBy = "order")
-    private Shipment shipment;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="order")
+    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private List<Shipment> shipments;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "IdPayMethodBuyer", nullable = false)
@@ -110,12 +116,12 @@ public class Order {
         this.productDetails = productDetails;
     }
 
-    public Shipment getShipment() {
-        return shipment;
+    public List<Shipment> getShipments() {
+        return shipments;
     }
 
-    public void setShipment(Shipment shipment) {
-        this.shipment = shipment;
+    public void setShipments(List<Shipment> shipments) {
+        this.shipments = shipments;
     }
 
     public String getRef() {
@@ -140,18 +146,5 @@ public class Order {
 
     public void setPaymentMethodSeller(PaymentMethod paymentMethodSeller) {
         this.paymentMethodSeller = paymentMethodSeller;
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "idOrder=" + idOrder +
-                ", price=" + price +
-                ", date=" + date +
-                ", buyer=" + buyer +
-                ", seller=" + seller +
-                ", productDetails=" + productDetails +
-                ", shipment=" + shipment +
-                '}';
     }
 }

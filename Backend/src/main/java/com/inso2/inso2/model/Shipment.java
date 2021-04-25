@@ -36,8 +36,18 @@ public class Shipment {
     @Column(name = "Completed", nullable = false)
     private boolean completed;
 
-    @OneToOne
-    @JoinColumn(name = "IdOrder", referencedColumnName = "IdOrder", nullable = false)
+    @Column(name = "Sent", nullable = false)
+    private boolean sent;
+
+    @Column(name = "Approved", nullable = false)
+    private boolean approved;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "Type", nullable = false)
+    private ShipmentType type;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "IdOrder", nullable = false)
     private Order order;
 
     public Shipment() {
@@ -115,6 +125,30 @@ public class Shipment {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    public boolean isSent() {
+        return sent;
+    }
+
+    public void setSent(boolean sent) {
+        this.sent = sent;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
+
+    public ShipmentType getType() {
+        return type;
+    }
+
+    public void setType(ShipmentType type) {
+        this.type = type;
     }
 
     @Override
