@@ -3,6 +3,7 @@ package com.inso2.inso2.service.order;
 import com.inso2.inso2.dto.order.create.CreateOrderBuyRequest;
 import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.*;
+import com.inso2.inso2.service.CreateWarehouseShipmentService;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -18,13 +19,15 @@ public class CreateBuyService {
     private final ProductDetailsRepository productDetailsRepository;
     private final PaymentMethodRepository paymentMethodRepository;
     private final AskRepository askRepository;
+    private final CreateWarehouseShipmentService createWarehouseShipmentService;
 
-    public CreateBuyService(OrderRepository orderRepository, ProductRepository productRepository, ProductDetailsRepository productDetailsRepository, PaymentMethodRepository paymentMethodRepository, AskRepository askRepository) {
+    public CreateBuyService(OrderRepository orderRepository, ProductRepository productRepository, ProductDetailsRepository productDetailsRepository, PaymentMethodRepository paymentMethodRepository, AskRepository askRepository, CreateWarehouseShipmentService createWarehouseShipmentService) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.productDetailsRepository = productDetailsRepository;
         this.paymentMethodRepository = paymentMethodRepository;
         this.askRepository = askRepository;
+        this.createWarehouseShipmentService = createWarehouseShipmentService;
     }
 
     public void create(CreateOrderBuyRequest req, User user) throws Exception{
@@ -42,13 +45,14 @@ public class CreateBuyService {
         Order order = new Order(UUID.randomUUID().toString(),ask.getPrice(),new Date(),user, ask.getUser(), productDetails, buyerPaymentMethod, sellerPaymentMethod);
         orderRepository.saveAndFlush(order);
         askRepository.deleteById(ask.getIdAsk());
+        Shipment warehouseShipment = createWarehouseShipmentService.create(order);
     }
 
     private boolean validateShipmentData(String address, String country, String zipCode){
-        return validateAddress(address) && isCountryValid(country) && isZipCodeValid(zipCode);
+        return isAddressValid(address) && isCountryValid(country) && isZipCodeValid(zipCode);
     }
 
-    private boolean validateAddress(String address){
+    private boolean isAddressValid(String address){
         Pattern pattern = Pattern.compile(".{10,150}");
         Matcher matcher = pattern.matcher(address);
         return matcher.matches();

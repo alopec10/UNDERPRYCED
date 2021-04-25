@@ -226,7 +226,7 @@ INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPay
 VALUES ('7376213552988817555', 223, 3, 2, 1, 3, 2)^;
 
 /* SHIPMENTS */
-
+/*
 INSERT IGNORE INTO shipments(trackingnumber, address, zipcode, country, idorder)
 VALUES ('78832224578314392100', 'C/ User2', '24198', 'Spain', (SELECT IdOrder
                                                                FROM orders o
@@ -262,4 +262,4 @@ VALUES ('70432134579612416100', 'C/ User2', '24198', 'Spain', (SELECT IdOrder
                                                                  and s.Email = 'user@user.com'
                                                                  and p.Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'
                                                                  and pd.size = '40'))^;
-
+*/

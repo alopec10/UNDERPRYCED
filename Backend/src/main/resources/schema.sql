@@ -155,8 +155,9 @@ CREATE TABLE IF NOT EXISTS `orders`
 CREATE TABLE IF NOT EXISTS `shipments`
 (
     `IdShipment` int(11) NOT NULL AUTO_INCREMENT,
-    `TrackingNumber` varchar(20) NOT NULL,
+    `TrackingNumber` varchar(100) NOT NULL,
     `ShipDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `ArrivalDate` datetime NOT NULL,
     `Address` nvarchar(150) NOT NULL,
     `ZIPCode` varchar(10) NOT NULL,
     `Country` nvarchar(20) NOT NULL,

@@ -13,13 +13,17 @@ public class Shipment {
     @Column(name = "IdShipment")
     private long idShipment;
 
-    @Size(min = 1, max = 20)
-    @Column(name = "TrackingNumber", length = 20, nullable = false)
+    @Size(min = 1, max = 100)
+    @Column(name = "TrackingNumber", length = 100, nullable = false)
     private String trackingNumber;
 
     @Column(name = "ShipDate", columnDefinition="DATETIME", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date shipDate;
+
+    @Column(name = "ArrivalDate", columnDefinition="DATETIME", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date arrivalDate;
 
     @Size(min = 10, max = 150)
     @Column(name = "Address", length = 150, nullable = false)
@@ -53,7 +57,7 @@ public class Shipment {
     public Shipment() {
     }
 
-    public Shipment(@Size(min = 1, max = 20) String trackingNumber, Date shipDate, @Size(min = 10, max = 150) String address, @Size(min = 1, max = 10) String zipCode, @Size(min = 1, max = 20) String country, boolean completed, Order order) {
+    public Shipment(@Size(min = 1, max = 100) String trackingNumber, Date shipDate, @Size(min = 10, max = 150) String address, @Size(min = 1, max = 10) String zipCode, @Size(min = 1, max = 20) String country, boolean completed, Order order) {
         this.trackingNumber = trackingNumber;
         this.shipDate = shipDate;
         this.address = address;
@@ -85,6 +89,14 @@ public class Shipment {
 
     public void setShipDate(Date shipDate) {
         this.shipDate = shipDate;
+    }
+
+    public Date getArrivalDate() {
+        return arrivalDate;
+    }
+
+    public void setArrivalDate(Date arrivalDate) {
+        this.arrivalDate = arrivalDate;
     }
 
     public String getAddress() {
