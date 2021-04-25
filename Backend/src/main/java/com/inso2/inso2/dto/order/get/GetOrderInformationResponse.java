@@ -9,7 +9,7 @@ public class GetOrderInformationResponse implements Serializable {
     private String orderRef, date, shipDate, arrivalDate, address, zipCode, country, trackingNumber, productRef, size, brand, colorway, title, url;
     private int price;
     private boolean completed, sent, approved;
-    private ShipmentStatus status;
+    private Status status;
 
     public GetOrderInformationResponse() {
     }
@@ -158,11 +158,11 @@ public class GetOrderInformationResponse implements Serializable {
         this.approved = approved;
     }
 
-    public ShipmentStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(ShipmentStatus status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

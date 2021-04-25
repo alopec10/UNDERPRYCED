@@ -2,7 +2,7 @@ package com.inso2.inso2.service.shipment;
 
 import com.inso2.inso2.model.Order;
 import com.inso2.inso2.model.Shipment;
-import com.inso2.inso2.model.ShipmentStatus;
+import com.inso2.inso2.model.Status;
 import com.inso2.inso2.model.ShipmentType;
 import com.inso2.inso2.repository.ShipmentRepository;
 import org.springframework.stereotype.Service;
@@ -37,7 +37,7 @@ public class CreateWarehouseShipmentService {
         shipment.setApproved(false);
         shipment.setType(ShipmentType.WAREHOUSE);
         shipment.setOrder(order);
-        shipment.setStatus(ShipmentStatus.ON_WAY);
+        shipment.setStatus(Status.ON_WAY);
         shipmentRepository.saveAndFlush(shipment);
         return shipment;
     }

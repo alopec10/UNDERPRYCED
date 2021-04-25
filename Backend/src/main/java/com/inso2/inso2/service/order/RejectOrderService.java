@@ -3,7 +3,7 @@ package com.inso2.inso2.service.order;
 import com.inso2.inso2.dto.order.reject.RejectOrderRequest;
 import com.inso2.inso2.model.Order;
 import com.inso2.inso2.model.Shipment;
-import com.inso2.inso2.model.ShipmentStatus;
+import com.inso2.inso2.model.Status;
 import com.inso2.inso2.model.ShipmentType;
 import com.inso2.inso2.repository.OrderRepository;
 import com.inso2.inso2.repository.ShipmentRepository;
@@ -27,11 +27,11 @@ public class RejectOrderService {
         Shipment homeShipment = this.getHomeShipment(order);
         warehouseShipment.setApproved(false);
         warehouseShipment.setCompleted(true);
-        warehouseShipment.setStatus(ShipmentStatus.CANCELLED);
+        warehouseShipment.setStatus(Status.CANCELLED);
         this.shipmentRepository.saveAndFlush(warehouseShipment);
         homeShipment.setSent(false);
         homeShipment.setCompleted(true);
-        homeShipment.setStatus(ShipmentStatus.CANCELLED);
+        homeShipment.setStatus(Status.CANCELLED);
         this.shipmentRepository.saveAndFlush(homeShipment);
     }
 

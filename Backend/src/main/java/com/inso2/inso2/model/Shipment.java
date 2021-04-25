@@ -52,7 +52,7 @@ public class Shipment {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "Status", nullable = false)
-    private ShipmentStatus status;
+    private Status status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "IdOrder", nullable = false)
@@ -167,11 +167,11 @@ public class Shipment {
         this.type = type;
     }
 
-    public ShipmentStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(ShipmentStatus status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

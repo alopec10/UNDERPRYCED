@@ -3,7 +3,7 @@ package com.inso2.inso2.service.order;
 import com.inso2.inso2.dto.order.approve.ApproveOrderRequest;
 import com.inso2.inso2.model.Order;
 import com.inso2.inso2.model.Shipment;
-import com.inso2.inso2.model.ShipmentStatus;
+import com.inso2.inso2.model.Status;
 import com.inso2.inso2.model.ShipmentType;
 import com.inso2.inso2.repository.OrderRepository;
 import com.inso2.inso2.repository.ShipmentRepository;
@@ -31,13 +31,13 @@ public class ApproveOrderService {
         Shipment homeShipment = this.getHomeShipment(order);
         warehouseShipment.setApproved(true);
         warehouseShipment.setCompleted(true);
-        warehouseShipment.setStatus(ShipmentStatus.COMPLETED);
+        warehouseShipment.setStatus(Status.COMPLETED);
         this.shipmentRepository.saveAndFlush(warehouseShipment);
         homeShipment.setSent(true);
         homeShipment.setShipDate(new Date());
         homeShipment.setArrivalDate(this.calculateDatePeriod(new Date(),3));
         homeShipment.setApproved(true);
-        homeShipment.setStatus(ShipmentStatus.ON_WAY);
+        homeShipment.setStatus(Status.ON_WAY);
         this.shipmentRepository.saveAndFlush(homeShipment);
     }
 
