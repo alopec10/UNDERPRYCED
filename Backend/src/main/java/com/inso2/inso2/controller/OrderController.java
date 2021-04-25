@@ -105,8 +105,6 @@ public class OrderController {
     @RequestMapping(value = "/approve", method = RequestMethod.POST)
     public ResponseEntity<?> approve(@RequestBody ApproveOrderRequest req){
         try{
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            User user = loadUserService.load(auth);
             approveOrderService.approve(req);
             return ResponseEntity.ok("Order approved");
         }
@@ -121,8 +119,6 @@ public class OrderController {
     @RequestMapping(value = "/reject", method = RequestMethod.POST)
     public ResponseEntity<?> reject(@RequestBody RejectOrderRequest req){
         try{
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            User user = loadUserService.load(auth);
             rejectOrderService.reject(req);
             return ResponseEntity.ok("Order rejected");
         }
