@@ -14,10 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +30,9 @@ public class OrderController {
     private final ApproveOrderService approveOrderService;
     private final RejectOrderService rejectOrderService;
     private final GetPendingOrdersService getPendingOrdersService;
+    private final ConfirmDeliveryService confirmDeliveryService;
 
-    public OrderController(LoadUserService loadUserService, CreateBuyService createBuyService, CreateSellService createSellService, GetPurchasesOfUserService getPurchasesOfUserService, GetSellsOfUserService getSellsOfUserService, ApproveOrderService approveOrderService, RejectOrderService rejectOrderService, GetPendingOrdersService getPendingOrdersService) {
+    public OrderController(LoadUserService loadUserService, CreateBuyService createBuyService, CreateSellService createSellService, GetPurchasesOfUserService getPurchasesOfUserService, GetSellsOfUserService getSellsOfUserService, ApproveOrderService approveOrderService, RejectOrderService rejectOrderService, GetPendingOrdersService getPendingOrdersService, ConfirmDeliveryService confirmDeliveryService) {
         this.loadUserService = loadUserService;
         this.createBuyService = createBuyService;
         this.createSellService = createSellService;
@@ -43,6 +41,7 @@ public class OrderController {
         this.approveOrderService = approveOrderService;
         this.rejectOrderService = rejectOrderService;
         this.getPendingOrdersService = getPendingOrdersService;
+        this.confirmDeliveryService = confirmDeliveryService;
     }
 
     @RequestMapping(value = "/createBuy", method = RequestMethod.POST)
@@ -136,6 +135,21 @@ public class OrderController {
     public ResponseEntity<?> getPending(){
         try{
             return ResponseEntity.ok(getPendingOrdersService.get());
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
+    @RequestMapping(value = "/confirmDelivery", method = RequestMethod.GET)
+    public ResponseEntity<?> confirmDelivery(@RequestParam String ref){
+        try{
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User user = loadUserService.load(auth);
+            confirmDeliveryService.confirm(user, ref);
+            return ResponseEntity.ok("Delivery confirmed");
         }
         catch(Exception e){
             return new ResponseEntity<>(
