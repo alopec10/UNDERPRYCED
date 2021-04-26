@@ -1,17 +1,19 @@
 package com.inso2.inso2.dto.order.get;
 
-import com.inso2.inso2.model.*;
+import com.inso2.inso2.model.Order;
+import com.inso2.inso2.model.Product;
+import com.inso2.inso2.model.Shipment;
+import com.inso2.inso2.model.ShipmentType;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class GetOrderInformationResponse implements Serializable {
-    private String orderRef, date, shipDate, arrivalDate, address, zipCode, country, trackingNumber, productRef, size, brand, colorway, title, url;
-    private int price;
-    private boolean completed, sent, approved;
-    private Status status;
+public class GetPendingOrderResponse implements Serializable {
 
-    public GetOrderInformationResponse() {
+    private String orderRef, date, size, productRef, brand, colorway, title, url, address, zipCode, country, trackingNumber;
+    private int price;
+
+    public GetPendingOrderResponse() {
     }
 
     public String getOrderRef() {
@@ -30,20 +32,20 @@ public class GetOrderInformationResponse implements Serializable {
         this.date = date;
     }
 
-    public String getProductRef() {
-        return productRef;
-    }
-
-    public void setProductRef(String productRef) {
-        this.productRef = productRef;
-    }
-
     public String getSize() {
         return size;
     }
 
     public void setSize(String size) {
         this.size = size;
+    }
+
+    public String getProductRef() {
+        return productRef;
+    }
+
+    public void setProductRef(String productRef) {
+        this.productRef = productRef;
     }
 
     public String getBrand() {
@@ -78,30 +80,6 @@ public class GetOrderInformationResponse implements Serializable {
         this.url = url;
     }
 
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public String getShipDate() {
-        return shipDate;
-    }
-
-    public void setShipDate(String shipDate) {
-        this.shipDate = shipDate;
-    }
-
-    public String getArrivalDate() {
-        return arrivalDate;
-    }
-
-    public void setArrivalDate(String arrivalDate) {
-        this.arrivalDate = arrivalDate;
-    }
-
     public String getAddress() {
         return address;
     }
@@ -134,39 +112,15 @@ public class GetOrderInformationResponse implements Serializable {
         this.trackingNumber = trackingNumber;
     }
 
-    public boolean isCompleted() {
-        return completed;
+    public int getPrice() {
+        return price;
     }
 
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
+    public void setPrice(int price) {
+        this.price = price;
     }
 
-    public boolean isSent() {
-        return sent;
-    }
-
-    public void setSent(boolean sent) {
-        this.sent = sent;
-    }
-
-    public boolean isApproved() {
-        return approved;
-    }
-
-    public void setApproved(boolean approved) {
-        this.approved = approved;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public GetOrderInformationResponse build(Order o, ShipmentType shipmentType){
+    public GetPendingOrderResponse build(Order o){
         this.orderRef = o.getRef();
         this.date = o.getDate().toString().substring(0,10);
         this.price = o.getPrice();
@@ -177,21 +131,16 @@ public class GetOrderInformationResponse implements Serializable {
         this.colorway = p.getColorway();
         this.title = p.getTitle();
         this.url = p.getUrl();
-        Shipment s = this.getWarehouseShipment(o.getShipments(), shipmentType);
-        this.trackingNumber = s.getTrackingNumber();
-        this.shipDate = s.getShipDate().toString().substring(0,10);
-        this.arrivalDate = s.getArrivalDate().toString().substring(0,10);
-        this.address = s.getAddress();
-        this.zipCode = s.getZipCode();
-        this.country = s.getCountry();
-        this.completed = s.isCompleted();
-        this.sent = s.isSent();
-        this.approved = s.isApproved();
-        this.status = s.getStatus();
+        Shipment warehouseShipment = this.getShipment(o.getShipments(), ShipmentType.WAREHOUSE);
+        this.trackingNumber = warehouseShipment.getTrackingNumber();
+        Shipment homeShipment = this.getShipment(o.getShipments(), ShipmentType.HOME);
+        this.address = homeShipment.getAddress();
+        this.zipCode = homeShipment.getZipCode();
+        this.country = homeShipment.getCountry();
         return this;
     }
 
-    private Shipment getWarehouseShipment(List<Shipment> shipments, ShipmentType shipmentType){
+    private Shipment getShipment(List<Shipment> shipments, ShipmentType shipmentType){
         for(Shipment s: shipments){
             if (s.getType() == shipmentType){
                 return s;

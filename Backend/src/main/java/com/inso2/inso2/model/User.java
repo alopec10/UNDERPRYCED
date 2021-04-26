@@ -39,8 +39,8 @@ public class User {
     @Column(name = "Password", length = 100, nullable = false)
     private String password;
 
-    @Size(min = 1, max = 40)
-    @Column(name = "Address", length = 40)
+    @Size(min = 10, max = 150)
+    @Column(name = "Address", length = 150)
     private String address;
 
     @Size(min = 1, max = 20)
@@ -95,7 +95,7 @@ public class User {
     public User() {
     }
 
-    public User(@Size(min = 1, max = 20) String name, @Size(min = 1, max = 30) String surname, @Size(min = 5, max = 30) String email, @Size(min = 1, max = 20) String password, @Size(min = 1, max = 40) String address, @Size(min = 1, max = 20) String country, @Size(min = 1, max = 10) String zipCode, @Size(min = 1, max = 20) String phoneNumber, int sellsCompleted, int purchasesCompleted) {
+    public User(@Size(min = 1, max = 20) String name, @Size(min = 1, max = 30) String surname, @Size(min = 5, max = 30) String email, @Size(min = 1, max = 20) String password, @Size(min = 10, max = 150) String address, @Size(min = 1, max = 20) String country, @Size(min = 1, max = 10) String zipCode, @Size(min = 1, max = 20) String phoneNumber, int sellsCompleted, int purchasesCompleted) {
         this.name = name;
         this.surname = surname;
         this.email = email;

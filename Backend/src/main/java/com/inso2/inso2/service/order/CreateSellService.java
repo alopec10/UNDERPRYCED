@@ -3,6 +3,8 @@ package com.inso2.inso2.service.order;
 import com.inso2.inso2.dto.order.create.CreateOrderSellRequest;
 import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.*;
+import com.inso2.inso2.service.shipment.CreateHomeShipmentService;
+import com.inso2.inso2.service.shipment.CreateWarehouseShipmentService;
 import com.inso2.inso2.service.user.LoadUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +21,17 @@ public class CreateSellService {
     private final ProductDetailsRepository productDetailsRepository;
     private final PaymentMethodRepository paymentMethodRepository;
     private final BidRepository bidRepository;
+    private final CreateWarehouseShipmentService createWarehouseShipmentService;
+    private final CreateHomeShipmentService createHomeShipmentService;
 
-    public CreateSellService(OrderRepository orderRepository, ProductRepository productRepository, ProductDetailsRepository productDetailsRepository, PaymentMethodRepository paymentMethodRepository, BidRepository bidRepository) {
+    public CreateSellService(OrderRepository orderRepository, ProductRepository productRepository, ProductDetailsRepository productDetailsRepository, PaymentMethodRepository paymentMethodRepository, BidRepository bidRepository, CreateWarehouseShipmentService createWarehouseShipmentService, CreateHomeShipmentService createHomeShipmentService) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.productDetailsRepository = productDetailsRepository;
         this.paymentMethodRepository = paymentMethodRepository;
         this.bidRepository = bidRepository;
+        this.createWarehouseShipmentService = createWarehouseShipmentService;
+        this.createHomeShipmentService = createHomeShipmentService;
     }
 
     public void create(CreateOrderSellRequest req, User user) throws Exception{
@@ -40,5 +46,7 @@ public class CreateSellService {
         Order order = new Order(UUID.randomUUID().toString(),bid.getPrice(),new Date(),bid.getUser(), user, productDetails, buyerPaymentMethod, sellerPaymentMethod);
         orderRepository.saveAndFlush(order);
         bidRepository.deleteById(bid.getIdBid());
+        Shipment warehouseShipment = createWarehouseShipmentService.create(order);
+        createHomeShipmentService.create(order, warehouseShipment.getArrivalDate(), req.getAddress(), req.getZipCode(), req.getCountry());
     }
 }

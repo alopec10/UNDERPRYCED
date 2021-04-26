@@ -227,39 +227,21 @@ VALUES ('7376213552988817555', 223, 3, 2, 1, 3, 2)^;
 
 /* SHIPMENTS */
 
-INSERT IGNORE INTO shipments(trackingnumber, address, zipcode, country, idorder)
-VALUES ('78832224578314392100', 'C/ User2', '24198', 'Spain', (SELECT IdOrder
-                                                               FROM orders o
-                                                                        INNER JOIN users b on o.IdBuyer = b.IdUser
-                                                                        INNER JOIN users s on o.IdSeller = s.IdUser
-                                                                        INNER JOIN productDetails pd on o.IdProductDetails = pd.IdProductDetails
-                                                                        INNER JOIN products p on pd.IdProduct = p.IdProduct
-                                                               WHERE b.Email = 'user2@user.com'
-                                                                 and s.Email = 'user@user.com'
-                                                                 and p.Ref = 'fa1a8868-9dd0-4b1b-a52f-dc248143d797'
-                                                                 and pd.size = '43'))^;
+INSERT IGNORE INTO shipments(TrackingNumber, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('78832224578314392100', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24198', 'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 1)^;
 
-INSERT IGNORE INTO shipments(trackingnumber, address, zipcode, country, completed, idorder)
-VALUES ('43432224579612146100', 'C/ User', '24198', 'Spain', 1, (SELECT IdOrder
-                                                                 FROM orders o
-                                                                          INNER JOIN users b on o.IdBuyer = b.IdUser
-                                                                          INNER JOIN users s on o.IdSeller = s.IdUser
-                                                                          INNER JOIN productDetails pd on o.IdProductDetails = pd.IdProductDetails
-                                                                          INNER JOIN products p on pd.IdProduct = p.IdProduct
-                                                                 WHERE b.Email = 'user@user.com'
-                                                                   and s.Email = 'user2@user.com'
-                                                                   and p.Ref = '8334d027-dafb-426d-b209-b8e07bf1b15b'
-                                                                   and pd.size = '44'))^;
+INSERT IGNORE INTO shipments(TrackingNumber, ShipDate, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('78832224578317682100', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'C/ User2 Nº 1, User2', '24198', 'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 1)^;
 
-INSERT IGNORE INTO shipments(trackingnumber, address, zipcode, country, idorder)
-VALUES ('70432134579612416100', 'C/ User2', '24198', 'Spain', (SELECT IdOrder
-                                                               FROM orders o
-                                                                        INNER JOIN users b on o.IdBuyer = b.IdUser
-                                                                        INNER JOIN users s on o.IdSeller = s.IdUser
-                                                                        INNER JOIN productDetails pd on o.IdProductDetails = pd.IdProductDetails
-                                                                        INNER JOIN products p on pd.IdProduct = p.IdProduct
-                                                               WHERE b.Email = 'user2@user.com'
-                                                                 and s.Email = 'user@user.com'
-                                                                 and p.Ref = '1f307b17-e640-4650-8d76-c6a37584e5a1'
-                                                                 and pd.size = '40'))^;
+INSERT IGNORE INTO shipments(TrackingNumber, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('78832255578314392100', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24198', 'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 2)^;
+
+INSERT IGNORE INTO shipments(TrackingNumber, ShipDate, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('78832224578979682100', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'C/ User Nº 1, User', '24198', 'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 2)^;
+
+INSERT IGNORE INTO shipments(TrackingNumber, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('78832255444314392100', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24198', 'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 3)^;
+
+INSERT IGNORE INTO shipments(TrackingNumber, ShipDate, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('7883222457895245282100', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'C/ User2 Nº 1, User2', '24198', 'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 3)^;
 
