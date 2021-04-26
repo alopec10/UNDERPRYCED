@@ -5,6 +5,7 @@ import com.inso2.inso2.repository.OrderRepository;
 import com.inso2.inso2.repository.ShipmentRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -27,6 +28,7 @@ public class ConfirmDeliveryService {
         Shipment homeShipment = this.getShipment(order.getShipments(), ShipmentType.HOME);
         homeShipment.setCompleted(true);
         homeShipment.setStatus(Status.COMPLETED);
+        homeShipment.setArrivalDate(new Date());
         shipmentRepository.saveAndFlush(homeShipment);
     }
 
