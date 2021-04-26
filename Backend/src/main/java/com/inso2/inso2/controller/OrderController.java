@@ -32,8 +32,9 @@ public class OrderController {
     private final GetSellsOfUserService getSellsOfUserService;
     private final ApproveOrderService approveOrderService;
     private final RejectOrderService rejectOrderService;
+    private final GetPendingOrdersService getPendingOrdersService;
 
-    public OrderController(LoadUserService loadUserService, CreateBuyService createBuyService, CreateSellService createSellService, GetPurchasesOfUserService getPurchasesOfUserService, GetSellsOfUserService getSellsOfUserService, ApproveOrderService approveOrderService, RejectOrderService rejectOrderService) {
+    public OrderController(LoadUserService loadUserService, CreateBuyService createBuyService, CreateSellService createSellService, GetPurchasesOfUserService getPurchasesOfUserService, GetSellsOfUserService getSellsOfUserService, ApproveOrderService approveOrderService, RejectOrderService rejectOrderService, GetPendingOrdersService getPendingOrdersService) {
         this.loadUserService = loadUserService;
         this.createBuyService = createBuyService;
         this.createSellService = createSellService;
@@ -41,6 +42,7 @@ public class OrderController {
         this.getSellsOfUserService = getSellsOfUserService;
         this.approveOrderService = approveOrderService;
         this.rejectOrderService = rejectOrderService;
+        this.getPendingOrdersService = getPendingOrdersService;
     }
 
     @RequestMapping(value = "/createBuy", method = RequestMethod.POST)
@@ -121,6 +123,19 @@ public class OrderController {
         try{
             rejectOrderService.reject(req);
             return ResponseEntity.ok("Order rejected");
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = "/getPending", method = RequestMethod.GET)
+    public ResponseEntity<?> getPending(){
+        try{
+            return ResponseEntity.ok(getPendingOrdersService.get());
         }
         catch(Exception e){
             return new ResponseEntity<>(
