@@ -50,6 +50,7 @@
             TOTAL: {{ totalPrice.toFixed(2) }}€
           </h1>
           <div
+              @click="confirmBuy"
               class="w-32 h-20 sm:w-48 sm:h-20 bg-purple-500 rounded-lg justify-center items-center px-2 flex mx-auto mt-10 cursor-pointer">
             <h1 class="text-white text-md sm:text-2xl ">
               CONTINUAR
@@ -84,7 +85,7 @@
             <div
                 class="w-32 h-20 sm:w-48 sm:h-20 bg-purple-500 rounded-lg justify-center items-center px-2 flex mx-auto mt-10 cursor-pointer"
                 @click="placeBid">
-              <h1 class="text-white text-md sm:text-2xl ">
+              <h1 class="text-white text-md sm:text-2xl">
                 CONTINUAR
               </h1>
             </div>
@@ -188,6 +189,15 @@ export default {
           .catch(err => {
           })
 
+    },
+    confirmBuy() {
+      this.$router.push({
+        name: "ConfirmarCompra",
+        params:{
+          ref: this.product.ref,
+          size: this.size
+        }
+      });
     }
   }
 }
