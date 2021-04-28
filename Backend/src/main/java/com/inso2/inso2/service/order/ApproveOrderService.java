@@ -7,6 +7,7 @@ import com.inso2.inso2.model.Status;
 import com.inso2.inso2.model.ShipmentType;
 import com.inso2.inso2.repository.OrderRepository;
 import com.inso2.inso2.repository.ShipmentRepository;
+import com.inso2.inso2.service.alert.CreateAlertService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -19,10 +20,12 @@ public class ApproveOrderService {
 
     private final OrderRepository orderRepository;
     private final ShipmentRepository shipmentRepository;
+    private final CreateAlertService createAlertService;
 
-    public ApproveOrderService(OrderRepository orderRepository, ShipmentRepository shipmentRepository) {
+    public ApproveOrderService(OrderRepository orderRepository, ShipmentRepository shipmentRepository, CreateAlertService createAlertService) {
         this.orderRepository = orderRepository;
         this.shipmentRepository = shipmentRepository;
+        this.createAlertService = createAlertService;
     }
 
     public void approve(ApproveOrderRequest req){
@@ -41,6 +44,8 @@ public class ApproveOrderService {
         this.shipmentRepository.saveAndFlush(homeShipment);
         order.setStatus(Status.ON_WAY);
         this.orderRepository.save(order);
+        createAlertService.createOrderApprovedAlert(order);
+        createAlertService.createOrderSentAlert(order, homeShipment);
     }
 
     private Shipment getWarehouseShipment(Order o){
