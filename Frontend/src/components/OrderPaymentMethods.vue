@@ -1,10 +1,10 @@
 <template>
   <div>
     <div v-if="hasMethod">
-      <h1 class="text-4xl mt-14">ELIGE TU MÉTODO DE PAGO</h1>
+      <h1 class="text-4xl">ELIGE TU MÉTODO DE PAGO</h1>
       <div
           class="flex my-6 mx-10">
-        <OrderCreditCard class="mx-auto text-xl"
+        <OrderCreditCard class="mx-auto text-xl my-5"
                     v-for="(item, index) in paymentMethods"
                     :id="item.idPayMethod"
                     :name="item.name"

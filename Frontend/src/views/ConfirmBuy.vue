@@ -1,11 +1,35 @@
 <template>
   <div class="min-w-screen m-12 flex">
-    <OrderPaymentMethods v-on:cardClicked="cardClicked"/>
-    <OrderShipmentAddress v-on:addressUpdated="addressUpdated"/>
-    <ConfirmOrderProduct :product="product"/>
-    <button @click="confirmBuy">
-      CONFIRMAR
-    </button>
+    <div class="inline items-center justify-center w-7/12">
+      <ConfirmOrderProduct :product="product"/>
+    </div>
+    <div class="inline w-5/12 my-auto">
+      <div v-show="step1">
+        <OrderShipmentAddress v-on:addressUpdated="addressUpdated"/>
+        <button @click="step1=!step1"
+                class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+
+          SIGUIENTE
+        </button>
+      </div>
+
+      <div v-show="!step1">
+        <OrderPaymentMethods v-on:cardClicked="cardClicked"/>
+        <div class="space-x-4">
+          <button @click="step1=!step1"
+                  class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+            ATRAS
+          </button>
+          <button @click="confirmBuy"
+                  class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+            CONFIRMAR
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+
   </div>
 
 </template>
@@ -50,7 +74,8 @@ export default {
         address: null,
         country: null,
         zipCode: null
-      }
+      },
+      step1: true
     }
   },
   mounted() {
@@ -101,10 +126,10 @@ export default {
             console.log(err)
           })
     },
-    cardClicked(id){
+    cardClicked(id) {
       this.idPayMethod = id
     },
-    addressUpdated(addressInfo){
+    addressUpdated(addressInfo) {
       this.addressInfo = addressInfo
     }
   }
