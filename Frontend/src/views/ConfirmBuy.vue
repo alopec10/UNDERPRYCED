@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div class="min-w-screen m-12 flex">
+    <OrderPaymentMethods v-on:cardClicked="cardClicked"/>
+    <ConfirmOrderProduct :product="product"/>
     <button @click="confirmBuy">
       CONFIRMAR
     </button>
@@ -8,8 +10,16 @@
 </template>
 
 <script>
+const axios = require("axios");
+import ConfirmOrderProduct from "@/components/ConfirmOrderProduct";
+import OrderPaymentMethods from "@/components/OrderPaymentMethods";
+
 export default {
   name: "ConfirmBuy",
+  components: {
+    ConfirmOrderProduct,
+    OrderPaymentMethods
+  },
   data() {
     return {
       product: {
@@ -81,6 +91,9 @@ export default {
           .catch(err => {
           })
     },
+    cardClicked(id){
+      this.idPayMethod = id
+    }
   }
 
 }
