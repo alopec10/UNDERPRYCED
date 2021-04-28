@@ -27,7 +27,6 @@ CREATE TABLE IF NOT EXISTS `alerts`
     `IdUser` int(11) NOT NULL,
     KEY `FK_ALERT_USER` (`IdUser`),
     CONSTRAINT `FK_ALERT_USER` FOREIGN KEY (`IdUser`) REFERENCES `users` (`IdUser`),
-    UNIQUE(`Title`, `Message`, `Date`, `IdUser`),
     PRIMARY KEY (`IdAlert`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ^;
 
