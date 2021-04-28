@@ -44,7 +44,7 @@
             </div>
             <div class="mt-7">
               <button @click="addPaymentMethod" type="button"
-                      class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+                      class=" mb-5 bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                 Añadir tarjeta
               </button>
             </div>
@@ -75,7 +75,8 @@ export default {
         expMonth: '',
         expYear: '',
         defaultMethod: 1
-      }
+      },
+
     }
   },
   mounted() {
@@ -96,7 +97,7 @@ export default {
             resp.data.forEach(function (item, index) {
               item.selected = index === 0;
               if(index === 0){
-                self.$emit('cardClicked', item.idPayMethod)
+                self.$emit('cardClicked', item)
               }
               ps.push(item)
             });
@@ -126,10 +127,10 @@ export default {
             })
       }
     },
-    cardClicked(id){
-      this.$emit('cardClicked', id)
+    cardClicked(card){
+      this.$emit('cardClicked', card)
       this.paymentMethods.forEach(function (item, index) {
-        item.selected = item.idPayMethod === id;
+        item.selected = item.idPayMethod === card.id;
       });
     }
   },

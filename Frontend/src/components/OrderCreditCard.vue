@@ -49,7 +49,13 @@ export default {
   },
   methods: {
     cardClicked(){
-      this.$emit('cardClicked', this.id)
+      let card = {
+        id: this.id,
+        number: this.number,
+        expMonth: this.expMonth,
+        expYear: this.expYear
+      }
+      this.$emit('cardClicked', card)
     }
   }
 }

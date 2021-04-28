@@ -1,31 +1,97 @@
 <template>
   <div class="min-w-screen m-12 flex">
-    <div class="inline items-center justify-center w-7/12">
+    <div class="inline items-center justify-center w-5/12">
       <ConfirmOrderProduct :product="product"/>
     </div>
-    <div class="inline w-5/12 my-auto">
+    <div class="inline w-7/12 my-auto">
       <div v-show="step1">
         <OrderShipmentAddress v-on:addressUpdated="addressUpdated"/>
-        <button @click="step1=!step1"
+        <button @click="step1=false; step2 = true"
                 class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
 
           SIGUIENTE
         </button>
       </div>
 
-      <div v-show="!step1">
+      <div v-show="step2">
         <OrderPaymentMethods v-on:cardClicked="cardClicked"/>
         <div class="space-x-4">
-          <button @click="step1=!step1"
+          <button @click="step1=true; step2=false"
                   class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
-            ATRAS
+            ATRÁS
+          </button>
+          <button @click="step2=false; step3 = true"
+                  class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+
+            SIGUIENTE
+          </button>
+        </div>
+
+
+      </div>
+      <div v-show="step3">
+
+        <div>
+          <h1 class="text-4xl">RESUMEN DE LA COMPRA</h1>
+          <div class="flex my-10 justify-center items-center border-2 rounded-lg shadow-xl border-purple-300  ">
+            <div class=" w-1/3 my-5">
+              <div>
+                <h1 class="text-md sm:text-2xl">
+                  PRECIO
+                </h1>
+                <h1 class="text-md sm:text-lg mt-5">
+                  Precio: {{ price.toFixed(2) }}€
+                </h1>
+                <h1 class="text-md sm:text-lg mt-3">
+                  Tasas de compra: {{ fees.toFixed(2) }}€
+                </h1>
+                <h1 class="text-md sm:text-lg mt-3">
+                  Gastos de envío: {{ shipping.toFixed(2) }}€
+                </h1>
+                <h1 class="text-md sm:text-2xl mt-5">
+                  TOTAL: {{ totalPrice.toFixed(2) }}€
+                </h1>
+              </div>
+            </div>
+            <div class=" w-1/3">
+              <h1 class="text-md sm:text-2xl">
+                DIRECCIÓN
+              </h1>
+              <h1 class="text-md sm:text-lg mt-5">
+                Dirección: {{ addressInfo.address }}
+              </h1>
+              <h1 class="text-md sm:text-lg mt-5">
+                Código Postal: {{ addressInfo.zipCode }}
+              </h1>
+              <h1 class="text-md sm:text-lg mt-5">
+                País: {{ addressInfo.country }}
+              </h1>
+
+            </div>
+            <div class="w-1/3">
+              <h1 class="text-md sm:text-2xl">
+                MÉTODO DE PAGO
+              </h1>
+              <h1 class="text-md sm:text-lg mt-5">
+                Número: {{ modifiedNumber }}
+              </h1>
+              <h1 class="text-md sm:text-lg mt-5">
+                Fecha caducidad: {{ card.expMonth }}/{{ card.expYear }}
+              </h1>
+            </div>
+          </div>
+
+        </div>
+        <div class="space-x-4">
+          <button @click="step2=true; step3=false"
+                  class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+            ATRÁS
           </button>
           <button @click="confirmBuy"
                   class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
             CONFIRMAR
           </button>
         </div>
-
       </div>
     </div>
 
@@ -64,18 +130,32 @@ export default {
         categoryType: "",
         productDetails: []
       },
+      card: {
+        idPayMethod: null,
+        number: "",
+        expMonth: "",
+        expYear: ""
+      },
       size: "",
       price: 340,
       fees: 0,
       shipping: 15,
       totalPrice: 0,
-      idPayMethod: null,
+
       addressInfo: {
         address: null,
         country: null,
         zipCode: null
       },
-      step1: true
+      step1: true,
+      step2: false,
+      step3: false
+    }
+  },
+  computed: {
+    modifiedNumber() {
+      let pad = "************"
+      return pad + this.card.number
     }
   },
   mounted() {
@@ -109,9 +189,8 @@ export default {
           })
     },
     confirmBuy() {
-      //MODIFY WHEN IMPLEMENTED
       const dat = {
-        "idPayMethod": this.idPayMethod,
+        "idPayMethod": this.card.idPayMethod,
         "ref": this.ref,
         "size": this.size,
         "address": this.addressInfo.address,
@@ -126,8 +205,11 @@ export default {
             console.log(err)
           })
     },
-    cardClicked(id) {
-      this.idPayMethod = id
+    cardClicked(card) {
+      this.card.idPayMethod = card.id
+      this.card.number = card.number
+      this.card.expMonth = card.expMonth
+      this.card.expYear = card.expYear
     },
     addressUpdated(addressInfo) {
       this.addressInfo = addressInfo
