@@ -86,6 +86,11 @@ public class User {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<Order> purchases;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
+    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private List<Alert> alerts;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(    name = "userRoles",
             joinColumns = @JoinColumn(name = "IdUser"),
@@ -251,6 +256,14 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public List<Alert> getAlerts() {
+        return alerts;
+    }
+
+    public void setAlerts(List<Alert> alerts) {
+        this.alerts = alerts;
     }
 
     @Override
