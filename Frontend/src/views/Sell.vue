@@ -50,6 +50,7 @@
             TOTAL: {{ totalPrice.toFixed(2) }}€
           </h1>
           <div
+              @click="confirmSell"
               class="w-32 h-20 sm:w-48 sm:h-20 bg-purple-500 rounded-lg justify-center items-center px-2 flex mx-auto mt-10 cursor-pointer">
             <h1 class="text-white text-md sm:text-2xl ">
               CONTINUAR
@@ -189,6 +190,15 @@ export default {
           .catch(err => {
           })
 
+    },
+    confirmSell() {
+      this.$router.push({
+        name: "ConfirmarVenta",
+        params:{
+          ref: this.product.ref,
+          size: this.size
+        }
+      });
     }
   }
 }

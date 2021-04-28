@@ -113,6 +113,17 @@ const routes = [
         }
     },
     {
+        path: '/confirmarVenta/:ref/:size',
+        name: 'ConfirmarVenta',
+        component: function () {
+            return import('../views/ConfirmSell.vue')
+        },
+        meta: {
+            requiresAuth: true,
+            userAuth: true
+        }
+    },
+    {
         path: '/inicioAdmin',
         name: 'InicioAdmin',
         component: function () {
