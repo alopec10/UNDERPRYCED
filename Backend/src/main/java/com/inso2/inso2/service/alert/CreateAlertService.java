@@ -84,4 +84,31 @@ public class CreateAlertService {
         alert.setUser(user);
         alertRepository.saveAndFlush(alert);
     }
+
+    public void createBuyRejectedAlert(Order o){
+        String title = "Pedido cancelado";
+        String text = "El pedido con referencia " + o.getRef() + " ha sido cancelado al no cumplir el producto las condiciones de aceptación de la empresa. El dinero le será reembolsado en su cuenta en un plazo de tres días hábiles.\n"
+                + "Disculpe las molestias.";
+        Alert alert = new Alert();
+        alert.setTitle(title);
+        alert.setMessage(text);
+        alert.setRead(false);
+        alert.setDate(new Date());
+        alert.setUser(o.getBuyer());
+        alertRepository.saveAndFlush(alert);
+    }
+
+    public void createSellRejectedAlert(Order o){
+        String title = "Pedido cancelado";
+        String text = "El pedido con referencia " + o.getRef() + " ha sido cancelado al no cumplir el producto las condiciones de aceptación de la empresa.\n"
+                + "Si desea efectuar una reclamación póngase en contacto con nuestro servicio de atención al cliente: admin@admin.com"
+                +"Un saludo.";
+        Alert alert = new Alert();
+        alert.setTitle(title);
+        alert.setMessage(text);
+        alert.setRead(false);
+        alert.setDate(new Date());
+        alert.setUser(o.getSeller());
+        alertRepository.saveAndFlush(alert);
+    }
 }
