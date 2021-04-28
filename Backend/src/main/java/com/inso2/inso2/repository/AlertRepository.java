@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface AlertRepository extends JpaRepository<Alert, Long> {
     List<Alert> findByUserOrderByIdAlert(User user);
+    Alert findByUserAndIdAlert(User user, long idAlert);
 }

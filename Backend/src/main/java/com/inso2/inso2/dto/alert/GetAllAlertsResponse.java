@@ -3,17 +3,27 @@ package com.inso2.inso2.dto.alert;
 import java.io.Serializable;
 
 public class GetAllAlertsResponse implements Serializable {
+    private long idAlert;
     private String title, message, date;
     private boolean read;
 
     public GetAllAlertsResponse() {
     }
 
-    public GetAllAlertsResponse(String title, String message, String date, boolean read) {
+    public GetAllAlertsResponse(long idAlert, String title, String message, String date, boolean read) {
+        this.idAlert = idAlert;
         this.title = title;
         this.message = message;
         this.date = date;
         this.read = read;
+    }
+
+    public long getIdAlert() {
+        return idAlert;
+    }
+
+    public void setIdAlert(long idAlert) {
+        this.idAlert = idAlert;
     }
 
     public String getTitle() {

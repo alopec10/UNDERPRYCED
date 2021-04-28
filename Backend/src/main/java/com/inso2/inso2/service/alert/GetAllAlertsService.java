@@ -21,7 +21,7 @@ public class GetAllAlertsService {
         List<Alert> alerts = alertRepository.findByUserOrderByIdAlert(user);
         List<GetAllAlertsResponse> response = new ArrayList<>();
         for(Alert a: alerts){
-            response.add(new GetAllAlertsResponse(a.getTitle(), a.getMessage(), a.getDate().toString().substring(0, 10), a.isRead()));
+            response.add(new GetAllAlertsResponse(a.getIdAlert(),a.getTitle(), a.getMessage(), a.getDate().toString().substring(0, 10), a.isRead()));
         }
         return response;
     }
