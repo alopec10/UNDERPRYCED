@@ -38,6 +38,7 @@ public class CreateSellService {
         Product product = productRepository.findByRef(req.getRef());
         ProductDetails productDetails = productDetailsRepository.findByProductAndSize(product, req.getSize());
         Bid bid = bidRepository.findFirstByProductDetailsAndPriceOrderByIdBidAsc(productDetails, productDetails.getHighestBid());
+        User buyer = bid.getUser();
         if(bid.getUser().equals(user)){
             throw new Exception("It's not possible to sell a product to yourself");
         }
@@ -47,6 +48,6 @@ public class CreateSellService {
         orderRepository.saveAndFlush(order);
         bidRepository.deleteById(bid.getIdBid());
         Shipment warehouseShipment = createWarehouseShipmentService.create(order);
-        createHomeShipmentService.create(order, warehouseShipment.getArrivalDate(), req.getAddress(), req.getZipCode(), req.getCountry());
+        createHomeShipmentService.create(order, warehouseShipment.getArrivalDate(), buyer.getAddress(), buyer.getZipCode(), buyer.getCountry());
     }
 }
