@@ -61,7 +61,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(@Size(min = 1, max = 100) String ref, int price, Date date, User buyer, User seller, ProductDetails productDetails, PaymentMethod paymentMethodBuyer, PaymentMethod paymentMethodSeller) {
+    public Order(@Size(min = 1, max = 100) String ref, int price, Date date, User buyer, User seller, ProductDetails productDetails, PaymentMethod paymentMethodBuyer, PaymentMethod paymentMethodSeller, Status status) {
         this.ref = ref;
         this.price = price;
         this.date = date;
@@ -70,6 +70,7 @@ public class Order {
         this.productDetails = productDetails;
         this.paymentMethodBuyer = paymentMethodBuyer;
         this.paymentMethodSeller = paymentMethodSeller;
+        this.status = status;
     }
 
     public long getIdOrder() {

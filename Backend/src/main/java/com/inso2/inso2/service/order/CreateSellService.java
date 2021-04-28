@@ -43,7 +43,7 @@ public class CreateSellService {
         }
         PaymentMethod sellerPaymentMethod = paymentMethodRepository.findByUserAndIdPayMethod(user, req.getIdPayMethod());
         PaymentMethod buyerPaymentMethod = paymentMethodRepository.findFirstByUserAndIsActiveOrderByIdPayMethodAsc(bid.getUser(), true);
-        Order order = new Order(UUID.randomUUID().toString(),bid.getPrice(),new Date(),bid.getUser(), user, productDetails, buyerPaymentMethod, sellerPaymentMethod);
+        Order order = new Order(UUID.randomUUID().toString(),bid.getPrice(),new Date(),bid.getUser(), user, productDetails, buyerPaymentMethod, sellerPaymentMethod, Status.PENDING_APPROVAL);
         orderRepository.saveAndFlush(order);
         bidRepository.deleteById(bid.getIdBid());
         Shipment warehouseShipment = createWarehouseShipmentService.create(order);
