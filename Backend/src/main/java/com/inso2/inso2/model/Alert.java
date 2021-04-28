@@ -17,10 +17,10 @@ public class Alert {
     private String title;
 
     @Size(min = 1, max = 500)
-    @Column(name = "Text", length = 500, nullable = false)
-    private String text;
+    @Column(name = "Message", length = 500, nullable = false)
+    private String message;
 
-    @Column(name = "Read", nullable = false)
+    @Column(name = "[Read]", nullable = false)
     private boolean read;
 
     @Column(name = "Date", columnDefinition="DATETIME", nullable = false)
@@ -34,9 +34,9 @@ public class Alert {
     public Alert() {
     }
 
-    public Alert(@Size(min = 1, max = 50) String title, @Size(min = 1, max = 500) String text, boolean read, Date date, User user) {
+    public Alert(@Size(min = 1, max = 50) String title, @Size(min = 1, max = 500) String message, boolean read, Date date, User user) {
         this.title = title;
-        this.text = text;
+        this.message = message;
         this.read = read;
         this.date = date;
         this.user = user;
@@ -58,12 +58,12 @@ public class Alert {
         this.title = title;
     }
 
-    public String getText() {
-        return text;
+    public String getMessage() {
+        return message;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setMessage(String text) {
+        this.message = text;
     }
 
     public boolean isRead() {
