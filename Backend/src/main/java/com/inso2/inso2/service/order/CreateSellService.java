@@ -3,6 +3,7 @@ package com.inso2.inso2.service.order;
 import com.inso2.inso2.dto.order.create.CreateOrderSellRequest;
 import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.*;
+import com.inso2.inso2.service.alert.CreateAlertService;
 import com.inso2.inso2.service.shipment.CreateHomeShipmentService;
 import com.inso2.inso2.service.shipment.CreateWarehouseShipmentService;
 import com.inso2.inso2.service.user.LoadUserService;
@@ -23,8 +24,9 @@ public class CreateSellService {
     private final BidRepository bidRepository;
     private final CreateWarehouseShipmentService createWarehouseShipmentService;
     private final CreateHomeShipmentService createHomeShipmentService;
+    private final CreateAlertService createAlertService;
 
-    public CreateSellService(OrderRepository orderRepository, ProductRepository productRepository, ProductDetailsRepository productDetailsRepository, PaymentMethodRepository paymentMethodRepository, BidRepository bidRepository, CreateWarehouseShipmentService createWarehouseShipmentService, CreateHomeShipmentService createHomeShipmentService) {
+    public CreateSellService(OrderRepository orderRepository, ProductRepository productRepository, ProductDetailsRepository productDetailsRepository, PaymentMethodRepository paymentMethodRepository, BidRepository bidRepository, CreateWarehouseShipmentService createWarehouseShipmentService, CreateHomeShipmentService createHomeShipmentService, CreateAlertService createAlertService) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.productDetailsRepository = productDetailsRepository;
@@ -32,6 +34,7 @@ public class CreateSellService {
         this.bidRepository = bidRepository;
         this.createWarehouseShipmentService = createWarehouseShipmentService;
         this.createHomeShipmentService = createHomeShipmentService;
+        this.createAlertService = createAlertService;
     }
 
     public void create(CreateOrderSellRequest req, User user) throws Exception{
@@ -49,5 +52,6 @@ public class CreateSellService {
         bidRepository.deleteById(bid.getIdBid());
         Shipment warehouseShipment = createWarehouseShipmentService.create(order);
         createHomeShipmentService.create(order, warehouseShipment.getArrivalDate(), buyer.getAddress(), buyer.getZipCode(), buyer.getCountry());
+        createAlertService.createBuyAlert(order);
     }
 }
