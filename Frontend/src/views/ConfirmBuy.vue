@@ -1,6 +1,7 @@
 <template>
   <div class="min-w-screen m-12 flex">
     <OrderPaymentMethods v-on:cardClicked="cardClicked"/>
+    <OrderShipmentAddress v-on:addressUpdated="addressUpdated"/>
     <ConfirmOrderProduct :product="product"/>
     <button @click="confirmBuy">
       CONFIRMAR
@@ -13,12 +14,14 @@
 const axios = require("axios");
 import ConfirmOrderProduct from "@/components/ConfirmOrderProduct";
 import OrderPaymentMethods from "@/components/OrderPaymentMethods";
+import OrderShipmentAddress from "@/components/OrderShipmentAddress";
 
 export default {
   name: "ConfirmBuy",
   components: {
     ConfirmOrderProduct,
-    OrderPaymentMethods
+    OrderPaymentMethods,
+    OrderShipmentAddress
   },
   data() {
     return {
@@ -43,11 +46,17 @@ export default {
       shipping: 15,
       totalPrice: 0,
       idPayMethod: null,
+      addressInfo: {
+        address: null,
+        country: null,
+        zipCode: null
+      }
     }
   },
   mounted() {
     this.getProduct()
     this.size = this.$route.params.size
+    this.ref = this.$route.params.ref
   },
   methods: {
     getProduct() {
@@ -80,19 +89,23 @@ export default {
         "idPayMethod": this.idPayMethod,
         "ref": this.ref,
         "size": this.size,
-        "address": this.address,
-        "country": this.country,
-        "zipCode": this.zipCode,
+        "address": this.addressInfo.address,
+        "country": this.addressInfo.country,
+        "zipCode": this.addressInfo.zipCode,
       }
       axios({url: 'http://localhost:8888/order/createBuy', data: dat, method: 'POST'})
           .then(resp => {
             alert("Venta creada correctamente")
           })
           .catch(err => {
+            console.log(err)
           })
     },
     cardClicked(id){
       this.idPayMethod = id
+    },
+    addressUpdated(addressInfo){
+      this.addressInfo = addressInfo
     }
   }
 

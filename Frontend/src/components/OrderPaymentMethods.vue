@@ -92,12 +92,11 @@ export default {
       axios({url: 'http://localhost:8888/payMethod/getAll', method: 'GET'})
           .then(resp => {
             let ps = this.paymentMethods
+            let self = this
             resp.data.forEach(function (item, index) {
+              item.selected = index === 0;
               if(index === 0){
-                item.selected = true
-              }
-              else{
-                item.selected = false
+                self.$emit('cardClicked', item.idPayMethod)
               }
               ps.push(item)
             });
@@ -130,12 +129,7 @@ export default {
     cardClicked(id){
       this.$emit('cardClicked', id)
       this.paymentMethods.forEach(function (item, index) {
-        if(item.idPayMethod === id){
-          item.selected = true
-        }
-        else{
-          item.selected = false
-        }
+        item.selected = item.idPayMethod === id;
       });
     }
   },
