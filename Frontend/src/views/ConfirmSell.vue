@@ -1,10 +1,68 @@
 <template>
   <div class="min-w-screen m-12 flex">
-    <OrderPaymentMethods v-on:cardClicked="cardClicked"/>
-    <ConfirmOrderProduct :product="product"/>
-    <button @click="confirmSell">
-      CONFIRMAR
-    </button>
+    <div class="inline items-center justify-center w-1/2">
+      <ConfirmOrderProduct :product="product"/>
+    </div>
+    <div class="inline w-1/2 my-auto">
+      <div v-show="step1">
+        <OrderPaymentMethods v-on:cardClicked="cardClicked"/>
+        <button @click="step1=false; step2 = true"
+                class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+
+          SIGUIENTE
+        </button>
+
+      </div>
+      <div v-show="step2">
+        <h1 class="text-4xl">RESUMEN DE LA VENTA</h1>
+        <div class="flex my-10 justify-center items-center border-2 rounded-lg shadow-xl border-purple-300  ">
+          <div class=" w-1/2 my-5">
+            <div>
+              <h1 class="text-md sm:text-2xl">
+                PRECIO
+              </h1>
+              <h1 class="text-md sm:text-lg mt-5">
+                Precio: {{ price.toFixed(2) }}€
+              </h1>
+              <h1 class="text-md sm:text-lg mt-3">
+                Tasas de venta: {{ fees.toFixed(2) }}€
+              </h1>
+              <h1 class="text-md sm:text-lg mt-3">
+                Gastos de envío: {{ shipping.toFixed(2) }}€
+              </h1>
+              <h1 class="text-md sm:text-2xl mt-5">
+                TOTAL: {{ totalPrice.toFixed(2) }}€
+              </h1>
+            </div>
+          </div>
+          <div class=" w-1/2 my-5">
+
+            <h1 class="text-md sm:text-2xl">
+              MÉTODO DE PAGO
+            </h1>
+            <h1 class="text-md sm:text-lg mt-5">
+              Número: {{ modifiedNumber }}
+            </h1>
+            <h1 class="text-md sm:text-lg mt-5">
+              Fecha caducidad: {{ card.expMonth }}/{{ card.expYear }}
+            </h1>
+          </div>
+        </div>
+        <div class="space-x-4">
+          <button @click="step1=true; step2=false"
+                  class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+            ATRÁS
+          </button>
+          <button @click="confirmSell"
+                  class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+            CONFIRMAR
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
   </div>
 
 </template>
@@ -37,12 +95,25 @@ export default {
         categoryType: "",
         productDetails: []
       },
+      card: {
+        idPayMethod: null,
+        number: "",
+        expMonth: "",
+        expYear: ""
+      },
       size: "",
       price: 340,
       fees: 0,
       shipping: 15,
       totalPrice: 0,
-      idPayMethod: null,
+      step1: true,
+      step2: false,
+    }
+  },
+  computed: {
+    modifiedNumber() {
+      let pad = "************"
+      return pad + this.card.number
     }
   },
   mounted() {
@@ -68,7 +139,7 @@ export default {
               if (this.size == pd.size) {
                 this.price = pd.highestBid
                 this.fees = 0.1 * this.price
-                this.totalPrice = this.price + this.fees + this.shipping
+                this.totalPrice = this.price - this.fees - this.shipping
               }
             }
           })
@@ -89,8 +160,11 @@ export default {
             console.log(err)
           })
     },
-    cardClicked(id){
-      this.idPayMethod = id
+    cardClicked(card) {
+      this.card.idPayMethod = card.id
+      this.card.number = card.number
+      this.card.expMonth = card.expMonth
+      this.card.expYear = card.expYear
     },
   }
 
