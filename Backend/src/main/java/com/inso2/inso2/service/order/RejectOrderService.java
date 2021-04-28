@@ -7,6 +7,7 @@ import com.inso2.inso2.model.Status;
 import com.inso2.inso2.model.ShipmentType;
 import com.inso2.inso2.repository.OrderRepository;
 import com.inso2.inso2.repository.ShipmentRepository;
+import com.inso2.inso2.service.alert.CreateAlertService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +16,12 @@ import java.util.List;
 public class RejectOrderService {
     private final OrderRepository orderRepository;
     private final ShipmentRepository shipmentRepository;
+    private final CreateAlertService createAlertService;
 
-    public RejectOrderService(OrderRepository orderRepository, ShipmentRepository shipmentRepository) {
+    public RejectOrderService(OrderRepository orderRepository, ShipmentRepository shipmentRepository, CreateAlertService createAlertService) {
         this.orderRepository = orderRepository;
         this.shipmentRepository = shipmentRepository;
+        this.createAlertService = createAlertService;
     }
 
     public void reject(RejectOrderRequest req){
@@ -35,6 +38,8 @@ public class RejectOrderService {
         this.shipmentRepository.saveAndFlush(homeShipment);
         order.setStatus(Status.CANCELLED);
         this.orderRepository.save(order);
+        createAlertService.createBuyRejectedAlert(order);
+        createAlertService.createSellRejectedAlert(order);
     }
 
     private Shipment getWarehouseShipment(Order o){

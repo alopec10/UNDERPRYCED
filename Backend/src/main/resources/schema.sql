@@ -17,6 +17,19 @@ CREATE TABLE IF NOT EXISTS `users`
     PRIMARY KEY (`IDUser`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ^;
 
+CREATE TABLE IF NOT EXISTS `alerts`
+(
+    `IdAlert` int(11) NOT NULL AUTO_INCREMENT,
+    `Title` nvarchar(50) NOT NULL,
+    `Message` nvarchar(500) NOT NULL,
+    `Read` bit(1) NOT NULL DEFAULT b'0',
+    `Date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `IdUser` int(11) NOT NULL,
+    KEY `FK_ALERT_USER` (`IdUser`),
+    CONSTRAINT `FK_ALERT_USER` FOREIGN KEY (`IdUser`) REFERENCES `users` (`IdUser`),
+    PRIMARY KEY (`IdAlert`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ^;
+
 CREATE TABLE IF NOT EXISTS `roles`
 (
     `IdRole` int(11) NOT NULL AUTO_INCREMENT,

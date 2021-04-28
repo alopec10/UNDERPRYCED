@@ -9,15 +9,15 @@ VALUES ('ROLE_ADMIN') ^;
 /* USERS */
 INSERT IGNORE INTO users(name, surname, email, password, Address, ZIPCode, Country, PhoneNumber)
 VALUES ('Admin', 'Admin', 'admin@admin.com', '$2a$10$YRA9C3jPTVrQs8wbIux7R.8Vx9R3uCp7g7Bg5rJ/Haj8y4C6PB.Cu',
-        'C/ Admin', '24198', 'Spain', '987402130')^;
+        'Calle Bernardo del Carpio, 6, León', '24004', 'España', '987402130')^;
 
 INSERT IGNORE INTO users(name, surname, email, password, Address, ZIPCode, Country, PhoneNumber)
 VALUES ('User', 'User', 'user@user.com', '$2a$10$h0oOdH.VpWWMslVYdY.qQ.WyQ6HnE52Wc3EI5n7YH3DL6wm8CjVoS',
-        'C/ User', '24198', 'Spain', '987404530')^;
+        'Avda. Independencia, 14, León', '24001', 'España', '987404530')^;
 
 INSERT IGNORE INTO users(name, surname, email, password, Address, ZIPCode, Country, PhoneNumber)
 VALUES ('User2', 'User2', 'user2@user.com', '$2a$10$esr0atHpssbhlyiu5SUiUORUzLvx8fZ8yh5suRt17CAgO8LEpaPvy',
-        'C/ User2', '24198', 'Spain', '987404530')^;
+        'Av. Lancia, 12, local 3, León', '24004', 'España', '987403130')^;
 
 /* USER ROLES */
 

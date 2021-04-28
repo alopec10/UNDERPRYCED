@@ -3,6 +3,7 @@ package com.inso2.inso2.service.order;
 import com.inso2.inso2.dto.order.create.CreateOrderBuyRequest;
 import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.*;
+import com.inso2.inso2.service.alert.CreateAlertService;
 import com.inso2.inso2.service.shipment.CreateHomeShipmentService;
 import com.inso2.inso2.service.shipment.CreateWarehouseShipmentService;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,9 @@ public class CreateBuyService {
     private final AskRepository askRepository;
     private final CreateWarehouseShipmentService createWarehouseShipmentService;
     private final CreateHomeShipmentService createHomeShipmentService;
+    private final CreateAlertService createAlertService;
 
-    public CreateBuyService(OrderRepository orderRepository, ProductRepository productRepository, ProductDetailsRepository productDetailsRepository, PaymentMethodRepository paymentMethodRepository, AskRepository askRepository, CreateWarehouseShipmentService createWarehouseShipmentService, CreateHomeShipmentService createHomeShipmentService) {
+    public CreateBuyService(OrderRepository orderRepository, ProductRepository productRepository, ProductDetailsRepository productDetailsRepository, PaymentMethodRepository paymentMethodRepository, AskRepository askRepository, CreateWarehouseShipmentService createWarehouseShipmentService, CreateHomeShipmentService createHomeShipmentService, CreateAlertService createAlertService) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.productDetailsRepository = productDetailsRepository;
@@ -31,6 +33,7 @@ public class CreateBuyService {
         this.askRepository = askRepository;
         this.createWarehouseShipmentService = createWarehouseShipmentService;
         this.createHomeShipmentService = createHomeShipmentService;
+        this.createAlertService = createAlertService;
     }
 
     public void create(CreateOrderBuyRequest req, User user) throws Exception{
@@ -45,11 +48,12 @@ public class CreateBuyService {
         }
         PaymentMethod buyerPaymentMethod = paymentMethodRepository.findByUserAndIdPayMethod(user, req.getIdPayMethod());
         PaymentMethod sellerPaymentMethod = paymentMethodRepository.findFirstByUserAndIsActiveOrderByIdPayMethodAsc(ask.getUser(), true);
-        Order order = new Order(UUID.randomUUID().toString(),ask.getPrice(),new Date(),user, ask.getUser(), productDetails, buyerPaymentMethod, sellerPaymentMethod);
+        Order order = new Order(UUID.randomUUID().toString(),ask.getPrice(),new Date(),user, ask.getUser(), productDetails, buyerPaymentMethod, sellerPaymentMethod, Status.PENDING_APPROVAL);
         orderRepository.saveAndFlush(order);
         askRepository.deleteById(ask.getIdAsk());
         Shipment warehouseShipment = createWarehouseShipmentService.create(order);
         createHomeShipmentService.create(order, warehouseShipment.getArrivalDate(), req.getAddress(), req.getZipCode(), req.getCountry());
+        createAlertService.createSellAlert(order);
     }
 
     private boolean validateShipmentData(String address, String country, String zipCode){

@@ -6,6 +6,7 @@ import com.inso2.inso2.model.RoleName;
 import com.inso2.inso2.model.User;
 import com.inso2.inso2.repository.RoleRepository;
 import com.inso2.inso2.repository.UserRepository;
+import com.inso2.inso2.service.alert.CreateAlertService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,10 +24,13 @@ public class RegisterUserService {
 
     private final RoleRepository roleRepository;
 
-    public RegisterUserService(PasswordEncoder passwordEncoder, UserRepository userRepository, RoleRepository roleRepository) {
+    private final CreateAlertService createAlertService;
+
+    public RegisterUserService(PasswordEncoder passwordEncoder, UserRepository userRepository, RoleRepository roleRepository, CreateAlertService createAlertService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.createAlertService = createAlertService;
     }
 
     public void register(RegisterRequest req) throws Exception {
@@ -61,6 +65,7 @@ public class RegisterUserService {
         }
         u.setRoles(roles);
         userRepository.saveAndFlush(u);
+        createAlertService.createWelcomeAlert(u);
     }
 
     private boolean isPasswordValid(String pass){
