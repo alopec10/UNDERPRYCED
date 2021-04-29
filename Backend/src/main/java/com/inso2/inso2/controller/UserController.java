@@ -49,7 +49,9 @@ public class UserController {
 
     private final CheckUserHasBidsService checkUserHasBidsService;
 
-    public UserController(AuthenticationManager authenticationManager, LoadUserService loadUserService, RegisterUserService registerUserService, UpdateUserService updateUserService, GenerateAuthenticationTokenService generateAuthenticationTokenService, CheckUserHasAsksOrBidsService checkUserHasAsksOrBidsService, CheckUserHasBidsService checkUserHasBidsService) {
+    private final DeleteFullAddressService deleteFullAddressService;
+
+    public UserController(AuthenticationManager authenticationManager, LoadUserService loadUserService, RegisterUserService registerUserService, UpdateUserService updateUserService, GenerateAuthenticationTokenService generateAuthenticationTokenService, CheckUserHasAsksOrBidsService checkUserHasAsksOrBidsService, CheckUserHasBidsService checkUserHasBidsService, DeleteFullAddressService deleteFullAddressService) {
         this.authenticationManager = authenticationManager;
         this.loadUserService = loadUserService;
         this.registerUserService = registerUserService;
@@ -57,6 +59,7 @@ public class UserController {
         this.generateAuthenticationTokenService = generateAuthenticationTokenService;
         this.checkUserHasAsksOrBidsService = checkUserHasAsksOrBidsService;
         this.checkUserHasBidsService = checkUserHasBidsService;
+        this.deleteFullAddressService = deleteFullAddressService;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -94,6 +97,20 @@ public class UserController {
             User user = loadUserService.load(auth);
             updateUserService.update(req, user);
             return ResponseEntity.ok("User updated");
+        } catch (Exception e) {
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @RequestMapping(value = "/deleteFullAddress", method = RequestMethod.GET)
+    public ResponseEntity<?> deleteFullAddress() throws Exception {
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User user = loadUserService.load(auth);
+            deleteFullAddressService.delete(user);
+            return ResponseEntity.ok("Full address deleted");
         } catch (Exception e) {
             return new ResponseEntity<>(
                     e.getMessage(),
