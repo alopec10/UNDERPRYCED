@@ -4,6 +4,7 @@ import com.inso2.inso2.dto.authentication.AuthenticationRequest;
 import com.inso2.inso2.dto.authentication.AuthenticationResponse;
 import com.inso2.inso2.dto.register.RegisterRequest;
 import com.inso2.inso2.dto.user.data.UserDataResponse;
+import com.inso2.inso2.dto.user.update.UpdateAddressRequest;
 import com.inso2.inso2.dto.user.update.UserUpdateRequest;
 import com.inso2.inso2.model.Role;
 import com.inso2.inso2.model.RoleName;
@@ -51,7 +52,9 @@ public class UserController {
 
     private final DeleteFullAddressService deleteFullAddressService;
 
-    public UserController(AuthenticationManager authenticationManager, LoadUserService loadUserService, RegisterUserService registerUserService, UpdateUserService updateUserService, GenerateAuthenticationTokenService generateAuthenticationTokenService, CheckUserHasAsksOrBidsService checkUserHasAsksOrBidsService, CheckUserHasBidsService checkUserHasBidsService, DeleteFullAddressService deleteFullAddressService) {
+    private final UpdateFullAddressService updateFullAddressService;
+
+    public UserController(AuthenticationManager authenticationManager, LoadUserService loadUserService, RegisterUserService registerUserService, UpdateUserService updateUserService, GenerateAuthenticationTokenService generateAuthenticationTokenService, CheckUserHasAsksOrBidsService checkUserHasAsksOrBidsService, CheckUserHasBidsService checkUserHasBidsService, DeleteFullAddressService deleteFullAddressService, UpdateFullAddressService updateFullAddressService) {
         this.authenticationManager = authenticationManager;
         this.loadUserService = loadUserService;
         this.registerUserService = registerUserService;
@@ -60,6 +63,7 @@ public class UserController {
         this.checkUserHasAsksOrBidsService = checkUserHasAsksOrBidsService;
         this.checkUserHasBidsService = checkUserHasBidsService;
         this.deleteFullAddressService = deleteFullAddressService;
+        this.updateFullAddressService = updateFullAddressService;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -97,6 +101,21 @@ public class UserController {
             User user = loadUserService.load(auth);
             updateUserService.update(req, user);
             return ResponseEntity.ok("User updated");
+        } catch (Exception e) {
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @RequestMapping(value = "/updateAddress", method = RequestMethod.POST)
+    public ResponseEntity<?> updateAddress(@RequestBody UpdateAddressRequest req) throws Exception {
+
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User user = loadUserService.load(auth);
+            updateFullAddressService.update(req, user);
+            return ResponseEntity.ok("Address updated");
         } catch (Exception e) {
             return new ResponseEntity<>(
                     e.getMessage(),
