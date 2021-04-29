@@ -12,10 +12,7 @@ import com.inso2.inso2.repository.RoleRepository;
 import com.inso2.inso2.repository.UserRepository;
 import com.inso2.inso2.security.JwtUtils;
 import com.inso2.inso2.service.MyUserDetailsService;
-import com.inso2.inso2.service.user.GenerateAuthenticationTokenService;
-import com.inso2.inso2.service.user.LoadUserService;
-import com.inso2.inso2.service.user.RegisterUserService;
-import com.inso2.inso2.service.user.UpdateUserService;
+import com.inso2.inso2.service.user.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,7 +26,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -46,12 +45,15 @@ public class UserController {
 
     private final GenerateAuthenticationTokenService generateAuthenticationTokenService;
 
-    public UserController(AuthenticationManager authenticationManager, LoadUserService loadUserService, RegisterUserService registerUserService, UpdateUserService updateUserService, GenerateAuthenticationTokenService generateAuthenticationTokenService) {
+    private final CheckUserHasAsksOrBidsService checkUserHasAsksOrBidsService;
+
+    public UserController(AuthenticationManager authenticationManager, LoadUserService loadUserService, RegisterUserService registerUserService, UpdateUserService updateUserService, GenerateAuthenticationTokenService generateAuthenticationTokenService, CheckUserHasAsksOrBidsService checkUserHasAsksOrBidsService) {
         this.authenticationManager = authenticationManager;
         this.loadUserService = loadUserService;
         this.registerUserService = registerUserService;
         this.updateUserService = updateUserService;
         this.generateAuthenticationTokenService = generateAuthenticationTokenService;
+        this.checkUserHasAsksOrBidsService = checkUserHasAsksOrBidsService;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -105,6 +107,27 @@ public class UserController {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
             return ResponseEntity.ok(new UserDataResponse().build(user));
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @RequestMapping(value = "/hasAsksOrBids", method = RequestMethod.GET)
+    public ResponseEntity<?> hasAsksOrBids() throws Exception {
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User user = loadUserService.load(auth);
+            boolean b = checkUserHasAsksOrBidsService.check(user);
+            Map<String, Boolean> response = new HashMap<String, Boolean>()
+            {
+                {
+                    put("HasAsksOrBids", b);
+                }
+            };
+            return ResponseEntity.ok(response);
         }
         catch (Exception e) {
             return new ResponseEntity<>(
