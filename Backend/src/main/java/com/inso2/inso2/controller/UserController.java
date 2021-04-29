@@ -47,22 +47,24 @@ public class UserController {
 
     private final CheckUserHasAsksOrBidsService checkUserHasAsksOrBidsService;
 
-    public UserController(AuthenticationManager authenticationManager, LoadUserService loadUserService, RegisterUserService registerUserService, UpdateUserService updateUserService, GenerateAuthenticationTokenService generateAuthenticationTokenService, CheckUserHasAsksOrBidsService checkUserHasAsksOrBidsService) {
+    private final CheckUserHasBidsService checkUserHasBidsService;
+
+    public UserController(AuthenticationManager authenticationManager, LoadUserService loadUserService, RegisterUserService registerUserService, UpdateUserService updateUserService, GenerateAuthenticationTokenService generateAuthenticationTokenService, CheckUserHasAsksOrBidsService checkUserHasAsksOrBidsService, CheckUserHasBidsService checkUserHasBidsService) {
         this.authenticationManager = authenticationManager;
         this.loadUserService = loadUserService;
         this.registerUserService = registerUserService;
         this.updateUserService = updateUserService;
         this.generateAuthenticationTokenService = generateAuthenticationTokenService;
         this.checkUserHasAsksOrBidsService = checkUserHasAsksOrBidsService;
+        this.checkUserHasBidsService = checkUserHasBidsService;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> register(@RequestBody RegisterRequest req) throws Exception {
         try {
-           registerUserService.register(req);
+            registerUserService.register(req);
             return ResponseEntity.ok(generateAuthenticationTokenService.generate(req.getEmail()));
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(
                     "Cannot register, validation problems",
                     HttpStatus.CONFLICT);
@@ -77,8 +79,7 @@ public class UserController {
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword())
             );
             return ResponseEntity.ok(generateAuthenticationTokenService.generate(authenticationRequest.getEmail()));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(
                     "Invalid username or password",
                     HttpStatus.UNAUTHORIZED);
@@ -93,8 +94,7 @@ public class UserController {
             User user = loadUserService.load(auth);
             updateUserService.update(req, user);
             return ResponseEntity.ok("User updated");
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(
                     e.getMessage(),
                     HttpStatus.UNAUTHORIZED);
@@ -107,8 +107,7 @@ public class UserController {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
             return ResponseEntity.ok(new UserDataResponse().build(user));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(
                     e.getMessage(),
                     HttpStatus.UNAUTHORIZED);
@@ -121,15 +120,32 @@ public class UserController {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
             boolean b = checkUserHasAsksOrBidsService.check(user);
-            Map<String, Boolean> response = new HashMap<String, Boolean>()
-            {
+            Map<String, Boolean> response = new HashMap<>() {
                 {
                     put("HasAsksOrBids", b);
                 }
             };
             return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.UNAUTHORIZED);
         }
-        catch (Exception e) {
+    }
+
+    @RequestMapping(value = "/hasBids", method = RequestMethod.GET)
+    public ResponseEntity<?> hasBids() throws Exception {
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User user = loadUserService.load(auth);
+            boolean b = checkUserHasBidsService.check(user);
+            Map<String, Boolean> response = new HashMap<>() {
+                {
+                    put("HasBids", b);
+                }
+            };
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
             return new ResponseEntity<>(
                     e.getMessage(),
                     HttpStatus.UNAUTHORIZED);
