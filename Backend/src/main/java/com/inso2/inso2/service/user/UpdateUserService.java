@@ -22,14 +22,24 @@ public class UpdateUserService {
     }
 
     public void update(UserUpdateRequest req, User user) throws Exception {
-        if(!user.getName().equals(req.getName())){
-            user.setName(req.getName());
+        String name = req.getName();
+        String surname = req.getSurname();
+        String email = req.getEmail();
+        String phoneNumber = req.getPhoneNumber();
+        if(!this.isNameValid(name)){
+            throw new Exception("Invalid name format");
         }
-        if(!user.getSurname().equals(req.getSurname())){
-            user.setSurname(req.getSurname());
+        if(!this.isSurnameValid(surname)){
+            throw new Exception("Invalid surname format");
         }
-        if(!user.getEmail().equals(req.getEmail())){
-            user.setEmail(req.getEmail());
+        if(!this.isEmailValid(email)){
+            throw new Exception("Invalid email format");
+        }
+        if(!this.isPhoneNumberValid(phoneNumber)){
+            if(phoneNumber != null && !phoneNumber.isBlank()){
+                throw new Exception("Invalid phone number format");
+            }
+            phoneNumber = null;
         }
         String new_pass = passwordEncoder.encode(req.getPassword());
         if(req.getPassword() != null && !req.getPassword().isBlank() && !user.getPassword().equals(new_pass)){
@@ -40,45 +50,29 @@ public class UpdateUserService {
                 throw new Exception("Password format is not correct");
             }
         }
-        if(user.getAddress() == null || !user.getAddress().equals(req.getAddress())){
-            if (req.getAddress() == null || req.getAddress().isBlank()){
-                user.setAddress(null);
-            }
-            else{
-                user.setAddress(req.getAddress());
-            }
-        }
-        if(user.getCountry() == null || !user.getCountry().equals(req.getCountry())){
-            if (req.getCountry() == null || req.getCountry().isBlank()){
-                user.setCountry(null);
-            }
-            else{
-                user.setCountry(req.getCountry());
-            }
-        }
-        if(user.getZipCode() == null || !user.getZipCode().equals(req.getZipCode())){
-            if (req.getZipCode() == null || req.getZipCode().isBlank()){
-                user.setZipCode(null);
-            }
-            else if(isZipCodeValid(req.getZipCode())){
-                user.setZipCode(req.getZipCode());
-            }
-            else{
-                throw new Exception("Zip Code format is not correct");
-            }
-        }
-        if(user.getPhoneNumber() == null || !user.getPhoneNumber().equals(req.getPhoneNumber())){
-            if (req.getPhoneNumber() == null || req.getPhoneNumber().isBlank()){
-                user.setPhoneNumber(null);
-            }
-            else if(isPhoneNumberValid(req.getPhoneNumber())){
-                user.setPhoneNumber(req.getPhoneNumber());
-            }
-            else{
-                throw new Exception("Phone number format is not correct");
-            }
-        }
+        user.setName(name);
+        user.setSurname(surname);
+        user.setEmail(email);
+        user.setPhoneNumber(phoneNumber);
         userRepository.save(user);
+    }
+
+    private boolean isNameValid(String name){
+        Pattern pattern = Pattern.compile(".{1,20}");
+        Matcher matcher = pattern.matcher(name);
+        return matcher.matches();
+    }
+
+    private boolean isSurnameValid(String surname){
+        Pattern pattern = Pattern.compile(".{1,30}");
+        Matcher matcher = pattern.matcher(surname);
+        return matcher.matches();
+    }
+
+    private boolean isEmailValid(String email){
+        Pattern pattern = Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 
     private boolean isPasswordValid(String pass){
@@ -94,12 +88,6 @@ public class UpdateUserService {
                 + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?)(\\d{2}[ ]?){2}\\d{2}$";
         Pattern pattern = Pattern.compile(patterns);
         Matcher matcher = pattern.matcher(phoneNumber);
-        return matcher.matches();
-    }
-    
-    private boolean isZipCodeValid(String zipCode){
-        Pattern pattern = Pattern.compile("^\\d{5}(?:[-\\s]\\d{4})?$");
-        Matcher matcher = pattern.matcher(zipCode);
         return matcher.matches();
     }
 }
