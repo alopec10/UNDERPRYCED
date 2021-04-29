@@ -3,7 +3,7 @@ package com.inso2.inso2.dto.user.update;
 import java.io.Serializable;
 
 public class UserUpdateRequest implements Serializable {
-    private String name, surname, email, password, address, country, zipCode, phoneNumber;
+    private String name, surname, email, password, phoneNumber;
 
     public UserUpdateRequest() {
     }
@@ -13,9 +13,6 @@ public class UserUpdateRequest implements Serializable {
         this.surname = surname;
         this.email = email;
         this.password = password;
-        this.address = address;
-        this.country = country;
-        this.zipCode = zipCode;
         this.phoneNumber = phoneNumber;
     }
 
@@ -49,30 +46,6 @@ public class UserUpdateRequest implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
     }
 
     public String getPhoneNumber() {

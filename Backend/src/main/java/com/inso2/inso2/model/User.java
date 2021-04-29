@@ -29,9 +29,8 @@ public class User {
     @Column(name = "Surname", length = 30, nullable = false)
     private String surname;
 
-    @Size(min = 5, max = 30)
-    @Column(name = "Email", length = 30, nullable = false)
-    @Email
+    @Size(min = 1, max = 100)
+    @Column(name = "Email", length = 100, nullable = false)
     @NotBlank
     private String email;
 
@@ -100,7 +99,7 @@ public class User {
     public User() {
     }
 
-    public User(@Size(min = 1, max = 20) String name, @Size(min = 1, max = 30) String surname, @Size(min = 5, max = 30) String email, @Size(min = 1, max = 20) String password, @Size(min = 10, max = 150) String address, @Size(min = 1, max = 20) String country, @Size(min = 1, max = 10) String zipCode, @Size(min = 1, max = 20) String phoneNumber, int sellsCompleted, int purchasesCompleted) {
+    public User(@Size(min = 1, max = 20) String name, @Size(min = 1, max = 30) String surname, @Size(min = 1, max = 100) String email, @Size(min = 1, max = 20) String password, @Size(min = 10, max = 150) String address, @Size(min = 1, max = 20) String country, @Size(min = 1, max = 10) String zipCode, @Size(min = 1, max = 20) String phoneNumber, int sellsCompleted, int purchasesCompleted) {
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -113,7 +112,7 @@ public class User {
         this.purchasesCompleted = purchasesCompleted;
     }
 
-    public User(@Size(min = 1, max = 20) String name, @Size(min = 1, max = 30) String surname, @Size(min = 5, max = 30) String email, @Size(min = 1, max = 20) String password, int sellsCompleted, int purchasesCompleted) {
+    public User(@Size(min = 1, max = 20) String name, @Size(min = 1, max = 30) String surname, @Size(min = 1, max = 100) String email, @Size(min = 1, max = 20) String password, int sellsCompleted, int purchasesCompleted) {
         this.name = name;
         this.surname = surname;
         this.email = email;

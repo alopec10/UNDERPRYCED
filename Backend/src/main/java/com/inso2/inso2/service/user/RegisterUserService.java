@@ -34,10 +34,22 @@ public class RegisterUserService {
     }
 
     public void register(RegisterRequest req) throws Exception {
+        String name = req.getName();
+        String surname = req.getSurname();
+        String email = req.getEmail();
+        if(!this.isNameValid(name)){
+            throw new Exception("Invalid name format");
+        }
+        if(!this.isSurnameValid(surname)){
+            throw new Exception("Invalid surname format");
+        }
+        if(!this.isEmailValid(email)){
+            throw new Exception("Invalid email format");
+        }
         User u = new User();
-        u.setName(req.getName());
-        u.setSurname(req.getSurname());
-        u.setEmail(req.getEmail());
+        u.setName(name);
+        u.setSurname(surname);
+        u.setEmail(email);
         if(isPasswordValid(req.getPassword())){
             u.setPassword(passwordEncoder.encode(req.getPassword()));
         }
@@ -66,6 +78,24 @@ public class RegisterUserService {
         u.setRoles(roles);
         userRepository.saveAndFlush(u);
         createAlertService.createWelcomeAlert(u);
+    }
+
+    private boolean isNameValid(String name){
+        Pattern pattern = Pattern.compile(".{1,20}");
+        Matcher matcher = pattern.matcher(name);
+        return matcher.matches();
+    }
+
+    private boolean isSurnameValid(String surname){
+        Pattern pattern = Pattern.compile(".{1,30}");
+        Matcher matcher = pattern.matcher(surname);
+        return matcher.matches();
+    }
+
+    private boolean isEmailValid(String email){
+        Pattern pattern = Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 
     private boolean isPasswordValid(String pass){

@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `users`
     `IdUser` int(11) NOT NULL AUTO_INCREMENT,
     `Name` nvarchar(20) NOT NULL,
     `Surname` nvarchar(30) NOT NULL,
-    `Email` nvarchar(30) NOT NULL,
+    `Email` nvarchar(100) NOT NULL,
     `Password` nvarchar(100) NOT NULL,
     `Address` nvarchar(150) NULL,
     `ZIPCode` varchar(10) NULL,
