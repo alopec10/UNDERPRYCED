@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +15,7 @@ import java.util.List;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "IdOrder")
     private long idOrder;
 
@@ -24,7 +26,15 @@ public class Order {
     @Column(name = "Price", nullable = false)
     private int price;
 
-    @Column(name = "Date", columnDefinition="DATETIME", nullable = false)
+    @Digits(integer = 6, fraction = 2)
+    @Column(name = "PriceSeller", nullable = false)
+    private BigDecimal priceSeller;
+
+    @Digits(integer = 6, fraction = 2)
+    @Column(name = "PriceBuyer", nullable = false)
+    private BigDecimal priceBuyer;
+
+    @Column(name = "Date", columnDefinition = "DATETIME", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
@@ -32,19 +42,19 @@ public class Order {
     @Column(name = "Status", nullable = false)
     private Status status;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "IdBuyer", nullable = false)
     private User buyer;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "IdSeller", nullable = false)
     private User seller;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "IdProductDetails", nullable = false)
     private ProductDetails productDetails;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="order")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
     @JsonIgnore
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<Shipment> shipments;
@@ -61,9 +71,11 @@ public class Order {
     public Order() {
     }
 
-    public Order(@Size(min = 1, max = 100) String ref, int price, Date date, User buyer, User seller, ProductDetails productDetails, PaymentMethod paymentMethodBuyer, PaymentMethod paymentMethodSeller, Status status) {
+    public Order(@Size(min = 1, max = 100) String ref, int price, BigDecimal priceSeller, BigDecimal priceBuyer, Date date, User buyer, User seller, ProductDetails productDetails, PaymentMethod paymentMethodBuyer, PaymentMethod paymentMethodSeller, Status status) {
         this.ref = ref;
         this.price = price;
+        this.priceSeller = priceSeller;
+        this.priceBuyer = priceBuyer;
         this.date = date;
         this.buyer = buyer;
         this.seller = seller;
@@ -87,6 +99,22 @@ public class Order {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public BigDecimal getPriceSeller() {
+        return priceSeller;
+    }
+
+    public void setPriceSeller(BigDecimal priceSeller) {
+        this.priceSeller = priceSeller;
+    }
+
+    public BigDecimal getPriceBuyer() {
+        return priceBuyer;
+    }
+
+    public void setPriceBuyer(BigDecimal priceBuyer) {
+        this.priceBuyer = priceBuyer;
     }
 
     public Date getDate() {

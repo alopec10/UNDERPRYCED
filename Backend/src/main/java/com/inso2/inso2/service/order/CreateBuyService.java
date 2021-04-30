@@ -8,6 +8,8 @@ import com.inso2.inso2.service.shipment.CreateHomeShipmentService;
 import com.inso2.inso2.service.shipment.CreateWarehouseShipmentService;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -48,7 +50,7 @@ public class CreateBuyService {
         }
         PaymentMethod buyerPaymentMethod = paymentMethodRepository.findByUserAndIdPayMethod(user, req.getIdPayMethod());
         PaymentMethod sellerPaymentMethod = paymentMethodRepository.findFirstByUserAndIsActiveOrderByIdPayMethodAsc(ask.getUser(), true);
-        Order order = new Order(UUID.randomUUID().toString(),ask.getPrice(),new Date(),user, ask.getUser(), productDetails, buyerPaymentMethod, sellerPaymentMethod, Status.PENDING_APPROVAL);
+        Order order = new Order(UUID.randomUUID().toString(),ask.getPrice(), calcPriceSeller(ask.getPrice()), calcPriceBuyer(ask.getPrice()), new Date(),user, ask.getUser(), productDetails, buyerPaymentMethod, sellerPaymentMethod, Status.PENDING_APPROVAL);
         orderRepository.saveAndFlush(order);
         askRepository.deleteById(ask.getIdAsk());
         Shipment warehouseShipment = createWarehouseShipmentService.create(order);
@@ -76,5 +78,23 @@ public class CreateBuyService {
         Pattern pattern = Pattern.compile("^\\d{5}(?:[-\\s]\\d{4})?$");
         Matcher matcher = pattern.matcher(zipCode);
         return matcher.matches();
+    }
+
+    private BigDecimal calcPriceBuyer (int price) {
+        BigDecimal pr = new BigDecimal(price);
+        BigDecimal ONE_HUNDRED = new BigDecimal(100);
+        BigDecimal TEN = new BigDecimal(10);
+        BigDecimal FIFTEEN = new BigDecimal(15);
+        BigDecimal percent = pr.multiply(TEN).divide(ONE_HUNDRED, RoundingMode.HALF_UP);
+        return pr.add(percent).add(FIFTEEN);
+    }
+
+    private BigDecimal calcPriceSeller (int price) {
+        BigDecimal pr = new BigDecimal(price);
+        BigDecimal ONE_HUNDRED = new BigDecimal(100);
+        BigDecimal TEN = new BigDecimal(10);
+        BigDecimal FIFTEEN = new BigDecimal(15);
+        BigDecimal percent = pr.multiply(TEN).divide(ONE_HUNDRED, RoundingMode.HALF_UP);
+        return pr.subtract(percent).subtract(FIFTEEN);
     }
 }
