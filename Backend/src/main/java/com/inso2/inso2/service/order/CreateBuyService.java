@@ -85,7 +85,7 @@ public class CreateBuyService {
         BigDecimal ONE_HUNDRED = new BigDecimal(100);
         BigDecimal TEN = new BigDecimal(10);
         BigDecimal FIFTEEN = new BigDecimal(15);
-        BigDecimal percent = pr.multiply(TEN).divide(ONE_HUNDRED, RoundingMode.HALF_UP);
+        BigDecimal percent = pr.multiply(TEN).divide(ONE_HUNDRED, 2, RoundingMode.HALF_UP);
         return pr.add(percent).add(FIFTEEN);
     }
 
@@ -94,7 +94,7 @@ public class CreateBuyService {
         BigDecimal ONE_HUNDRED = new BigDecimal(100);
         BigDecimal TEN = new BigDecimal(10);
         BigDecimal FIFTEEN = new BigDecimal(15);
-        BigDecimal percent = pr.multiply(TEN).divide(ONE_HUNDRED, RoundingMode.HALF_UP);
+        BigDecimal percent = pr.multiply(TEN).divide(ONE_HUNDRED, 2, RoundingMode.HALF_UP);
         return pr.subtract(percent).subtract(FIFTEEN);
     }
 }

@@ -31,8 +31,10 @@ public class OrderController {
     private final RejectOrderService rejectOrderService;
     private final GetPendingOrdersService getPendingOrdersService;
     private final ConfirmDeliveryService confirmDeliveryService;
+    private final PriceCalculationService priceCalculationService;
 
-    public OrderController(LoadUserService loadUserService, CreateBuyService createBuyService, CreateSellService createSellService, GetPurchasesOfUserService getPurchasesOfUserService, GetSellsOfUserService getSellsOfUserService, ApproveOrderService approveOrderService, RejectOrderService rejectOrderService, GetPendingOrdersService getPendingOrdersService, ConfirmDeliveryService confirmDeliveryService) {
+
+    public OrderController(LoadUserService loadUserService, CreateBuyService createBuyService, CreateSellService createSellService, GetPurchasesOfUserService getPurchasesOfUserService, GetSellsOfUserService getSellsOfUserService, ApproveOrderService approveOrderService, RejectOrderService rejectOrderService, GetPendingOrdersService getPendingOrdersService, ConfirmDeliveryService confirmDeliveryService, PriceCalculationService priceCalculationService) {
         this.loadUserService = loadUserService;
         this.createBuyService = createBuyService;
         this.createSellService = createSellService;
@@ -42,6 +44,7 @@ public class OrderController {
         this.rejectOrderService = rejectOrderService;
         this.getPendingOrdersService = getPendingOrdersService;
         this.confirmDeliveryService = confirmDeliveryService;
+        this.priceCalculationService = priceCalculationService;
     }
 
     @RequestMapping(value = "/createBuy", method = RequestMethod.POST)
@@ -150,6 +153,30 @@ public class OrderController {
             User user = loadUserService.load(auth);
             confirmDeliveryService.confirm(user, ref);
             return ResponseEntity.ok("Delivery confirmed");
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
+    @RequestMapping(value = "/getPriceSell", method = RequestMethod.GET)
+    public ResponseEntity<?> getPriceSell(@RequestParam int price){
+        try{
+            return ResponseEntity.ok(priceCalculationService.calculateSell(price));
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
+    @RequestMapping(value = "/getPriceBuy", method = RequestMethod.GET)
+    public ResponseEntity<?> getPriceBuy(@RequestParam int price){
+        try{
+            return ResponseEntity.ok(priceCalculationService.calculateBuy(price));
         }
         catch(Exception e){
             return new ResponseEntity<>(
