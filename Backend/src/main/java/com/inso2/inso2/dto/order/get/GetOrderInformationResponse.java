@@ -3,11 +3,13 @@ package com.inso2.inso2.dto.order.get;
 import com.inso2.inso2.model.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 public class GetOrderInformationResponse implements Serializable {
     private String orderRef, date, shipDate, arrivalDate, address, zipCode, country, trackingNumber, productRef, size, brand, colorway, title, url;
     private int price;
+    private BigDecimal priceSeller, priceBuyer;
     private boolean completed, sent, approved;
     private Status status;
 
@@ -84,6 +86,22 @@ public class GetOrderInformationResponse implements Serializable {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public BigDecimal getPriceSeller() {
+        return priceSeller;
+    }
+
+    public void setPriceSeller(BigDecimal priceSeller) {
+        this.priceSeller = priceSeller;
+    }
+
+    public BigDecimal getPriceBuyer() {
+        return priceBuyer;
+    }
+
+    public void setPriceBuyer(BigDecimal priceBuyer) {
+        this.priceBuyer = priceBuyer;
     }
 
     public String getShipDate() {
@@ -170,6 +188,8 @@ public class GetOrderInformationResponse implements Serializable {
         this.orderRef = o.getRef();
         this.date = o.getDate().toString().substring(0,10);
         this.price = o.getPrice();
+        this.priceSeller = o.getPriceSeller();
+        this.priceBuyer = o.getPriceBuyer();
         this.size = o.getProductDetails().getSize();
         Product p = o.getProductDetails().getProduct();
         this.productRef = p.getRef();
