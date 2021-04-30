@@ -69,6 +69,17 @@ const routes = [
         }
     },
     {
+        path: '/alertas',
+        name: 'Alertas',
+        component: function () {
+            return import('../views/Alerts.vue')
+        },
+        meta: {
+            requiresAuth: true,
+            userAuth: true
+        }
+    },
+    {
         path: '/historial',
         name: 'Historial',
         component: function () {

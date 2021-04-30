@@ -71,8 +71,8 @@ public class CreateAlertService {
     }
 
     public void createWelcomeAlert(User user){
-        String title = "Bievenido!";
-        String text = "Bienvenido a la plataforma, " + user.getName() + "estamos encantados de que hayas decidido confiar en nosotros\n"
+        String title = "Bienvenido!";
+        String text = "Bienvenido a la plataforma, " + user.getName() + ". Estamos encantados de que hayas decidido confiar en nosotros\n"
                 + "Nos gustaría recordarte que para realizar tanto una puja como una oferta es totalmente necesario disponer tanto de un método de pago activo como de una dirección completa.\n"
                 +"Esperemos que disfrutes lo máximo posible de todas las funcionalidades de la aplicación.\n"
                 +"Un saludo!";

@@ -197,16 +197,17 @@ export default {
         "country": this.addressInfo.country,
         "zipCode": this.addressInfo.zipCode,
       }
+      console.log(dat)
       axios({url: 'http://localhost:8888/order/createBuy', data: dat, method: 'POST'})
           .then(resp => {
             alert("Venta creada correctamente")
           })
           .catch(err => {
-            console.log(err)
+            console.log(err.response)
           })
     },
     cardClicked(card) {
-      this.card.idPayMethod = card.id
+      this.card.idPayMethod = card.idPayMethod
       this.card.number = card.number
       this.card.expMonth = card.expMonth
       this.card.expYear = card.expYear
