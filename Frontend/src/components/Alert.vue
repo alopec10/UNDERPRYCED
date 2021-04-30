@@ -1,23 +1,48 @@
 <template>
-  <div class="border-2 border-purple-500 h-20 rounded-lg width mx-auto flex">
-    <div class="mt-3">
-      <h1 class="text-xl">{{alert.title}}</h1>
-      <h1 class="text-md mt-3">{{alert.message}}</h1>
+  <div class="border-2 border-purple-500 rounded-lg width mx-auto flex" v-bind:class="{ 'bg-purple-100' : alert.read }">
+    <div class="my-3 mx-3 w-11/12">
+      <h1 class="text-2xl">{{alert.title}}</h1>
+      <h1 class="text-md mt-3" v-for="(msg, index) in msgs" :key="index">
+        {{msg}}
+      </h1>
     </div>
-    <div class="justify-center items-center text-purple-500">
-      <i class="fas fa-check block text-xl mt-6 mr-1 cursor-pointer"></i>
-    </div>
+    <div class="flex justify-center items-center align-middle text-purple-500 w-1/12">
+      <i v-if="!alert.read" class="fas fa-check block text-2xl mr-1 cursor-pointer" @click="markAsRead"></i>
+      <i v-else class="fas fa-eye block text-2xl mr-1"></i>
 
+    </div>
   </div>
 </template>
 
 <script>
+const axios = require("axios");
 export default {
   name: "Alert",
   props: {
     alert: {
       type: Object,
       required: true
+    }
+  },
+  data() {
+    return {
+      msgs: []
+    }
+  },
+  created() {
+    this.msgs = this.alert.message.split("\n")
+  },
+  methods: {
+    markAsRead() {
+      let url = "http://localhost:8888/alert/markAsRead?id="+this.alert.idAlert
+
+      axios({url: url, method: 'GET'})
+          .then(resp => {
+            this.$emit("markAsRead", this.alert.idAlert)
+          })
+          .catch(err => {
+          })
+
     }
   }
 

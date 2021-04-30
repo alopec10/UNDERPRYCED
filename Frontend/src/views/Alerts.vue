@@ -10,7 +10,9 @@
       </div>
       <div v-else>
         <Alert v-for="(al, index) in alerts" :key="al.idAlert"
-               :al="al">
+               :alert="al"
+               class="my-4"
+        v-on:markAsRead="markAsRead">
         </Alert>
 
       </div>
@@ -48,6 +50,13 @@ export default {
           .catch(err => {
           })
 
+    },
+    markAsRead(id) {
+      for(let al of this.alerts) {
+        if (al.idAlert === id) {
+          al.read = true
+        }
+      }
     }
   }
 }
