@@ -148,7 +148,7 @@ export default {
     },
     confirmSell() {
       const dat = {
-        "idPayMethod": this.idPayMethod,
+        "idPayMethod": this.card.idPayMethod,
         "ref": this.ref,
         "size": this.size,
       }
@@ -157,11 +157,11 @@ export default {
             alert("Venta creada correctamente")
           })
           .catch(err => {
-            console.log(err)
+            console.log(err.response)
           })
     },
     cardClicked(card) {
-      this.card.idPayMethod = card.id
+      this.card.idPayMethod = card.idPayMethod
       this.card.number = card.number
       this.card.expMonth = card.expMonth
       this.card.expYear = card.expYear
