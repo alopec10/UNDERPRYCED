@@ -102,7 +102,6 @@ public class BidController {
     @RequestMapping(value = "/getPriceIfExists", method = RequestMethod.POST)
     public ResponseEntity<?> getPriceIfExists(@RequestBody GetPriceBidRequest req){
         try{
-            System.out.println("hola");
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
             return ResponseEntity.ok(getPriceBidService.get(user, req.getRef(), req.getSize()));

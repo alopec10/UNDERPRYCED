@@ -2,14 +2,17 @@ package com.inso2.inso2.controller;
 
 import com.inso2.inso2.dto.ask.AskRequest;
 import com.inso2.inso2.dto.ask.GetAllAsksByUserResponse;
+import com.inso2.inso2.dto.ask.GetPriceAskRequest;
 import com.inso2.inso2.dto.ask.delete.DeleteAskRequest;
 import com.inso2.inso2.dto.ask.getAll.GetAllAsksRequest;
 import com.inso2.inso2.dto.ask.getAll.GetAllAsksResponse;
+import com.inso2.inso2.dto.bid.GetPriceBidRequest;
 import com.inso2.inso2.model.*;
 import com.inso2.inso2.repository.AskRepository;
 import com.inso2.inso2.repository.ProductDetailsRepository;
 import com.inso2.inso2.repository.ProductRepository;
 import com.inso2.inso2.service.ask.*;
+import com.inso2.inso2.service.bid.GetPriceBidService;
 import com.inso2.inso2.service.user.LoadUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,12 +39,15 @@ public class AskController {
 
     private final CreateOrModifyAskService createOrModifyAskService;
 
-    public AskController(LoadUserService loadUserService, DeleteAskService deleteAskService, GetAsksOfProductService getAsksOfProductService, GetAsksOfUserService getAsksOfUserService, CreateOrModifyAskService createOrModifyAskService) {
+    private final GetPriceAskService getPriceAskService;
+
+    public AskController(LoadUserService loadUserService, DeleteAskService deleteAskService, GetAsksOfProductService getAsksOfProductService, GetAsksOfUserService getAsksOfUserService, CreateOrModifyAskService createOrModifyAskService, GetPriceAskService getPriceAskService) {
         this.loadUserService = loadUserService;
         this.deleteAskService = deleteAskService;
         this.getAsksOfProductService = getAsksOfProductService;
         this.getAsksOfUserService = getAsksOfUserService;
         this.createOrModifyAskService = createOrModifyAskService;
+        this.getPriceAskService = getPriceAskService;
     }
 
     @RequestMapping(value = "/make", method = RequestMethod.POST)
@@ -90,6 +96,20 @@ public class AskController {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
             return ResponseEntity.ok(getAsksOfUserService.get(user));
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
+    @RequestMapping(value = "/getPriceIfExists", method = RequestMethod.POST)
+    public ResponseEntity<?> getPriceIfExists(@RequestBody GetPriceAskRequest req){
+        try{
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User user = loadUserService.load(auth);
+            return ResponseEntity.ok(getPriceAskService.get(user, req.getRef(), req.getSize()));
         }
         catch(Exception e){
             return new ResponseEntity<>(
