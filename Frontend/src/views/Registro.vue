@@ -97,7 +97,6 @@
 
 <script>
 import {validationMixin} from "vuelidate";
-import {helpers} from 'vuelidate/lib/validators'
 import {
   required,
   sameAs,
