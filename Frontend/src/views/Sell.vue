@@ -136,13 +136,14 @@ export default {
     }
   },
   watch: {
-    customPrice: function() {
-      if(this.customPrice >= this.price && this.price != null) {
+    customPrice: function () {
+      if (this.customPrice >= this.price && this.price != null) {
         this.selectedSell = true
         this.customPrice = 0
       }
-      this.customFees = 0.1 * parseInt(this.customPrice)
-      this.totalCustomPrice = parseInt(this.customPrice) + this.customFees + this.customShipping
+      this.calcCustomPriceSell()
+      //this.customFees = 0.1 * parseInt(this.customPrice)
+      //this.totalCustomPrice = parseInt(this.customPrice) + this.customFees + this.customShipping
     }
   },
   mounted() {
@@ -166,8 +167,7 @@ export default {
             for (let pd of this.product.productDetails) {
               if (this.size == pd.size) {
                 this.price = pd.highestBid
-                this.fees = 0.1 * this.price
-                this.totalPrice = this.price + this.fees + this.shipping
+                this.calcPriceSell()
               }
             }
 
@@ -194,12 +194,37 @@ export default {
     confirmSell() {
       this.$router.push({
         name: "ConfirmarVenta",
-        params:{
+        params: {
           ref: this.product.ref,
           size: this.size
         }
       });
+    },
+    calcPriceSell() {
+      let url = "http://localhost:8888/order/getPriceSell?price=" + this.price
+      axios({url: url, method: 'GET'})
+          .then(resp => {
+            this.fees = resp.data.fees
+            this.shipping = resp.data.shipping
+            this.totalPrice = resp.data.total
+          })
+          .catch(err => {
+            console.log(err.response)
+          })
+    },
+    calcCustomPriceSell() {
+      let url = "http://localhost:8888/order/getPriceSell?price=" + this.customPrice
+      axios({url: url, method: 'GET'})
+          .then(resp => {
+            this.customFees = resp.data.fees
+            this.customShipping = resp.data.shipping
+            this.totalCustomPrice = resp.data.total
+          })
+          .catch(err => {
+            console.log(err.response)
+          })
     }
+  
   }
 }
 </script>
