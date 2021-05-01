@@ -191,28 +191,67 @@ export default {
             this.phoneNumber = userData.phoneNumber
           })
           .catch(err => {
-            console.log(err)
-
+            console.log(err.response)
           })
     },
     update() {
-      const userData = {
-        name: this.name,
-        surname: this.surname,
-        email: this.email,
-        password: this.password,
-        address: this.address,
-        country: this.country,
-        zipCode: this.zipCode,
-        phoneNumber: this.phoneNumber
+      if(this.validateUpdate()){
+        const userData = {
+          name: this.name,
+          surname: this.surname,
+          email: this.email,
+          password: this.password,
+          phoneNumber: this.phoneNumber
+        }
+        axios({url: 'http://localhost:8888/user/update', data: userData, method: 'POST'})
+            .then(resp => {
+              console.log(resp)
+              this.$v.reset()
+            })
+            .catch(err => {
+              console.log(err.response)
+            })
       }
-      axios({url: 'http://localhost:8888/user/update', data: userData, method: 'POST'})
+    },
+    validateUpdate(){
+      this.$v.name.$touch()
+      this.$v.surname.$touch()
+      this.$v.email.$touch()
+      this.$v.password.$touch()
+      this.$v.phoneNumber.$touch()
+      return !this.$v.name.$error &&  !this.$v.surname.$error &&  !this.$v.email.$error && !this.$v.password.$error && !this.$v.phoneNumber.$error
+    },
+    updateAddress(){
+      if(this.validateUpdateAddress()){
+        const userData = {
+          address: this.address,
+          country: this.country,
+          zipCode: this.zipCode
+        }
+        axios({url: 'http://localhost:8888/user/updateAddress', data: userData, method: 'POST'})
+            .then(resp => {
+              console.log(resp)
+              this.$v.reset()
+            })
+            .catch(err => {
+              console.log(err.response)
+            })
+      }
+    },
+    validateUpdateAddress(){
+      this.$v.address.$touch()
+      this.$v.country.$touch()
+      this.$v.zipCode.$touch()
+      return !this.$v.address.$error && !this.$v.country.$error && !this.$v.zipCode.$error
+    },
+    deleteAddress(){
+      axios({url: 'http://localhost:8888/user/deleteFullAddress', method: 'GET'})
           .then(resp => {
-            console.log(resp)
+            this.address = ''
+            this.country = ''
+            this.zipCode = ''
           })
           .catch(err => {
-            console.log(err)
-
           })
     }
   },
