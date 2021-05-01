@@ -5,7 +5,7 @@
       <h1 class="text-2xl">ACTIVE ASKS</h1>
       <div
           class="grid gap-6 grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 my-10 mx-2 sm:mx-20">
-        <OperationCard v-for="(op, index) in asks" :key="op.ref"
+        <OperationCard v-for="(op, index) in asks" :key="index"
                        :op="op"
                        typeOp="ask"
                        v-on:delete="getAsks">
@@ -18,7 +18,7 @@
       <h1 class="text-2xl">ACTIVE BIDS</h1>
       <div
           class="grid gap-6 grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 my-10 mx-2 sm:mx-20">
-        <OperationCard v-for="(op, index) in bids" :key="op.ref"
+        <OperationCard v-for="(op, index) in bids" :key="index"
                        :op="op"
                        typeOp="bid"
                        v-on:delete="getBids">
@@ -30,7 +30,7 @@
       <h1 class="text-2xl">SELLS</h1>
       <div
           class="grid gap-6 grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 my-10 mx-2 sm:mx-20">
-        <OperationCard v-for="(op, index) in sells" :key="op.ref"
+        <OperationCard v-for="(op, index) in sells" :key="index"
                        :op="op"
                        typeOp="sell"
                        v-on:delete="getSells">
@@ -42,7 +42,7 @@
       <h1 class="text-2xl">PURCHASES</h1>
       <div
           class="grid gap-6 grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 my-10 mx-2 sm:mx-20">
-        <OperationCard v-for="(op, index) in sells" :key="op.ref"
+        <OperationCard v-for="(op, index) in purchases" :key="index"
                        :op="op"
                        typeOp="purchase"
                        v-on:delete="getPurchases">
@@ -71,6 +71,8 @@ export default {
   created() {
     this.getAsks()
     this.getBids()
+    this.getPurchases()
+    this.getSells()
   },
   methods: {
     getAsks() {
@@ -93,6 +95,7 @@ export default {
       axios({url: 'http://localhost:8888/order/getSells', method: 'GET'})
           .then(resp => {
             this.sells = resp.data
+
           })
           .catch(err => {
           })
