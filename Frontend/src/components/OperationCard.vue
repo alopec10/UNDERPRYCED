@@ -22,8 +22,8 @@
         </div>
       </div>
     </div>
-    <div class="contIcons justify-center items-center text-purple-500">
-      <i class="fas fa-edit block text-xl mt-6 mr-1 cursor-pointer"></i>
+    <div v-if="typeOp!=='sp'" class="contIcons justify-center items-center text-purple-500">
+      <i class="fas fa-edit block text-xl mt-6 mr-1 cursor-pointer" @click="redirectOp"></i>
       <i class="fas fa-trash-alt block text-xl mt-4 mr-2 cursor-pointer" @click="deleteOperation"></i>
     </div>
   </div>
@@ -48,12 +48,33 @@ export default {
       const dat = {
         "idProductDetails": this.op.idProductDetails
       }
-      axios({url: 'http://localhost:8888/'+this.typeOp+'/delete', data: dat, method: 'POST'})
+      axios({url: 'http://localhost:8888/' + this.typeOp + '/delete', data: dat, method: 'POST'})
           .then(resp => {
             this.$emit("delete");
           })
           .catch(err => {
           })
+    },
+    redirectOp() {
+      if (this.typeOp == "ask") {
+        this.$router.push({
+          name: "Vender",
+          params: {
+            ref: this.op.ref,
+            size: this.op.size
+          }
+        });
+      }
+      if (this.typeOp == "bid") {
+        this.$router.push({
+          name: "Comprar",
+          params: {
+            ref: this.op.ref,
+            size: this.op.size
+          }
+        });
+      }
+
     }
   }
 }
