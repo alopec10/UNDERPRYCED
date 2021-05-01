@@ -35,11 +35,11 @@ public class UpdateUserService {
         if(!this.isEmailValid(email)){
             throw new Exception("Invalid email format");
         }
-        if(!this.isPhoneNumberValid(phoneNumber)){
-            if(phoneNumber != null && !phoneNumber.isBlank()){
-                throw new Exception("Invalid phone number format");
-            }
+        if(phoneNumber == null || phoneNumber.isBlank()){
             phoneNumber = null;
+        }
+        else if(!this.isPhoneNumberValid(phoneNumber)){
+            throw new Exception("Invalid phone number format");
         }
         String new_pass = passwordEncoder.encode(req.getPassword());
         if(req.getPassword() != null && !req.getPassword().isBlank() && !user.getPassword().equals(new_pass)){

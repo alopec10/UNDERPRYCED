@@ -69,7 +69,7 @@ public class CreateBuyService {
     }
 
     private boolean isCountryValid(String country){
-        Pattern pattern = Pattern.compile("^[A-ZÀ-Ö][A-Za-zÀ-ÖØ-öø-ÿ\\s\\-]+$");
+        Pattern pattern = Pattern.compile("^[A-Za-zÀ-ÖØ-öø-ÿ\\s\\-]{4,20}$");
         Matcher matcher = pattern.matcher(country);
         return matcher.matches();
     }
