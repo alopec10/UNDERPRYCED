@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-    <div class="contIcons justify-center items-center text-purple-500">
+    <div v-if="typeOp!=='sp'" class="contIcons justify-center items-center text-purple-500">
       <i class="fas fa-edit block text-xl mt-6 mr-1 cursor-pointer"></i>
       <i class="fas fa-trash-alt block text-xl mt-4 mr-2 cursor-pointer" @click="deleteOperation"></i>
     </div>
