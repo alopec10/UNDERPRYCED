@@ -69,8 +69,12 @@
                    class="inline-block text-center mx-auto w-40 h-16 block border-2 border-purple-500 p-3 text-5xl h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100"/>
             <div class="inline-block ml-2 text-5xl">€</div>
           </div>
-          <h1 class="text-md sm:text-lg mt-3">
-            (Tu oferta)
+          <h1 v-if="currentBid == customPrice" class="text-md sm:text-lg mt-3">
+            (Tu oferta actual)
+          </h1>
+
+          <h1 v-else class="text-md sm:text-lg mt-3">
+            (Tu nueva oferta)
           </h1>
           <div v-if="parseInt(customPrice) > 0 && parseInt(customPrice) !=null">
             <h1 class="text-md sm:text-lg mt-5">
@@ -124,7 +128,7 @@ export default {
 
       size: "",
       selectedBuy: true,
-      price: 340,
+      price: 0,
       fees: 0,
       shipping: 15,
       totalPrice: 0,
@@ -133,6 +137,7 @@ export default {
       customFees: 0,
       customShipping: 15,
       totalCustomPrice: 0,
+      currentBid: 0
     }
   },
   watch: {
@@ -144,9 +149,10 @@ export default {
       this.calcCustomPriceBuy()
     }
   },
-  mounted() {
+  created() {
     this.getProduct()
     this.size = this.$route.params.size
+
   },
   methods: {
     getProduct() {
@@ -165,9 +171,12 @@ export default {
             for (let pd of this.product.productDetails) {
               if (this.size == pd.size) {
                 this.price = pd.lowestAsk
-                this.calcPriceBuy()
+                if (this.price != null) {
+                  this.calcPriceBuy()
+                }
               }
             }
+            this.getPriceIfExists()
           })
           .catch(err => {
           })
@@ -220,7 +229,23 @@ export default {
           .catch(err => {
             console.log(err.response)
           })
-    }
+    },
+    getPriceIfExists() {
+      const dat =
+          {
+            "ref": this.product.ref,
+            "size": this.size,
+          }
+      axios({url: "http://localhost:8888/bid/getPriceIfExists", data: dat, method: 'POST'})
+          .then(resp => {
+            this.currentBid = resp.data.price
+            this.customPrice = resp.data.price
+
+          })
+          .catch(err => {
+            console.log(err.response)
+          })
+    },
   }
 }
 </script>
