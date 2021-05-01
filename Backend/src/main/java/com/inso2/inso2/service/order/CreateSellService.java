@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.UUID;
 
@@ -47,11 +49,29 @@ public class CreateSellService {
         }
         PaymentMethod sellerPaymentMethod = paymentMethodRepository.findByUserAndIdPayMethod(user, req.getIdPayMethod());
         PaymentMethod buyerPaymentMethod = paymentMethodRepository.findFirstByUserAndIsActiveOrderByIdPayMethodAsc(bid.getUser(), true);
-        Order order = new Order(UUID.randomUUID().toString(),bid.getPrice(),new Date(),bid.getUser(), user, productDetails, buyerPaymentMethod, sellerPaymentMethod, Status.PENDING_APPROVAL);
+        Order order = new Order(UUID.randomUUID().toString(),bid.getPrice(), calcPriceSeller(bid.getPrice()), calcPriceBuyer(bid.getPrice()), new Date(),bid.getUser(), user, productDetails, buyerPaymentMethod, sellerPaymentMethod, Status.PENDING_APPROVAL);
         orderRepository.saveAndFlush(order);
         bidRepository.deleteById(bid.getIdBid());
         Shipment warehouseShipment = createWarehouseShipmentService.create(order);
         createHomeShipmentService.create(order, warehouseShipment.getArrivalDate(), buyer.getAddress(), buyer.getZipCode(), buyer.getCountry());
         createAlertService.createBuyAlert(order);
+    }
+
+    private BigDecimal calcPriceBuyer (int price) {
+        BigDecimal pr = new BigDecimal(price);
+        BigDecimal ONE_HUNDRED = new BigDecimal(100);
+        BigDecimal TEN = new BigDecimal(10);
+        BigDecimal FIFTEEN = new BigDecimal(15);
+        BigDecimal percent = pr.multiply(TEN).divide(ONE_HUNDRED, 2, RoundingMode.HALF_UP);
+        return pr.add(percent).add(FIFTEEN);
+    }
+
+    private BigDecimal calcPriceSeller (int price) {
+        BigDecimal pr = new BigDecimal(price);
+        BigDecimal ONE_HUNDRED = new BigDecimal(100);
+        BigDecimal TEN = new BigDecimal(10);
+        BigDecimal FIFTEEN = new BigDecimal(15);
+        BigDecimal percent = pr.multiply(TEN).divide(ONE_HUNDRED, 2, RoundingMode.HALF_UP);
+        return pr.subtract(percent).subtract(FIFTEEN);
     }
 }

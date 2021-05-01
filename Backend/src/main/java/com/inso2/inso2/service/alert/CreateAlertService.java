@@ -18,7 +18,7 @@ public class CreateAlertService {
         ProductDetails pd = o.getProductDetails();
         Product p = pd.getProduct();
         String title = "Compra efectuada";
-        String text = "Se ha realizado una compra del producto " + p.getTitle() +", talla " + pd.getSize() + ", por un valor de " + o.getPrice() + "€"
+        String text = "Se ha realizado una compra del producto " + p.getTitle() +", talla " + pd.getSize() + ", por un valor de " + o.getPriceBuyer() + "€"
                 +"\nUn saludo";
         Alert alert = new Alert();
         alert.setTitle(title);
@@ -33,7 +33,7 @@ public class CreateAlertService {
         ProductDetails pd = o.getProductDetails();
         Product p = pd.getProduct();
         String title = "Venta efectuada";
-        String text = "Se ha realizado una venta del producto " + p.getTitle() +", talla " + pd.getSize() + ", por un valor de " + o.getPrice() + "€"
+        String text = "Se ha realizado una venta del producto " + p.getTitle() +", talla " + pd.getSize() + ", por un valor de " + o.getPriceSeller() + "€"
                 +"\nUn saludo";
         Alert alert = new Alert();
         alert.setTitle(title);

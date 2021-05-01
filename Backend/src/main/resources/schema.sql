@@ -145,6 +145,8 @@ CREATE TABLE IF NOT EXISTS `orders`
     `IdOrder` int(11) NOT NULL AUTO_INCREMENT,
     `Ref` nvarchar(100) NOT NULL,
     `Price` int NOT NULL,
+    `PriceSeller` float(8,2) NOT NULL,
+    `PriceBuyer` float(8,2) NOT NULL,
     `Date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `Status` enum('PENDING_APPROVAL', 'ON_WAY', 'COMPLETED', 'CANCELLED') NOT NULL DEFAULT 'PENDING_APPROVAL',
     `IdBuyer` int(11) NOT NULL,

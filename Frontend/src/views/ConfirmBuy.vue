@@ -180,8 +180,7 @@ export default {
             for (let pd of this.product.productDetails) {
               if (this.size == pd.size) {
                 this.price = pd.lowestAsk
-                this.fees = 0.1 * this.price
-                this.totalPrice = this.price + this.fees + this.shipping
+                this.calcPriceBuy()
               }
             }
           })
@@ -214,6 +213,18 @@ export default {
     },
     addressUpdated(addressInfo) {
       this.addressInfo = addressInfo
+    },
+    calcPriceBuy(){
+      let url = "http://localhost:8888/order/getPriceBuy?price="+this.price
+      axios({url: url, method: 'GET'})
+          .then(resp => {
+            this.fees = resp.data.fees
+            this.shipping = resp.data.shipping
+            this.totalPrice = resp.data.total
+          })
+          .catch(err => {
+            console.log(err.response)
+          })
     }
   }
 
