@@ -24,6 +24,11 @@
           </div>
         </div>
       </form>
+      <button @click="nextPage"
+              class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+
+        SIGUIENTE
+      </button>
     </div>
   </div>
 </template>
@@ -99,6 +104,12 @@ export default {
       this.$v.info.country.$touch()
       this.$v.info.zipCode.$touch()
       return !this.$v.info.address.$error && !this.$v.info.country.$error && !this.$v.info.zipCode.$error
+    },
+    nextPage(){
+      if(this.validateUpdateAddress()){
+        this.$emit('addressUpdated', this.$data.info)
+        this.$emit('addressNext')
+      }
     }
   },
   computed: {
@@ -126,16 +137,6 @@ export default {
       !this.$v.info.zipCode.required && errors.push("Campo requerido.");
       return errors;
     },
-  },
-  watch: {
-    info: {
-      deep: true,
-      handler() {
-        if(this.validateUpdateAddress()){
-          this.$emit('addressUpdated', this.$data.info)
-        }
-      }
-    }
   }
 }
 </script>
