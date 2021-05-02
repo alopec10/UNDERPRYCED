@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="hasMethod">
+    <div v-if="showMethods">
       <h1 class="text-4xl">ELIGE TU MÉTODO DE PAGO</h1>
       <div
           class="flex my-6 mx-10">
@@ -16,6 +16,22 @@
                     v-on:cardClicked="cardClicked"
         ></OrderCreditCard>
       </div>
+      <button v-if="fromPage==='buy'"
+          @click="previousPage"
+              class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+
+        ATRÁS
+      </button>
+      <button @click="addMethod = true"
+              class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+
+        AÑADIR MÉTODO PAGO
+      </button>
+      <button @click="nextPage"
+              class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+
+        SIGUIENTE
+      </button>
     </div>
     <div v-else>
       <div>
@@ -63,6 +79,18 @@
               {{ yearErrors }}
             </div>
             <div class="mt-7">
+              <button v-if="fromPage==='buy'"
+                      @click="previousPage"
+                      class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+
+                ATRÁS
+              </button>
+              <button v-if="paymentMethods.length!==0"
+                  @click="addMethod = false"
+                      class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+
+                SELECCIONAR MÉTODO PAGO
+              </button>
               <button @click="addPaymentMethod" type="button"
                       class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                 Añadir tarjeta
@@ -154,6 +182,12 @@ export default {
       }
     }
   },
+  props: {
+    fromPage: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       paymentMethods: [],
@@ -165,15 +199,20 @@ export default {
         expYear: '',
         defaultMethod: 1
       },
-
+      addMethod: false
     }
   },
   mounted() {
     this.getPaymentMethods()
   },
   computed: {
-    hasMethod() {
-      return this.paymentMethods.length !== 0
+    showMethods() {
+      if(this.paymentMethods.length === 0){
+        return false
+      }
+      else{
+        return !this.addMethod
+      }
     },
     nameErrors() {
       const errors = [];
@@ -255,11 +294,20 @@ export default {
                 defaultMethod: 1
               }
               this.$v.$reset();
+              this.addMethod = false
             })
             .catch(err => {
               console.log(err)
             })
       }
+    },
+    nextPage(){
+      if(this.paymentMethods.length !== 0){
+        this.$emit('paymentNext')
+      }
+    },
+    previousPage(){
+      this.$emit('paymentPrev')
     },
     cardClicked(card){
       this.$emit('cardClicked', card)
