@@ -13,7 +13,8 @@
         <div
             class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-100 rounded-lg flex justify-center items-center cursor-pointer"
             @click="selectedSell = true"
-            v-bind:class="{'bg-purple-500': selectedSell}">
+            v-bind:class="{'bg-purple-500': selectedSell}"
+            v-if="price !== null">
           <h1 class="text-white text-md sm:text-2xl p-5"
               v-bind:class="{'text-gray-700': !selectedSell}">
             VENDER AHORA
@@ -141,10 +142,6 @@ export default {
   },
   watch: {
     customPrice: function () {
-      if (this.customPrice >= this.price && this.price != null) {
-        this.selectedSell = true
-        this.customPrice = 0
-      }
       this.calcCustomPriceSell()
       }
   },
@@ -172,6 +169,9 @@ export default {
                 if (this.price != null) {
                   this.calcPriceSell()
                 }
+                else{
+                  this.selectedSell = false
+                }
               }
             }
             this.getPriceIfExists()
@@ -187,13 +187,33 @@ export default {
             "size": this.size,
             "price": this.customPrice
           }
+      if (this.customPrice <= this.price && this.price != null) {
+        this.selectedSell = true
+        this.customPrice = 0
+      }
+      else{
+        axios({url: 'http://localhost:8888/ask/make', data: dat, method: 'POST'})
+            .then(resp => {
+              console.log(resp)
+            })
+            .catch(err => {
+              let error_msg = err.response.data
+              if(error_msg === "It's not possible to make an ask if you don't have at least one payment method added"){
+                alert("No se puede crear una oferta si no se ha añadido ningún método de pago previamente")
+              }
+              else if(error_msg === "It's not possible to make an ask lower than the highest bid"){
+                alert("No se puede crear una oferta con valor inferior a la puja más alta")
+              }
+              else if(error_msg === "Price must be a positive integer number"){
+                alert("El precio de la oferta debe ser positivo")
+              }
+              else{
+                console.log(err.response.data)
+              }
+            })
+      }
 
-      axios({url: 'http://localhost:8888/ask/make', data: dat, method: 'POST'})
-          .then(resp => {
-            console.log(resp)
-          })
-          .catch(err => {
-          })
+
 
     },
     confirmSell() {

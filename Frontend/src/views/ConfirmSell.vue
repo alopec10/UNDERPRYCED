@@ -5,13 +5,7 @@
     </div>
     <div class="inline w-1/2 my-auto">
       <div v-show="step1">
-        <OrderPaymentMethods v-on:cardClicked="cardClicked"/>
-        <button @click="step1=false; step2 = true"
-                class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
-
-          SIGUIENTE
-        </button>
-
+        <OrderPaymentMethods v-on:cardClicked="cardClicked" v-on:paymentNext="step1=false; step2 = true" from-page="sell"/>
       </div>
       <div v-show="step2">
         <h1 class="text-4xl">RESUMEN DE LA VENTA</h1>

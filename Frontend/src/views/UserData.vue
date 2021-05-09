@@ -28,6 +28,13 @@
           <div v-if="emailErrors.length!==0">
             {{ emailErrors }}
           </div>
+          <p>TELÉFONO</p>
+          <input v-model="phoneNumber" type="text" placeholder="Nº teléfono"
+                 class="mt-1 block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0"
+                 @blur="$v.phoneNumber.$touch()">
+          <div v-if="phoneNumberErrors.length!==0">
+            {{ phoneNumberErrors }}
+          </div>
           <p>CONTRASEÑA</p>
           <input v-model="password" type="password" placeholder="Contraseña"
                  class="mt-1 block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0"
@@ -35,6 +42,13 @@
           <div v-if="passwordErrors.length!==0">
             {{ passwordErrors }}
           </div>
+          <div class="mt-10">
+            <button @click="update" type="button"
+                    class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+              Guardar cambios
+            </button>
+          </div>
+          <hr class="mt-14">
           <p>DIRECCIÓN</p>
           <input v-model="address" type="text" placeholder="Dirección"
                  class="mt-1 block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0"
@@ -56,18 +70,16 @@
           <div v-if="zipCodeErrors.length!==0">
             {{ zipCodeErrors }}
           </div>
-          <p>TELÉFONO</p>
-          <input v-model="phoneNumber" type="text" placeholder="Nº teléfono"
-                 class="mt-1 block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0"
-                 @blur="$v.phoneNumber.$touch()">
-        </div>
-        <div v-if="phoneNumberErrors.length!==0">
-          {{ phoneNumberErrors }}
         </div>
         <div class="mt-10">
-          <button @click="update" type="button"
+          <button @click="updateAddress" type="button"
                   class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
             Guardar cambios
+          </button>
+
+          <button @click="deleteAddress" type="button"
+                  class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+            Eliminar
           </button>
         </div>
       </form>

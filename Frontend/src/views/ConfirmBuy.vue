@@ -5,29 +5,11 @@
     </div>
     <div class="inline w-7/12 my-auto">
       <div v-show="step1">
-        <OrderShipmentAddress v-on:addressUpdated="addressUpdated"/>
-        <button @click="step1=false; step2 = true"
-                class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
-
-          SIGUIENTE
-        </button>
+        <OrderShipmentAddress v-on:addressUpdated="addressUpdated" v-on:addressNext="step1=false; step2 = true"/>
       </div>
 
       <div v-show="step2">
-        <OrderPaymentMethods v-on:cardClicked="cardClicked"/>
-        <div class="space-x-4">
-          <button @click="step1=true; step2=false"
-                  class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
-            ATRÁS
-          </button>
-          <button @click="step2=false; step3 = true"
-                  class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
-
-            SIGUIENTE
-          </button>
-        </div>
-
-
+        <OrderPaymentMethods v-on:cardClicked="cardClicked" from-page="buy" v-on:paymentNext="step2=false; step3 = true" v-on:paymentPrev="step1=true; step2=false"/>
       </div>
       <div v-show="step3">
 

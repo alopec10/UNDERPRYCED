@@ -13,7 +13,8 @@
         <div
             class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-100 rounded-lg flex justify-center items-center cursor-pointer"
             @click="selectedBuy = true"
-            v-bind:class="{'bg-purple-500': selectedBuy}">
+            v-bind:class="{'bg-purple-500': selectedBuy}"
+        v-if="price !== null">
           <h1 class="text-white text-md sm:text-2xl p-5"
               v-bind:class="{'text-gray-700': !selectedBuy}">
             COMPRAR AHORA
@@ -174,6 +175,9 @@ export default {
                 if (this.price != null) {
                   this.calcPriceBuy()
                 }
+                else{
+                  this.selectedBuy = false
+                }
               }
             }
             this.getPriceIfExists()
@@ -194,6 +198,22 @@ export default {
             console.log(resp)
           })
           .catch(err => {
+            let error_msg = err.response.data
+            if(error_msg === "It's not possible to create a bid if you don't have a valid address"){
+              alert("No se puede crear una puja si no se ha añadido una dirección válida")
+            }
+            else if(error_msg === "It's not possible to create a bid if you don't have at least one payment method added"){
+              alert("No se puede crear una puja si no se ha añadido ningún método de pago previamente")
+            }
+            else if(error_msg === "It's not possible to make a bid higher than the lowest ask"){
+              alert("No se puede crear una puja con valor superior a la oferta más baja")
+            }
+            else if(error_msg === "Price must be a positive integer number"){
+              alert("El precio de la puja debe ser positivo")
+            }
+            else{
+              console.log(err.response)
+            }
           })
 
     },
