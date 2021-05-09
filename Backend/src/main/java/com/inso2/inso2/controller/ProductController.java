@@ -11,6 +11,7 @@ import com.inso2.inso2.repository.ProductRepository;
 import com.inso2.inso2.repository.specification.SearchCriteria;
 import com.inso2.inso2.repository.specification.SearchOperationUtils;
 import com.inso2.inso2.repository.specification.product.ProductSpecification;
+import com.inso2.inso2.service.category.GetCategoriesService;
 import com.inso2.inso2.service.product.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,12 +40,15 @@ public class ProductController {
 
     private final GetBrandsService getBrandsService;
 
-    public ProductController(GetProductBySpecificationService getProductBySpecificationService, GetProductByRefService getProductByRefService, AddProductService addProductService, GetSizesService getSizesService, GetBrandsService getBrandsService) {
+    private final GetCategoriesService getCategoriesService;
+
+    public ProductController(GetProductBySpecificationService getProductBySpecificationService, GetProductByRefService getProductByRefService, AddProductService addProductService, GetSizesService getSizesService, GetBrandsService getBrandsService, GetCategoriesService getCategoriesService) {
         this.getProductBySpecificationService = getProductBySpecificationService;
         this.getProductByRefService = getProductByRefService;
         this.addProductService = addProductService;
         this.getSizesService = getSizesService;
         this.getBrandsService = getBrandsService;
+        this.getCategoriesService = getCategoriesService;
     }
 
     @RequestMapping(value = "/specification", method = RequestMethod.POST)
@@ -87,6 +91,18 @@ public class ProductController {
     public ResponseEntity<?> getBrands(){
         try{
             return ResponseEntity.ok(getBrandsService.get());
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
+    @RequestMapping(value = "/getCategories", method = RequestMethod.GET)
+    public ResponseEntity<?> getCategories(){
+        try{
+            return ResponseEntity.ok(getCategoriesService.get());
         }
         catch(Exception e){
             return new ResponseEntity<>(
