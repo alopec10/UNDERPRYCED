@@ -60,6 +60,11 @@ public class ProductDetails {
         this.product = product;
     }
 
+    public ProductDetails(@Size(min = 1, max = 4) String size, Product product) {
+        this.size = size;
+        this.product = product;
+    }
+
     public long getIdProductDetails() {
         return idProductDetails;
     }
