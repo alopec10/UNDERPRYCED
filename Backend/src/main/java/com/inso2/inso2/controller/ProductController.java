@@ -11,10 +11,7 @@ import com.inso2.inso2.repository.ProductRepository;
 import com.inso2.inso2.repository.specification.SearchCriteria;
 import com.inso2.inso2.repository.specification.SearchOperationUtils;
 import com.inso2.inso2.repository.specification.product.ProductSpecification;
-import com.inso2.inso2.service.product.AddProductService;
-import com.inso2.inso2.service.product.GetProductByRefService;
-import com.inso2.inso2.service.product.GetProductBySpecificationService;
-import com.inso2.inso2.service.product.GetSizesService;
+import com.inso2.inso2.service.product.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -40,11 +37,14 @@ public class ProductController {
 
     private final GetSizesService getSizesService;
 
-    public ProductController(GetProductBySpecificationService getProductBySpecificationService, GetProductByRefService getProductByRefService, AddProductService addProductService, GetSizesService getSizesService) {
+    private final GetBrandsService getBrandsService;
+
+    public ProductController(GetProductBySpecificationService getProductBySpecificationService, GetProductByRefService getProductByRefService, AddProductService addProductService, GetSizesService getSizesService, GetBrandsService getBrandsService) {
         this.getProductBySpecificationService = getProductBySpecificationService;
         this.getProductByRefService = getProductByRefService;
         this.addProductService = addProductService;
         this.getSizesService = getSizesService;
+        this.getBrandsService = getBrandsService;
     }
 
     @RequestMapping(value = "/specification", method = RequestMethod.POST)
@@ -75,6 +75,18 @@ public class ProductController {
     public ResponseEntity<?> getSizes(){
         try{
             return ResponseEntity.ok(getSizesService.get());
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
+    @RequestMapping(value = "/getBrands", method = RequestMethod.GET)
+    public ResponseEntity<?> getBrands(){
+        try{
+            return ResponseEntity.ok(getBrandsService.get());
         }
         catch(Exception e){
             return new ResponseEntity<>(
