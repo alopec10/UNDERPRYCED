@@ -14,6 +14,7 @@ import com.inso2.inso2.repository.specification.product.ProductSpecification;
 import com.inso2.inso2.service.product.AddProductService;
 import com.inso2.inso2.service.product.GetProductByRefService;
 import com.inso2.inso2.service.product.GetProductBySpecificationService;
+import com.inso2.inso2.service.product.GetSizesService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,10 +38,13 @@ public class ProductController {
 
     private final AddProductService addProductService;
 
-    public ProductController(GetProductBySpecificationService getProductBySpecificationService, GetProductByRefService getProductByRefService, AddProductService addProductService) {
+    private final GetSizesService getSizesService;
+
+    public ProductController(GetProductBySpecificationService getProductBySpecificationService, GetProductByRefService getProductByRefService, AddProductService addProductService, GetSizesService getSizesService) {
         this.getProductBySpecificationService = getProductBySpecificationService;
         this.getProductByRefService = getProductByRefService;
         this.addProductService = addProductService;
+        this.getSizesService = getSizesService;
     }
 
     @RequestMapping(value = "/specification", method = RequestMethod.POST)
@@ -59,6 +63,18 @@ public class ProductController {
         try{
             addProductService.add(req);
             return ResponseEntity.ok("Product created");
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
+    @RequestMapping(value = "/getSizes", method = RequestMethod.GET)
+    public ResponseEntity<?> getSizes(){
+        try{
+            return ResponseEntity.ok(getSizesService.get());
         }
         catch(Exception e){
             return new ResponseEntity<>(
