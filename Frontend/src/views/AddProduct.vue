@@ -16,7 +16,7 @@
                  class="mt-1 block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0 focus:outline-none">
           <input v-model="newProduct.title" type="text" placeholder="Título"
                  class="mt-1 block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0 focus:outline-none">
-          <input v-model="newProduct.year" type="text" placeholder="Año de lanzamiento"
+          <input v-model="newProduct.url" type="text" placeholder="Url"
                  class="mt-1 block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0 focus:outline-none">
           <multiselect v-model="categoryValue" :options="categories" :multiple="false" :close-on-select="true"
                        :clear-on-select="false" :preserve-search="true" placeholder="Selecciona la categoría" label="name"
@@ -43,12 +43,10 @@
           <input v-model="newProduct.retailPrice" type="text" placeholder="Precio de salida ($)"
                  class="mt-1 block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0 focus:outline-none">
 
-          <datepicker :value="newProduct.releaseDate" name="releaseDatePicker" format="dd-MM-yyyy"
+          <datepicker v-model="newProduct.releaseDate" name="releaseDatePicker" :format="format"
                       placeholder="Fecha de lanzamiento" :monday-first="true" :language="es"
                       :disabled-dates="disabledDates"
                       input-class="mt-1 block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0 focus:outline-none"></datepicker>
-          <input v-model="newProduct.sizes" type="text" placeholder="Tallas"
-                 class="mt-1 block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0 focus:outline-none">
           <multiselect v-model="sizesValues" :options="sizes" :multiple="true" :close-on-select="false"
                        :clear-on-select="false" :preserve-search="true" placeholder="Selecciona las tallas" label="name"
                        track-by="name" :preselect-first="false" :searchable="false"
@@ -60,6 +58,12 @@
               }} tallas seleccionadas</span></template>
             <span slot="noOptions">Selecciona una categoría!</span>
           </multiselect>
+          <div class="mt-10">
+            <button @click="addProduct" type="button"
+                    class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+              Añadir producto
+            </button>
+          </div>
         </div>
       </form>
     </div>
@@ -71,6 +75,8 @@ const axios = require("axios");
 import Datepicker from 'vuejs-datepicker';
 import Multiselect from 'vue-multiselect'
 import {es} from 'vuejs-datepicker/dist/locale'
+import { makeDateUtils } from '../utils/DateUtils'
+
 
 export default {
   name: "AddProduct",
@@ -79,6 +85,7 @@ export default {
     Multiselect
   },
   data() {
+    const constructedDateUtils = makeDateUtils(this.useUtc)
     return {
       newProduct: {
         ref: '',
@@ -88,6 +95,7 @@ export default {
         model: '',
         title: '',
         year: '',
+        url: '',
         categoryType: '',
         gender: '',
         retailPrice: undefined,
@@ -95,24 +103,27 @@ export default {
         sizes: []
       },
       categories: [],
-      categoryValue: undefined,
-      genders: [{name:'m'}, {name:'f'}, {name:'gs'}, {name:'ps'}],
-      genderValue: undefined,
+      categoryValue: null,
+      genders: [{name:'M'}, {name:'F'}, {name:'GS'}, {name:'PS'}],
+      genderValue: null,
       es: es,
       disabledDates: {
         from: new Date()
       },
-      sizesValues: [],
+      format : "dd-MM-yyyy",
+      sizesValues: null,
       sneakerSizes: [{name: '40'}, {name: '40.5'}, {name: '41'}, {name: '42'}, {name: '42.5'}, {name: '43'}, {name: '44'}, {name: '44.5'}, {name: '45'}],
-      clothingSizes: [{name: 'XS'}, {name: 'S'}, {name: 'M'}, {name: 'L'}, {name: 'XL'}, {name: 'XXL'}]
+      clothingSizes: [{name: 'XS'}, {name: 'S'}, {name: 'M'}, {name: 'L'}, {name: 'XL'}, {name: 'XXL'}],
+      utils: constructedDateUtils,
+      formattedDate: null
     }
   },
   created() {
     this.getCategories()
   },
   watch: {
-    'newProduct.categoryType': function (newVal, oldVal){
-      this.sizesValues = []
+    'categoryValue': function (newVal, oldVal){
+      this.sizesValues = null
     }
   },
   methods: {
@@ -130,8 +141,49 @@ export default {
           })
     },
     addProduct() {
+      if(this.validate()){
+        var sizes  = []
+        for(var item of this.sizesValues){
+          sizes.push(item.name)
+        }
+        var year = this.formattedDate.slice(-4);
+        const data = {
+          ref: this.newProduct.ref,
+          brand: this.newProduct.brand,
+          colorway: this.newProduct.colorway,
+          name: this.newProduct.name,
+          model: this.newProduct.model,
+          title: this.newProduct.title,
+          year: year,
+          url: this.newProduct.url,
+          categoryType: this.categoryValue.name,
+          gender: this.genderValue.name,
+          retailPrice: this.newProduct.retailPrice,
+          releaseDate: this.formattedDate,
+          sizes: sizes
+        }
+        axios({url: 'http://localhost:8888/product/add', data: data, method: 'POST'})
+            .then(resp => {
+              console.log("Producto añadido")
+            })
+            .catch(err => {
+              console.log(err.response)
+            })
+      }
+      else{
+        console.log("Datos incorrectos")
+      }
 
-    }
+    },
+    validate(){
+      var p = this.newProduct
+      this.formattedDate = this.utils.formatDate(new Date(p.releaseDate), this.format , es)
+      if (p.ref !== "" && p.brand !== "" && p.colorway !== "" && p.name !== "" && p.model !== "" && p.url !== "" && p.title !== "" && p.retailPrice !== undefined && this.formattedDate !== undefined && this.categoryValue !== null && this.genderValue !== null && this.sizesValues !== null ){
+        return true
+      }
+      return false
+    },
+
   },
   computed: {
     sizes() {
