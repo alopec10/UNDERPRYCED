@@ -144,6 +144,17 @@ const routes = [
             requiresAuth: true,
             adminAuth: true
         }
+    },
+    {
+        path: '/crearProducto',
+        name: 'CrearProducto',
+        component: function () {
+            return import('../views/AddProduct.vue')
+        },
+        meta: {
+            requiresAuth: true,
+            adminAuth: true
+        }
     }
 ]
 
