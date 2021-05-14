@@ -91,7 +91,7 @@ const routes = [
         }
     },
     {
-        path: '/buscar',
+        path: '/buscar/:title?',
         name: 'Buscar',
         component: function () {
             return import('../views/Search.vue')
