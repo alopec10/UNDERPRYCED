@@ -42,13 +42,16 @@ public class ProductController {
 
     private final GetCategoriesService getCategoriesService;
 
-    public ProductController(GetProductBySpecificationService getProductBySpecificationService, GetProductByRefService getProductByRefService, AddProductService addProductService, GetSizesService getSizesService, GetBrandsService getBrandsService, GetCategoriesService getCategoriesService) {
+    private final GetYearsService getYearsService;
+
+    public ProductController(GetProductBySpecificationService getProductBySpecificationService, GetProductByRefService getProductByRefService, AddProductService addProductService, GetSizesService getSizesService, GetBrandsService getBrandsService, GetCategoriesService getCategoriesService, GetYearsService getYearsService) {
         this.getProductBySpecificationService = getProductBySpecificationService;
         this.getProductByRefService = getProductByRefService;
         this.addProductService = addProductService;
         this.getSizesService = getSizesService;
         this.getBrandsService = getBrandsService;
         this.getCategoriesService = getCategoriesService;
+        this.getYearsService = getYearsService;
     }
 
     @RequestMapping(value = "/specification", method = RequestMethod.POST)
@@ -103,6 +106,18 @@ public class ProductController {
     public ResponseEntity<?> getCategories(){
         try{
             return ResponseEntity.ok(getCategoriesService.get());
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
+    @RequestMapping(value = "/getYears", method = RequestMethod.GET)
+    public ResponseEntity<?> getYears(){
+        try{
+            return ResponseEntity.ok(getYearsService.get());
         }
         catch(Exception e){
             return new ResponseEntity<>(
