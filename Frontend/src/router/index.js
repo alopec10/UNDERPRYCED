@@ -91,6 +91,17 @@ const routes = [
         }
     },
     {
+        path: '/buscar',
+        name: 'Buscar',
+        component: function () {
+            return import('../views/Search.vue')
+        },
+        meta: {
+            requiresAuth: true,
+            userAuth: true
+        }
+    },
+    {
         path: '/comprar/:ref/:size',
         name: 'Comprar',
         component: function () {
