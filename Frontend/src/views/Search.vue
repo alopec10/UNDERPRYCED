@@ -48,6 +48,11 @@
       <span slot="noOptions">Error! No hay tallas</span>
     </multiselect>
 
+    <input type="number" v-model="minPrice" placeholder="Precio mínimo" :disabled="sizeSelected" min="0"
+           class="mt-1 block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0 focus:outline-none"/>
+    <input type="number" v-model="maxPrice" placeholder="Precio máximo" :disabled="sizeSelected" min="0"
+           class="mt-1 block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0 focus:outline-none"/>
+
     <button class="button" @click="getFiltered">
       Filtrar
     </button>
@@ -62,7 +67,6 @@
       ></SmallCard>
     </div>
   </div>
-
 
 
 </template>
@@ -93,11 +97,13 @@ export default {
       search_category: null,
       search_size: null,
       search_year: null,
+      minPrice: null,
+      maxPrice: null
 
     }
   },
   watch: {
-    'search_category': function (newVal, oldVal){
+    'search_category': function (newVal, oldVal) {
       this.search_size = null
     }
   },
@@ -105,13 +111,17 @@ export default {
     sizesDivided() {
       if (this.search_category === null || this.search_category === undefined || this.search_category.name === "") {
         return this.sizes
-      }
-      else if (this.search_category.name === 'Zapatillas'){
+      } else if (this.search_category.name === 'Zapatillas') {
         return this.sneakerSizes
-      }
-      else {
+      } else {
         return this.clothingSizes
       }
+    },
+    sizeSelected() {
+      if (this.search_size !== null && this.search_size.name !== "" && this.search_size !== undefined) {
+        return false
+      }
+      return true
     }
   },
   created() {
@@ -246,15 +256,17 @@ export default {
 
         axios({url: 'http://localhost:8888/product/specification', data: filtersJSON, method: 'POST'})
             .then(resp => {
-              this.items = []
-              if (this.search_category === null || this.search_category.name === "" || this.search_category === undefined) {
-                this.items = resp.data
-              } else {
-                for (let item of resp.data) {
-                  if (item.categoryType === this.search_category.name) {
-                    this.items.push(item)
-                  }
-                }
+              this.items = resp.data
+              if (this.search_category !== null && this.search_category.name !== "" && this.search_category !== undefined) {
+                this.filterByCategory()
+
+              }
+              if ((!this.isBlank(this.minPrice) || !this.isBlank(this.maxPrice)) && this.search_size) {
+                this.filterByPrice()
+              }
+              else {
+                this.minPrice = null
+                this.maxPrice = null
               }
             })
             .catch(err => {
@@ -263,13 +275,76 @@ export default {
       }
 
     },
+    filterByPrice() {
+      if (!this.isBlank(this.minPrice) && !this.isBlank(this.maxPrice) && parseInt(this.minPrice, 10) > parseInt(this.maxPrice, 10)) {
+        alert("Price error")
+        this.minPrice = null
+        this.maxPrice = null
+      } else {
+        if (!this.isBlank(this.minPrice) && !this.isBlank(this.maxPrice)) {
+          let aux_items = []
+          for (let item of this.items) {
+            let la = this.getPricesSize(item)
+            if (la !== null && la >= parseInt(this.minPrice, 10) && la <= parseInt(this.maxPrice,10)) {
+              aux_items.push(item)
+            }
+          }
+          this.items = aux_items
+        }
+        else if (!this.isBlank(this.minPrice) && this.isBlank(this.maxPrice)) {
+          let aux_items = []
+          for (let item of this.items) {
+            let la = this.getPricesSize(item)
+            if (la !== null && la >= parseInt(this.minPrice, 10)) {
+              aux_items.push(item)
+            }
+          }
+          this.items = aux_items
+        }
+        else if (this.isBlank(this.minPrice) && !this.isBlank(this.maxPrice)) {
+          let aux_items = []
+          for (let item of this.items) {
+            let la = this.getPricesSize(item)
+            if (la !== null && la <= parseInt(this.maxPrice, 10)) {
+              aux_items.push(item)
+            }
+          }
+          this.items = aux_items
+        }
+      }
+    },
+    getPricesSize (item) {
+      for (let pd of item.productDetails) {
+        if (pd.size === this.search_size.name) {
+          return pd.lowestAsk
+        }
+      }
+      return null
+    },
+    filterByCategory() {
+      let aux_items = []
+      for (let item of this.items) {
+        if (item.categoryType === this.search_category.name) {
+          aux_items.push(item)
+        }
+      }
+      this.items = aux_items
+    },
+    isBlank(str) {
+      return (!str || /^\s*$/.test(str));
+    }
+
 
   }
 }
 </script>
 
 <style scoped>
-
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 </style>
 
 <style>
@@ -288,6 +363,7 @@ export default {
   border: 2px solid #8B5CF6 !important;
   border-radius: 5px !important;
 }
+
 .multiselect__input {
   text-align: center !important;
 }
@@ -322,6 +398,7 @@ export default {
 .multiselect__tag-icon:after {
   color: #8B5CF6 !important;
 }
+
 .multiselect__tag {
   color: #8B5CF6 !important;
 }
@@ -341,7 +418,5 @@ export default {
 }
 
 </style>
-
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
