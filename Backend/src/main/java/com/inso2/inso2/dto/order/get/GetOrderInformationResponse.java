@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class GetOrderInformationResponse implements Serializable {
-    private String orderRef, date, shipDate, arrivalDate, address, zipCode, country, trackingNumber, productRef, size, brand, colorway, title, url;
+    private String orderRef, date, shipDate, arrivalDate, address, zipCode, country, trackingNumber, productRef, size, brand, colorway, title, url, type;
     private int price;
     private BigDecimal priceSeller, priceBuyer;
     private boolean completed, sent, approved;
@@ -184,6 +184,14 @@ public class GetOrderInformationResponse implements Serializable {
         this.status = status;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public GetOrderInformationResponse build(Order o, ShipmentType shipmentType){
         this.orderRef = o.getRef();
         this.date = o.getDate().toString().substring(0,10);
@@ -191,6 +199,7 @@ public class GetOrderInformationResponse implements Serializable {
         this.priceSeller = o.getPriceSeller();
         this.priceBuyer = o.getPriceBuyer();
         this.size = o.getProductDetails().getSize();
+        this.type = this.getType(shipmentType);
         Product p = o.getProductDetails().getProduct();
         this.productRef = p.getRef();
         this.brand = p.getBrand();
@@ -218,5 +227,14 @@ public class GetOrderInformationResponse implements Serializable {
             }
         }
         return null;
+    }
+
+    private String getType(ShipmentType shipmentType){
+        if(shipmentType == ShipmentType.HOME){
+            return "Buy";
+        }
+        else{
+            return "Sell";
+        }
     }
 }

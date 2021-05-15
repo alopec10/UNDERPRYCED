@@ -32,9 +32,10 @@ public class OrderController {
     private final GetPendingOrdersService getPendingOrdersService;
     private final ConfirmDeliveryService confirmDeliveryService;
     private final PriceCalculationService priceCalculationService;
+    private final GetOrderByRefService getOrderByRefService;
 
 
-    public OrderController(LoadUserService loadUserService, CreateBuyService createBuyService, CreateSellService createSellService, GetPurchasesOfUserService getPurchasesOfUserService, GetSellsOfUserService getSellsOfUserService, ApproveOrderService approveOrderService, RejectOrderService rejectOrderService, GetPendingOrdersService getPendingOrdersService, ConfirmDeliveryService confirmDeliveryService, PriceCalculationService priceCalculationService) {
+    public OrderController(LoadUserService loadUserService, CreateBuyService createBuyService, CreateSellService createSellService, GetPurchasesOfUserService getPurchasesOfUserService, GetSellsOfUserService getSellsOfUserService, ApproveOrderService approveOrderService, RejectOrderService rejectOrderService, GetPendingOrdersService getPendingOrdersService, ConfirmDeliveryService confirmDeliveryService, PriceCalculationService priceCalculationService, GetOrderByRefService getOrderByRefService) {
         this.loadUserService = loadUserService;
         this.createBuyService = createBuyService;
         this.createSellService = createSellService;
@@ -45,6 +46,7 @@ public class OrderController {
         this.getPendingOrdersService = getPendingOrdersService;
         this.confirmDeliveryService = confirmDeliveryService;
         this.priceCalculationService = priceCalculationService;
+        this.getOrderByRefService = getOrderByRefService;
     }
 
     @RequestMapping(value = "/createBuy", method = RequestMethod.POST)
@@ -97,6 +99,20 @@ public class OrderController {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
             return ResponseEntity.ok(getSellsOfUserService.get(user));
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
+    @RequestMapping(value = "/getOrderByRef", method = RequestMethod.GET)
+    public ResponseEntity<?> getOrderByRef(@RequestParam String ref){
+        try{
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User user = loadUserService.load(auth);
+            return ResponseEntity.ok(getOrderByRefService.get(user, ref));
         }
         catch (Exception e){
             return new ResponseEntity<>(
