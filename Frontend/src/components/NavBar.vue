@@ -6,8 +6,15 @@
       </a>
     </div>
 
-    <label for="menu-toggle" class="pointer-cursor lg:hidden block"><svg class="fill-current text-gray-900" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path></svg></label>
-    <input class="hidden" type="checkbox" id="menu-toggle" />
+    <div class="relative mt-1">
+      <input type="text" id="" placeholder="Buscar..." v-model="searchString" v-on:keyup.enter="search"
+             class="h-12 uppercase text-center w-full pl-3 pr-10 py-2 border-2 border-gray-200 rounded-xl hover:border-purple-200 focus:outline-none focus:border-purple-500 transition-colors">
+      <button
+          @click="search"
+          class="block w-7 h-7 text-center text-xl leading-0 absolute top-2.5 right-3 text-purple-400 focus:outline-none hover:text-purple-900 transition-colors">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
 
     <div class="hidden lg:flex lg:items-center lg:w-auto w-full" id="menu">
       <nav>
@@ -35,6 +42,11 @@
 
 export default {
   name: "NavBar",
+  data () {
+    return {
+      searchString: ""
+    }
+  },
   computed : {
     isLoggedIn : function(){ return this.$store.getters.isLoggedIn}
   },
@@ -42,9 +54,29 @@ export default {
     logout: function () {
       this.$store.dispatch('logout')
           .then(() => {
-            this.$router.push('/iniciarsesion')
+            //this.$router.push('/iniciarsesion')
+            this.$router.go(0)
           })
     },
+    search() {
+      if (this.isBlank(this.searchString)) {
+        this.$router.push({
+          name: "Buscar",
+        });
+      } else {
+        this.$router.push({
+          name: "Buscar",
+          params: {
+            title: this.searchString,
+          }
+        });
+      }
+      this.searchString = ""
+      this.$router.go(0);
+    },
+    isBlank(str) {
+      return (!str || /^\s*$/.test(str));
+    }
   },
 }
 </script>

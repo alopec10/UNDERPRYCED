@@ -8,7 +8,7 @@
           <label for="" class="block text-sm text-gray-700 text-center font-semibold">
             Login
           </label>
-          <form class="mt-10">
+          <form class="mt-10" v-on:submit.prevent="login">
 
             <div>
               <input v-model="email" type="email" placeholder="Email" class="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0">
