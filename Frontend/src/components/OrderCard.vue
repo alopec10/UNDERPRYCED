@@ -59,9 +59,7 @@ export default {
     this.$router.push({
       name: "Pedido",
       params:{
-        ref: this.op.orderRef,
-        op: this.op
-      }
+        ref: this.op.orderRef}
     });
   }
   }

@@ -99,8 +99,7 @@ const routes = [
         meta: {
             requiresAuth: true,
             userAuth: true
-        },
-        props: true
+        }
     },
     {
         path: '/buscar/:title?',
