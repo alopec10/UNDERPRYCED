@@ -21,7 +21,7 @@ public class GetOrderByRefService {
         Order buyOrder = orderRepository.findByBuyerAndRef(user, ref);
         Order sellOrder = orderRepository.findBySellerAndRef(user, ref);
         if(buyOrder == null && sellOrder == null){
-            throw new Exception("The order doesnt exists");
+            throw new Exception("The order doesnt exist");
         }
         if(buyOrder != null){
             return new GetOrderInformationResponse().build(buyOrder, ShipmentType.HOME);

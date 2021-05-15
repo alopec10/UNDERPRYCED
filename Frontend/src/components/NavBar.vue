@@ -38,6 +38,8 @@
           </li>
           <li v-if="authRole === 'ROLE_ADMIN'"><a class="lg:p-4 py-3 px-0 block border-b-2 border-transparent hover:border-indigo-400" href="/crearProducto">Crear producto</a>
           </li>
+          <li v-if="authRole === 'ROLE_ADMIN'"><a class="lg:p-4 py-3 px-0 block border-b-2 border-transparent hover:border-indigo-400" href="/aprobarPedidos">Aprobar pedidos</a>
+          </li>
         </ul>
       </nav>
       <a v-if="authRole" @click='logout' href="#" class="lg:ml-4 flex items-center justify-start lg:mb-0 mb-4 pointer-cursor">

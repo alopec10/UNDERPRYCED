@@ -10,7 +10,7 @@ import java.util.List;
 
 public class GetPendingOrderResponse implements Serializable {
 
-    private String orderRef, date, size, productRef, brand, colorway, title, url, address, zipCode, country, trackingNumber;
+    private String orderRef, date, size, productRef, brand, colorway, title, url, address, zipCode, country, trackingNumber, emailBuyer, emailSeller;
     private int price;
 
     public GetPendingOrderResponse() {
@@ -120,9 +120,25 @@ public class GetPendingOrderResponse implements Serializable {
         this.price = price;
     }
 
-    public GetPendingOrderResponse build(Order o){
+    public String getEmailBuyer() {
+        return emailBuyer;
+    }
+
+    public void setEmailBuyer(String emailBuyer) {
+        this.emailBuyer = emailBuyer;
+    }
+
+    public String getEmailSeller() {
+        return emailSeller;
+    }
+
+    public void setEmailSeller(String emailSeller) {
+        this.emailSeller = emailSeller;
+    }
+
+    public GetPendingOrderResponse build(Order o) {
         this.orderRef = o.getRef();
-        this.date = o.getDate().toString().substring(0,10);
+        this.date = o.getDate().toString().substring(0, 10);
         this.price = o.getPrice();
         this.size = o.getProductDetails().getSize();
         Product p = o.getProductDetails().getProduct();
@@ -137,12 +153,14 @@ public class GetPendingOrderResponse implements Serializable {
         this.address = homeShipment.getAddress();
         this.zipCode = homeShipment.getZipCode();
         this.country = homeShipment.getCountry();
+        this.emailBuyer = o.getBuyer().getEmail();
+        this.emailSeller = o.getSeller().getEmail();
         return this;
     }
 
-    private Shipment getShipment(List<Shipment> shipments, ShipmentType shipmentType){
-        for(Shipment s: shipments){
-            if (s.getType() == shipmentType){
+    private Shipment getShipment(List<Shipment> shipments, ShipmentType shipmentType) {
+        for (Shipment s : shipments) {
+            if (s.getType() == shipmentType) {
                 return s;
             }
         }

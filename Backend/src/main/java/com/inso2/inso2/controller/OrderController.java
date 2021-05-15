@@ -33,9 +33,10 @@ public class OrderController {
     private final ConfirmDeliveryService confirmDeliveryService;
     private final PriceCalculationService priceCalculationService;
     private final GetOrderByRefService getOrderByRefService;
+    private final GetPendingOrderByRefService getPendingOrderByRefService;
 
 
-    public OrderController(LoadUserService loadUserService, CreateBuyService createBuyService, CreateSellService createSellService, GetPurchasesOfUserService getPurchasesOfUserService, GetSellsOfUserService getSellsOfUserService, ApproveOrderService approveOrderService, RejectOrderService rejectOrderService, GetPendingOrdersService getPendingOrdersService, ConfirmDeliveryService confirmDeliveryService, PriceCalculationService priceCalculationService, GetOrderByRefService getOrderByRefService) {
+    public OrderController(LoadUserService loadUserService, CreateBuyService createBuyService, CreateSellService createSellService, GetPurchasesOfUserService getPurchasesOfUserService, GetSellsOfUserService getSellsOfUserService, ApproveOrderService approveOrderService, RejectOrderService rejectOrderService, GetPendingOrdersService getPendingOrdersService, ConfirmDeliveryService confirmDeliveryService, PriceCalculationService priceCalculationService, GetOrderByRefService getOrderByRefService, GetPendingOrderByRefService getPendingOrderByRefService) {
         this.loadUserService = loadUserService;
         this.createBuyService = createBuyService;
         this.createSellService = createSellService;
@@ -47,6 +48,7 @@ public class OrderController {
         this.confirmDeliveryService = confirmDeliveryService;
         this.priceCalculationService = priceCalculationService;
         this.getOrderByRefService = getOrderByRefService;
+        this.getPendingOrderByRefService = getPendingOrderByRefService;
     }
 
     @RequestMapping(value = "/createBuy", method = RequestMethod.POST)
@@ -113,6 +115,20 @@ public class OrderController {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = loadUserService.load(auth);
             return ResponseEntity.ok(getOrderByRefService.get(user, ref));
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = "/getPendingOrderByRef", method = RequestMethod.GET)
+    public ResponseEntity<?> getPendingOrderByRef(@RequestParam String ref){
+        try{
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User user = loadUserService.load(auth);
+            return ResponseEntity.ok(getPendingOrderByRefService.get(ref));
         }
         catch (Exception e){
             return new ResponseEntity<>(
