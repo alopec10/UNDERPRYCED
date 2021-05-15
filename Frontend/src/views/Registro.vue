@@ -82,7 +82,7 @@
             <div class="mt-7">
               <div class="flex justify-center items-center">
                 <label class="w-full text-sm text-gray-600">¿Ya tienes una cuenta?</label>
-                <a href="#"
+                <a href="/iniciarsesion"
                    class="w-full text-blue-500 transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                   Login
                 </a>

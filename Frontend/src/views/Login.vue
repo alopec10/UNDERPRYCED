@@ -62,7 +62,7 @@
             <div class="mt-7">
               <div class="flex justify-center items-center">
                 <label class="w-full text-sm text-gray-600">¿Eres nuevo?</label>
-                <a href="#" class="w-full text-blue-500 transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+                <a href="/registro" class="w-full text-blue-500 transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                   Crea una cuenta
                 </a>
               </div>
