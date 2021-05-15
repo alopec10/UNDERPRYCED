@@ -91,6 +91,18 @@ const routes = [
         }
     },
     {
+        path: '/pedido/:ref',
+        name: 'Pedido',
+        component: function () {
+            return import('../views/OrderInfo.vue')
+        },
+        meta: {
+            requiresAuth: true,
+            userAuth: true
+        },
+        props: true
+    },
+    {
         path: '/buscar/:title?',
         name: 'Buscar',
         component: function () {

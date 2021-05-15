@@ -38,7 +38,7 @@
       <div class="mt-20">
         <h1 class="text-2xl">ACTIVE BIDS</h1>
         <div
-            class="grid gap-6 grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 my-10 mx-2 sm:mx-20">
+            class="grid gap-6 grid-cols-1 xl:grid-cols-2 2xl:grid-cols-2 my-10 mx-2 sm:mx-20">
           <OperationCard v-for="(op, index) in bids" :key="index"
                          :op="op"
                          typeOp="bid"
@@ -52,12 +52,11 @@
       <div class="mt-16">
         <h1 class="text-2xl">SELLS</h1>
         <div
-            class="grid gap-6 grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 my-10 mx-2 sm:mx-20">
-          <OperationCard v-for="(op, index) in sells" :key="index"
-                         :op="op"
-                         typeOp="sp"
-                         v-on:delete="getSells">
-          </OperationCard>
+            class="grid gap-6 grid-cols-1 xl:grid-cols-2 2xl:grid-cols-2 my-10 mx-2 sm:mx-20">
+          <OrderCard v-for="(op, index) in sells" :key="index"
+                     :op="op"
+                     v-on:delete="getSells">
+          </OrderCard>
         </div>
       </div>
 
@@ -65,15 +64,13 @@
         <h1 class="text-2xl">PURCHASES</h1>
         <div
             class="grid gap-6 grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 my-10 mx-2 sm:mx-20">
-          <OperationCard v-for="(op, index) in purchases" :key="index"
-                         :op="op"
-                         typeOp="sp"
-                         v-on:delete="getPurchases">
-          </OperationCard>
+          <OrderCard v-for="(op, index) in purchases" :key="index"
+                     :op="op"
+                     v-on:delete="getPurchases">
+          </OrderCard>
         </div>
       </div>
     </div>
-
 
 
   </div>
@@ -81,12 +78,16 @@
 
 <script>
 import OperationCard from "../components/OperationCard";
+import OrderCard from "../components/OrderCard";
 
 const axios = require("axios");
 
 export default {
   name: "History",
-  components: {OperationCard},
+  components: {
+    OperationCard,
+    OrderCard
+  },
   data() {
     return {
       asks: [],
