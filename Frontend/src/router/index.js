@@ -91,6 +91,50 @@ const routes = [
         }
     },
     {
+        path: '/pedido/:ref',
+        name: 'Pedido',
+        component: function () {
+            return import('../views/OrderInfo.vue')
+        },
+        meta: {
+            requiresAuth: true,
+            userAuth: true
+        }
+    },
+    {
+        path: '/adminPedido/:ref',
+        name: 'AdminPedido',
+        component: function () {
+            return import('../views/AdminOrderInfo.vue')
+        },
+        meta: {
+            requiresAuth: true,
+            adminAuth: true
+        }
+    },
+    {
+        path: '/aprobarPedidos',
+        name: 'AprobarPedidos',
+        component: function () {
+            return import('../views/CheckOrder.vue')
+        },
+        meta: {
+            requiresAuth: true,
+            adminAuth: true
+        }
+    },
+    {
+        path: '/buscar/:title?',
+        name: 'Buscar',
+        component: function () {
+            return import('../views/Search.vue')
+        },
+        meta: {
+            requiresAuth: true,
+            userAuth: true
+        }
+    },
+    {
         path: '/comprar/:ref/:size',
         name: 'Comprar',
         component: function () {

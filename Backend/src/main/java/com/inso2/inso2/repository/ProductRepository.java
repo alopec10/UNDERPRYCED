@@ -13,4 +13,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     Product findByRef(String ref);
     @Query("SELECT DISTINCT p.brand FROM Product p")
     List<String> getBrands();
+    @Query("SELECT DISTINCT p.year FROM Product p")
+    List<String> getYears();
 }

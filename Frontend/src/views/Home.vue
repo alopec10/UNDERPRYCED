@@ -8,9 +8,10 @@
       <div
           class="w-full mx-auto rounded-xl bg-purple-100 shadow-lg p-12 text-gray-800 relative overflow-hidden min-w-80 max-w-2xl mt-16">
         <div class="relative mt-1">
-          <input type="text" id="" placeholder="Buscar..."
+          <input type="text" id="" placeholder="Buscar..." v-model="searchString" v-on:keyup.enter="search"
                  class="h-12 uppercase text-center w-full pl-3 pr-10 py-2 border-2 border-gray-200 rounded-xl hover:border-purple-200 focus:outline-none focus:border-purple-500 transition-colors">
           <button
+              @click="search"
               class="block w-7 h-7 text-center text-xl leading-0 absolute top-2.5 right-3 text-purple-400 focus:outline-none hover:text-purple-900 transition-colors">
             <i class="fas fa-search"></i>
           </button>
@@ -90,10 +91,10 @@
       <hr class="mt-14">
       <div class="container mx-auto flex items-center flex-wrap pt-4 pb-12">
         <TestCard v-for="(item, index) in recommended" :key="index"
-                   :title="item.title"
-                   :url="item.url"
-                   :price="item.retailPrice"
-                   :refer="item.ref"
+                  :title="item.title"
+                  :url="item.url"
+                  :price="item.retailPrice"
+                  :refer="item.ref"
 
         ></TestCard>
       </div>
@@ -128,7 +129,8 @@ export default {
   data() {
     return {
       mostPopular: [],
-      recommended: []
+      recommended: [],
+      searchString: ""
     }
   },
   methods: {
@@ -173,6 +175,23 @@ export default {
 
           })
     },
+    search() {
+      if (this.isBlank(this.searchString)) {
+        this.$router.push({
+          name: "Buscar",
+        });
+      } else {
+        this.$router.push({
+          name: "Buscar",
+          params: {
+            title: this.searchString,
+          }
+        });
+      }
+    },
+    isBlank(str) {
+      return (!str || /^\s*$/.test(str));
+    }
 
   }
 }
