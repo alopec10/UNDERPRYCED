@@ -4,8 +4,8 @@
 
     <img class="" style="max-width:90%;max-height:62%; margin: 4px auto" :src="url"/>
     <div class="px-5">
-      <h1 class="text-gray-900 uppercase leading-tight line-clamp-2" :title="title" style="font-size: max(1.5vw, 15px)">{{ title }}</h1>
-      <span class="text-gray-500 mt-2">${{ price }}</span>
+      <h1 class="text-gray-900 uppercase leading-tight line-clamp-2" :title="title" style="font-size: max(1.3vw, 15px)">{{ title }}</h1>
+      <span class="text-gray-500 mt-3">${{ price }}</span>
     </div>
   </div>
 </template>
