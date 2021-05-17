@@ -156,6 +156,7 @@ export default {
     }
   },
   created() {
+    console.log(this.$route.params.title)
     if (this.$route.params.title) {
       this.search_name = this.$route.params.title
       this.getByName()

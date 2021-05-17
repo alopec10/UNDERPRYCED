@@ -114,6 +114,9 @@ export default {
         });
       }
       this.searchString = ""
+      if (this.$route.name === 'Buscar') {
+        this.$router.go(0)
+      }
     },
     isBlank(str) {
       return (!str || /^\s*$/.test(str));
