@@ -6,41 +6,40 @@
 
 
         <div class="grid gap-6 grid-cols-2 my-6 mx-auto items-center">
-          <p>NOMBRE</p>
-          <input v-model="name" type="text" placeholder="Nombre"
-                 class="mt-1 block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0"
-                 @blur="$v.name.$touch()">
-          <div v-if="nameErrors.length!==0">
-            {{ nameErrors }}
+          <div class="floating-input mb-5 relative">
+            <input v-model="name" type="text" id="name" class="border-2 border-purple-500 focus:outline-none rounded-xl hover:bg-purple-100 focus:bg-purple-100 w-full p-3 h-16" placeholder="Nombre" autocomplete="off" @blur="$v.name.$touch()"/>
+            <label for="name" class="absolute top-0 left-0 px-3 py-5 h-full pointer-events-none transform origin-left transition-all duration-100 ease-in-out ">Nombre</label>
           </div>
-          <p>APELLIDOS</p>
-
-          <input v-model="surname" type="text" placeholder="Apellidos"
-                 class="mt-1 block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0"
-                 @blur="$v.surname.$touch()">
-          <div v-if="surnameErrors.length!==0">
-            {{ surnameErrors }}
+          <div v-if="nameErrors.length!==0" class="text-sm mt-2 text-red-400">
+            {{ nameErrors[0] }}
           </div>
-          <p>EMAIL</p>
-          <input v-model="email" type="email" placeholder="Email"
-                 class="mt-1 block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0"
-                 @blur="$v.email.$touch()">
-          <div v-if="emailErrors.length!==0">
-            {{ emailErrors }}
+          <div class="floating-input mb-5 relative">
+            <input v-model="surname" type="text" id="surname" class="border-2 border-purple-500 focus:outline-none rounded-xl hover:bg-purple-100 focus:bg-purple-100 w-full p-3 h-16" placeholder="Apellidos" autocomplete="off" @blur="$v.surname.$touch()"/>
+            <label for="surname" class="absolute top-0 left-0 px-3 py-5 h-full pointer-events-none transform origin-left transition-all duration-100 ease-in-out ">Apellidos</label>
           </div>
-          <p>TELÉFONO</p>
-          <input v-model="phoneNumber" type="text" placeholder="Nº teléfono"
-                 class="mt-1 block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0"
-                 @blur="$v.phoneNumber.$touch()">
-          <div v-if="phoneNumberErrors.length!==0">
-            {{ phoneNumberErrors }}
+          <div v-if="surnameErrors.length!==0" class="text-sm mt-2 text-red-400">
+            {{ surnameErrors[0] }}
           </div>
-          <p>CONTRASEÑA</p>
-          <input v-model="password" type="password" placeholder="Contraseña"
-                 class="mt-1 block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0"
-                 @blur="$v.password.$touch()">
-          <div v-if="passwordErrors.length!==0">
-            {{ passwordErrors }}
+          <div class="floating-input mb-5 relative">
+            <input v-model="email" type="text" id="email" class="border-2 border-purple-500 focus:outline-none rounded-xl hover:bg-purple-100 focus:bg-purple-100 w-full p-3 h-16" placeholder="Email" autocomplete="off" @blur="$v.email.$touch()"/>
+            <label for="email" class="absolute top-0 left-0 px-3 py-5 h-full pointer-events-none transform origin-left transition-all duration-100 ease-in-out ">Email</label>
+          </div>
+          <div v-if="emailErrors.length!==0" class="text-sm mt-2 text-red-400">
+            {{ emailErrors[0] }}
+          </div>
+          <div class="floating-input mb-5 relative">
+            <input v-model="phoneNumber" type="text" id="phoneNumber" class="border-2 border-purple-500 focus:outline-none rounded-xl hover:bg-purple-100 focus:bg-purple-100 w-full p-3 h-16" placeholder="Teléfono" autocomplete="off" @blur="$v.phoneNumber.$touch()"/>
+            <label for="phoneNumber" class="absolute top-0 left-0 px-3 py-5 h-full pointer-events-none transform origin-left transition-all duration-100 ease-in-out ">Teléfono</label>
+          </div>
+          <div v-if="phoneNumberErrors.length!==0" class="text-sm mt-2 text-red-400">
+            {{ phoneNumberErrors[0] }}
+          </div>
+          <div class="floating-input mb-5 relative">
+            <input v-model="password" type="password" id="password" class="border-2 border-purple-500 focus:outline-none rounded-xl hover:bg-purple-100 focus:bg-purple-100 w-full p-3 h-16" placeholder="Contraseña" autocomplete="off" @blur="$v.password.$touch()"/>
+            <label for="password" class="absolute top-0 left-0 px-3 py-5 h-full pointer-events-none transform origin-left transition-all duration-100 ease-in-out ">Contraseña</label>
+          </div>
+          <div v-if="passwordErrors.length!==0" class="text-sm mt-2 text-red-400">
+            {{ passwordErrors[0] }}
           </div>
           <div class="mt-10">
             <button @click="update" type="button"
@@ -49,26 +48,26 @@
             </button>
           </div>
           <hr class="mt-14">
-          <p>DIRECCIÓN</p>
-          <input v-model="address" type="text" placeholder="Dirección"
-                 class="mt-1 block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0"
-                 @blur="$v.address.$touch()">
-          <div v-if="addressErrors.length!==0">
-            {{ addressErrors }}
+          <div class="floating-input mb-5 relative">
+            <input v-model="address" type="text" id="address" class="border-2 border-purple-500 focus:outline-none rounded-xl hover:bg-purple-100 focus:bg-purple-100 w-full p-3 h-16" placeholder="Dirección" autocomplete="off" @blur="$v.address.$touch()"/>
+            <label for="address" class="absolute top-0 left-0 px-3 py-5 h-full pointer-events-none transform origin-left transition-all duration-100 ease-in-out ">Dirección</label>
           </div>
-          <p>PAÍS</p>
-          <input v-model="country" type="text" placeholder="País"
-                 class="mt-1 block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0"
-                 @blur="$v.country.$touch()">
-          <div v-if="countryErrors.length!==0">
-            {{ countryErrors }}
+          <div v-if="addressErrors.length!==0" class="text-sm mt-2 text-red-400">
+            {{ addressErrors[0] }}
           </div>
-          <p>CÓDIGO POSTAL</p>
-          <input v-model="zipCode" type="text" placeholder="Código postal"
-                 class="mt-1 block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0"
-                 @blur="$v.zipCode.$touch()">
-          <div v-if="zipCodeErrors.length!==0">
-            {{ zipCodeErrors }}
+          <div class="floating-input mb-5 relative">
+            <input v-model="country" type="text" id="country" class="border-2 border-purple-500 focus:outline-none rounded-xl hover:bg-purple-100 focus:bg-purple-100 w-full p-3 h-16" placeholder="País" autocomplete="off" @blur="$v.country.$touch()"/>
+            <label for="country" class="absolute top-0 left-0 px-3 py-5 h-full pointer-events-none transform origin-left transition-all duration-100 ease-in-out ">País</label>
+          </div>
+          <div v-if="countryErrors.length!==0" class="text-sm mt-2 text-red-400">
+            {{ countryErrors[0] }}
+          </div>
+          <div class="floating-input mb-5 relative">
+            <input v-model="zipCode" type="text" id="zipCode" class="border-2 border-purple-500 focus:outline-none rounded-xl hover:bg-purple-100 focus:bg-purple-100 w-full p-3 h-16" placeholder="Código postal" autocomplete="off" @blur="$v.zipCode.$touch()"/>
+            <label for="zipCode" class="absolute top-0 left-0 px-3 py-5 h-full pointer-events-none transform origin-left transition-all duration-100 ease-in-out ">Código postal</label>
+          </div>
+          <div v-if="zipCodeErrors.length!==0" class="text-sm mt-2 text-red-400">
+            {{ zipCodeErrors[0] }}
           </div>
         </div>
         <div class="mt-10">
@@ -271,25 +270,25 @@ export default {
     nameErrors() {
       const errors = [];
       if (!this.$v.name.$dirty) return errors;
+      !this.$v.name.required && errors.push("Campo requerido.");
       !this.$v.name.validName &&
       errors.push("El nombre debe tener como máximo 20 caracteres.");
-      !this.$v.name.required && errors.push("Campo requerido.");
       return errors;
     },
     surnameErrors() {
       const errors = [];
       if (!this.$v.surname.$dirty) return errors;
+      !this.$v.surname.required && errors.push("Campo requerido.");
       !this.$v.surname.validSurname &&
       errors.push("El apellido debe tener como máximo 30 caracteres.");
-      !this.$v.surname.required && errors.push("Campo requerido.");
       return errors;
     },
     emailErrors() {
       const errors = [];
       if (!this.$v.email.$dirty) return errors;
+      !this.$v.email.required && errors.push("Campo requerido.");
       !this.$v.email.validEmail &&
       errors.push("Formato inválido");
-      !this.$v.email.required && errors.push("Campo requerido.");
       return errors;
     },
     passwordErrors() {
@@ -302,25 +301,25 @@ export default {
     addressErrors() {
       const errors = [];
       if (!this.$v.address.$dirty) return errors;
+      !this.$v.address.required && errors.push("Campo requerido.");
       !this.$v.address.validAddress &&
       errors.push("Formato inválido, debe contener entre 10 y 150 caracteres");
-      !this.$v.address.required && errors.push("Campo requerido.");
       return errors;
     },
     countryErrors() {
       const errors = [];
       if (!this.$v.country.$dirty) return errors;
+      !this.$v.country.required && errors.push("Campo requerido.");
       !this.$v.country.validCountry &&
       errors.push("Formato inválido, debe contener entre 4 y 20 caracteres");
-      !this.$v.country.required && errors.push("Campo requerido.");
       return errors;
     },
     zipCodeErrors() {
       const errors = [];
       if (!this.$v.zipCode.$dirty) return errors;
+      !this.$v.zipCode.required && errors.push("Campo requerido.");
       !this.$v.zipCode.validZipCode &&
       errors.push("Formato inválido");
-      !this.$v.zipCode.required && errors.push("Campo requerido.");
       return errors;
     },
     phoneNumberErrors() {
@@ -342,4 +341,19 @@ p {
 img {
   width: 30vw
 }
+
+.floating-input>input::placeholder {
+  color: transparent;
+}
+
+.floating-input>input:focus,
+.floating-input>input:not(:placeholder-shown) {
+  @apply pt-8
+}
+
+.floating-input>input:focus~label,
+.floating-input>input:not(:placeholder-shown)~label {
+  @apply opacity-75 scale-75 -translate-y-3 translate-x-1;
+}
+
 </style>
