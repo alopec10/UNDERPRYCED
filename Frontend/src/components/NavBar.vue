@@ -114,7 +114,6 @@ export default {
         });
       }
       this.searchString = ""
-      this.$router.go(0);
     },
     isBlank(str) {
       return (!str || /^\s*$/.test(str));
