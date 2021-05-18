@@ -1,6 +1,6 @@
 <template>
   <div class="my-10">
-    <h1 class="text-4xl mt-14">MIS TARJETAS DE CRÉDITO</h1>
+    <h1 class="text-5xl font-semibold" style="font-family:'Quantico'">MIS TARJETAS DE CRÉDITO</h1>
     <div
         class="flex my-6 mx-10">
       <CreditCard class="mx-auto text-xl"
@@ -15,58 +15,67 @@
       ></CreditCard>
     </div>
     <hr class="mt-14">
-    <div>
+    <div class="grid gap-6 my-6 mx-auto items-center w-1/2">
       <form class="mt-10">
-        <h1 class="text-4xl">Añadir una nueva tarjeta</h1>
-        <div class="mx-auto mt-10">
-          <div>
-            <input v-model="newPayment.name" type="text" placeholder="Nombre"
-                   class="mt-1 h-14 text-2xl mx-auto block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0"
-                   @blur="$v.newPayment.name.$touch()">
+        <h1 class="text-5xl font-semibold mb-10" style="font-family:'Quantico'">AÑADIR UNA NUEVA TARJETA</h1>
+        <div class="grid gap-6 grid-cols-2 my-10 mx-auto items-center">
+          <div class="floating-input mb-5 relative">
+            <input v-model="newPayment.name" type="text" id="name"
+                   class="border-2 border-purple-500 focus:outline-none rounded-xl hover:bg-purple-100 focus:bg-purple-100 w-full p-3 h-16"
+                   placeholder="Nombre" autocomplete="off" @blur="$v.newPayment.name.$touch()"/>
+            <label for="name"
+                   class="absolute top-0 left-0 px-3 py-5 h-full pointer-events-none transform origin-left transition-all duration-100 ease-in-out ">Nombre</label>
+            <div v-if="nameErrors.length!==0" class="text-sm mt-2 text-red-400 absolute">
+              {{ nameErrors[0] }}
+            </div>
           </div>
-          <div v-if="nameErrors.length!==0">
-            {{ nameErrors }}
+          <div class="floating-input mb-5 relative">
+            <input v-model="newPayment.number" type="text" id="num"
+                   class="border-2 border-purple-500 focus:outline-none rounded-xl hover:bg-purple-100 focus:bg-purple-100 w-full p-3 h-16"
+                   placeholder="Número" autocomplete="off" @blur="$v.newPayment.number.$touch()"/>
+            <label for="num"
+                   class="absolute top-0 left-0 px-3 py-5 h-full pointer-events-none transform origin-left transition-all duration-100 ease-in-out ">Número</label>
+            <div v-if="numberErrors.length!==0" class="text-sm mt-2 text-red-400 absolute">
+              {{ numberErrors[0] }}
+            </div>
           </div>
-          <div class="mt-7">
-            <input v-model="newPayment.number" type="text" placeholder="Número"
-                   class="mt-1 h-14 text-2xl mx-auto block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0"
-                   @blur="$v.newPayment.number.$touch()">
+          <div class="floating-input mb-5 relative">
+            <input v-model="newPayment.cvv" type="text" id="cvv"
+                   class="border-2 border-purple-500 focus:outline-none rounded-xl hover:bg-purple-100 focus:bg-purple-100 w-full p-3 h-16"
+                   placeholder="CVV" autocomplete="off" @blur="$v.newPayment.cvv.$touch()"/>
+            <label for="cvv"
+                   class="absolute top-0 left-0 px-3 py-5 h-full pointer-events-none transform origin-left transition-all duration-100 ease-in-out ">CVV</label>
+            <div v-if="cvvErrors.length!==0" class="text-sm mt-2 text-red-400 absolute">
+              {{ cvvErrors[0] }}
+            </div>
           </div>
-          <div v-if="numberErrors.length!==0">
-            {{ numberErrors }}
+          <div class="floating-input mb-5 relative">
+            <input v-model="newPayment.expMonth" type="text" id="month"
+                   class="border-2 border-purple-500 focus:outline-none rounded-xl hover:bg-purple-100 focus:bg-purple-100 w-full p-3 h-16"
+                   placeholder="Mes" autocomplete="off" @blur="$v.newPayment.expMonth.$touch()"/>
+            <label for="month"
+                   class="absolute top-0 left-0 px-3 py-5 h-full pointer-events-none transform origin-left transition-all duration-100 ease-in-out ">Mes</label>
+            <div v-if="monthErrors.length!==0" class="text-sm mt-2 text-red-400 absolute">
+              {{ monthErrors[0] }}
+            </div>
           </div>
-          <div class="mt-7">
-            <input v-model="newPayment.cvv" type="text" placeholder="CVV"
-                   class="mt-1 mx-auto h-14 text-2xl block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0"
-                   @blur="$v.newPayment.cvv.$touch()">
+          <div class="floating-input mb-5 relative">
+            <input v-model="newPayment.expYear" type="text" id="year"
+                   class="border-2 border-purple-500 focus:outline-none rounded-xl hover:bg-purple-100 focus:bg-purple-100 w-full p-3 h-16"
+                   placeholder="Año" autocomplete="off" @blur="$v.newPayment.expYear.$touch()"/>
+            <label for="year"
+                   class="absolute top-0 left-0 px-3 py-5 h-full pointer-events-none transform origin-left transition-all duration-100 ease-in-out ">Año</label>
+            <div v-if="yearErrors.length!==0" class="text-sm mt-2 text-red-400 absolute">
+              {{ yearErrors[0] }}
+            </div>
           </div>
-          <div v-if="cvvErrors.length!==0">
-            {{ cvvErrors }}
-          </div>
-          <div class="mt-7">
-            <input v-model="newPayment.expMonth" type="text" placeholder="Mes"
-                   class="mt-1 mx-auto h-14 text-2xl block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0"
-                   @blur="$v.newPayment.expMonth.$touch()">
-          </div>
-          <div v-if="monthErrors.length!==0">
-            {{ monthErrors }}
-          </div>
-          <div class="mt-7">
-            <input v-model="newPayment.expYear" type="text" placeholder="Año"
-                   class="mt-1 mx-auto h-14 text-2xl block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0"
-                   @blur="$v.newPayment.expYear.$touch()">
-          </div>
-          <div v-if="yearErrors.length!==0">
-            {{ yearErrors }}
-          </div>
-          <div class="mt-7">
-            <button @click="addPaymentMethod" type="button"
-                    class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
-              Añadir tarjeta
+          <div class="mb-5">
+            <button @click="addPaymentMethod" type="button" style="font-family:'Quantico'"
+                    class="bg-purple-500 text-xl p-3 px-5 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+              AÑADIR TARJETA
             </button>
           </div>
         </div>
-
       </form>
     </div>
   </div>
@@ -205,43 +214,43 @@ export default {
     nameErrors() {
       const errors = [];
       if (!this.$v.newPayment.name.$dirty) return errors;
+      !this.$v.newPayment.name.required && errors.push("Campo requerido.");
       !this.$v.newPayment.name.validName &&
       errors.push("El nombre debe tener como máximo 50 caracteres.");
-      !this.$v.newPayment.name.required && errors.push("Campo requerido.");
       return errors;
     },
     numberErrors() {
       const errors = [];
       if (!this.$v.newPayment.number.$dirty) return errors;
+      !this.$v.newPayment.number.required && errors.push("Campo requerido.");
       !this.$v.newPayment.number.validNumber &&
       errors.push("Formato inválido");
-      !this.$v.newPayment.number.required && errors.push("Campo requerido.");
       return errors;
     },
     cvvErrors() {
       const errors = [];
       if (!this.$v.newPayment.cvv.$dirty) return errors;
+      !this.$v.newPayment.cvv.required && errors.push("Campo requerido.");
       !this.$v.newPayment.cvv.validCvv &&
       errors.push("Formato inválido");
-      !this.$v.newPayment.cvv.required && errors.push("Campo requerido.");
       return errors;
     },
     monthErrors() {
       const errors = [];
       if (!this.$v.newPayment.expMonth.$dirty) return errors;
+      !this.$v.newPayment.expMonth.required && errors.push("Campo requerido.");
       !this.$v.newPayment.expMonth.validMonth &&
       errors.push("Formato inválido");
-      !this.$v.newPayment.expMonth.required && errors.push("Campo requerido.");
       return errors;
     },
     yearErrors() {
       const errors = [];
       if (!this.$v.newPayment.expYear.$dirty) return errors;
+      !this.$v.newPayment.expYear.required && errors.push("Campo requerido.");
       !this.$v.newPayment.expYear.validYear &&
       errors.push("Formato inválido");
       !this.$v.newPayment.expYear.yearExpired &&
       errors.push("Tarjeta no valida, está caducada");
-      !this.$v.newPayment.expYear.required && errors.push("Campo requerido.");
       return errors;
     }
   }
@@ -249,4 +258,19 @@ export default {
 </script>
 
 <style scoped>
+
+.floating-input > input::placeholder {
+  color: transparent;
+}
+
+.floating-input > input:focus,
+.floating-input > input:not(:placeholder-shown) {
+  @apply pt-8
+}
+
+.floating-input > input:focus ~ label,
+.floating-input > input:not(:placeholder-shown) ~ label {
+  @apply opacity-75 scale-75 -translate-y-3 translate-x-1;
+}
+
 </style>
