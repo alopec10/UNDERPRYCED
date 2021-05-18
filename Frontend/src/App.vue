@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="flex flex-col h-screen justify-between">
     <NavBar></NavBar>
 <!--    <div id="nav">
       <router-link to="/">Home</router-link> |
@@ -32,6 +32,12 @@
       color: #42b983;
     }
   }
+}
+
+#footer {
+  position: fixed;
+  bottom:0%;
+  width:100%;
 }
 </style>
 
