@@ -1,7 +1,7 @@
 <template>
-  <div class="">
-    <h1 class="text-5xl mt-6">
-      NOTIFICACIONES
+  <div class=" my-10">
+    <h1 class="text-5xl font-semibold"  style="font-family:'Quantico'">
+      ALERTAS
     </h1>
     <div class="my-10 mx-auto">
       <div v-if="alerts.length===0">
