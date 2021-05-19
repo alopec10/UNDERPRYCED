@@ -250,12 +250,27 @@ export default {
         }
         axios({url: 'http://localhost:8888/user/update', data: userData, method: 'POST'})
             .then(resp => {
-              console.log(resp)
-              this.$v.reset()
+              this.$v.$reset()
+              this.$notify({
+                group: 'ok',
+                title: 'Información actualizada',
+                text: 'La información ha sido correctamente actualizada en la base de datos',
+                type: 'success',
+                duration: 10000,
+              })
             })
             .catch(err => {
               console.log(err.response)
             })
+      }
+      else{
+        this.$notify({
+          group: 'err',
+          title: 'Error en el guardado',
+          text: 'Alguno de los campos a modificar tiene un formato incorrecto',
+          type: 'error',
+          duration: 10000,
+        })
       }
     },
     validateUpdate() {
@@ -275,12 +290,27 @@ export default {
         }
         axios({url: 'http://localhost:8888/user/updateAddress', data: userData, method: 'POST'})
             .then(resp => {
-              console.log(resp)
-              this.$v.reset()
+              this.$v.$reset()
+              this.$notify({
+                group: 'ok',
+                title: 'Información actualizada',
+                text: 'La información ha sido correctamente actualizada en la base de datos',
+                type: 'success',
+                duration: 10000,
+              })
             })
             .catch(err => {
               console.log(err.response)
             })
+      }
+      else{
+        this.$notify({
+          group: 'err',
+          title: 'Error en el guardado',
+          text: 'Alguno de los campos de la dirección a modificar tiene un formato incorrecto',
+          type: 'error',
+          duration: 10000,
+        })
       }
     },
     validateUpdateAddress() {

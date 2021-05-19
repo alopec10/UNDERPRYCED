@@ -6,7 +6,12 @@
       <router-link to="/about">About</router-link> |
       <router-link to="/registro">Registro</router-link>
     </div>-->
-
+    <notifications group="err"
+                   position="bottom left"
+                   :speed="500" />
+    <notifications group="ok"
+                   position="top center"
+                   :speed="500" />
     <router-view/>
     <Footer></Footer>
   </div>
@@ -44,6 +49,7 @@
 <script>
 import Footer from '@/components/Footer.vue'
 import NavBar from '@/components/NavBar.vue'
+
 import { mapActions } from 'vuex'
 export default {
   name: "App",
