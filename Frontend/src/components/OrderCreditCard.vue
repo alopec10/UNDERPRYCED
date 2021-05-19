@@ -63,7 +63,7 @@ const axios = require("axios");
 export default {
   name: "OrderCreditCard",
   props: {
-    id: {
+    idPayMethod: {
       type: Number,
       required: true
     },
@@ -109,7 +109,7 @@ export default {
   methods: {
     cardClicked(){
       let card = {
-        id: this.id,
+        idPayMethod: this.idPayMethod,
         number: this.number,
         expMonth: this.expMonth,
         expYear: this.expYear

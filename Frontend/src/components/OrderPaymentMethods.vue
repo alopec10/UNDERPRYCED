@@ -6,7 +6,7 @@
           class="grid gap-1 grid-cols-1 my-6 mx-auto items-center" v-bind:class="{'xl:grid-cols-1': paymentMethods.length === 1, 'xl:grid-cols-2': paymentMethods.length !== 1}">
         <OrderCreditCard class="mx-auto text-xl my-5"
                     v-for="(item, index) in paymentMethods"
-                    :id="item.idPayMethod"
+                    :idPayMethod="item.idPayMethod"
                     :name="item.name"
                     :number="item.number"
                     :expMonth="item.expMonth"
@@ -326,7 +326,7 @@ export default {
     cardClicked(card){
       this.$emit('cardClicked', card)
       this.paymentMethods.forEach(function (item, index) {
-        item.selected = item.idPayMethod === card.id;
+        item.selected = item.idPayMethod === card.idPayMethod;
       });
     }
   },
