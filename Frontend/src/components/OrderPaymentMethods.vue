@@ -1,9 +1,9 @@
 <template>
   <div>
     <div v-if="showMethods">
-      <h1 class="text-4xl">ELIGE TU MÉTODO DE PAGO</h1>
+      <h1 class="text-5xl font-semibold mb-10" style="font-family:'Quantico'">ELIGE TU MÉTODO DE PAGO</h1>
       <div
-          class="flex my-6 mx-10">
+          class="grid gap-1 grid-cols-2 my-6 mx-auto items-center">
         <OrderCreditCard class="mx-auto text-xl my-5"
                     v-for="(item, index) in paymentMethods"
                     :id="item.idPayMethod"
@@ -16,22 +16,24 @@
                     v-on:cardClicked="cardClicked"
         ></OrderCreditCard>
       </div>
-      <button v-if="fromPage==='buy'"
-          @click="previousPage" type="button" style="font-family:'Quantico'"
-              class="bg-purple-500 text-xl p-3 px-5 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+      <div class="space-x-5">
+        <button v-if="fromPage==='buy'"
+                @click="previousPage" type="button" style="font-family:'Quantico'"
+                class="bg-purple-500 text-xl p-3 px-5 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
 
-        ATRÁS
-      </button>
-      <button @click="addMethod = true" type="button" style="font-family:'Quantico'"
-              class="bg-purple-500 text-xl p-3 px-5 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+          ATRÁS
+        </button>
+        <button @click="addMethod = true" type="button" style="font-family:'Quantico'"
+                class="bg-purple-500 text-xl p-3 px-5 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
 
-        AÑADIR MÉTODO PAGO
-      </button>
-      <button @click="nextPage" type="button" style="font-family:'Quantico'"
-              class="bg-purple-500 text-xl p-3 px-5 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+          AÑADIR MÉTODO PAGO
+        </button>
+        <button @click="nextPage" type="button" style="font-family:'Quantico'"
+                class="bg-purple-500 text-xl p-3 px-5 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
 
-        SIGUIENTE
-      </button>
+          SIGUIENTE
+        </button>
+      </div>
     </div>
     <div v-else>
       <div>
@@ -102,7 +104,7 @@
             </div>
             <div class="mt-7">
               <button v-if="paymentMethods.length!==0"
-                      @click="addMethod = false" type="button" style="font-family:'Quantico'"
+                      @click="addMethod = false; $v.$reset()" type="button" style="font-family:'Quantico'"
                       class="bg-purple-500 text-xl p-3 px-5 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
 
                 SELECCIONAR MÉTODO PAGO
