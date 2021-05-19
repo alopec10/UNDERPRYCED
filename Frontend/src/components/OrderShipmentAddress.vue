@@ -1,31 +1,44 @@
 <template>
-  <div class="my-10">
-    <h1 class="text-5xl">DATOS DEL USUARIO</h1>
+  <div class="my-5">
     <div class="inline-block mt-5">
       <form class="mt-10">
-        <div class="grid gap-6 grid-cols-3 my-6 mx-auto items-center">
-          <p>DIRECCIÓN</p>
-          <input v-model="info.address" type="text" placeholder="Dirección"
-                 class="col-span-2 mt-1 block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0">
-          <div v-if="addressErrors.length!==0">
-            {{ addressErrors }}
+        <h1 class="text-5xl font-semibold mb-10" style="font-family:'Quantico'">DATOS DEL USUARIO</h1>
+        <div class="mx-auto mt-7">
+          <div class="floating-input mb-5 relative">
+            <input v-model="info.address" type="text" id="address"
+                   class="border-2 border-purple-500 focus:outline-none rounded-xl hover:bg-purple-100 focus:bg-purple-100 w-full p-3 h-16"
+                   placeholder="Dirección" autocomplete="off" @blur="$v.info.address.$touch()"/>
+            <label for="address"
+                   class="absolute top-0 left-0 px-3 py-5 h-full pointer-events-none transform origin-left transition-all duration-100 ease-in-out ">Dirección</label>
+            <div v-if="addressErrors.length!==0" class="text-sm mt-2 text-red-400 absolute">
+              {{ addressErrors[0] }}
+            </div>
           </div>
-          <p>PAÍS</p>
-          <input v-model="info.country" type="text" placeholder="País"
-                 class="col-span-2 mt-1 block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0">
-          <div v-if="countryErrors.length!==0">
-            {{ countryErrors }}
+          <div class="floating-input mb-5 relative">
+            <input v-model="info.country" type="text" id="country"
+                   class="border-2 border-purple-500 focus:outline-none rounded-xl hover:bg-purple-100 focus:bg-purple-100 w-full p-3 h-16"
+                   placeholder="País" autocomplete="off" @blur="$v.info.country.$touch()"/>
+            <label for="country"
+                   class="absolute top-0 left-0 px-3 py-5 h-full pointer-events-none transform origin-left transition-all duration-100 ease-in-out ">País</label>
+            <div v-if="countryErrors.length!==0" class="text-sm mt-2 text-red-400 absolute">
+              {{ countryErrors[0] }}
+            </div>
           </div>
-          <p>CÓDIGO POSTAL</p>
-          <input v-model="info.zipCode" type="text" placeholder="Código postal"
-                 class="col-span-2 mt-1 block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100 focus:ring-0">
-          <div v-if="zipCodeErrors.length!==0">
-            {{ zipCodeErrors }}
+          <div class="floating-input mb-5 relative">
+            <input v-model="info.zipCode" type="text" id="zipCode"
+                   class="border-2 border-purple-500 focus:outline-none rounded-xl hover:bg-purple-100 focus:bg-purple-100 w-full p-3 h-16"
+                   placeholder="Código postal" autocomplete="off" @blur="$v.info.zipCode.$touch()"/>
+            <label for="zipCode"
+                   class="absolute top-0 left-0 px-3 py-5 h-full pointer-events-none transform origin-left transition-all duration-100 ease-in-out ">Código
+              postal</label>
+            <div v-if="zipCodeErrors.length!==0" class="text-sm mt-2 text-red-400 absolute">
+              {{ zipCodeErrors[0] }}
+            </div>
           </div>
         </div>
       </form>
-      <button @click="nextPage"
-              class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+      <button @click="nextPage" type="button" style="font-family:'Quantico'"
+              class="bg-purple-500 text-xl p-3 px-5 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
 
         SIGUIENTE
       </button>
@@ -116,25 +129,25 @@ export default {
     addressErrors() {
       const errors = [];
       if (!this.$v.info.address.$dirty) return errors;
+      !this.$v.info.address.required && errors.push("Campo requerido.");
       !this.$v.info.address.validAddress &&
       errors.push("Formato inválido, debe contener entre 10 y 150 caracteres");
-      !this.$v.info.address.required && errors.push("Campo requerido.");
       return errors;
     },
     countryErrors() {
       const errors = [];
       if (!this.$v.info.country.$dirty) return errors;
+      !this.$v.info.country.required && errors.push("Campo requerido.");
       !this.$v.info.country.validCountry &&
       errors.push("Formato inválido, debe contener entre 4 y 20 caracteres");
-      !this.$v.info.country.required && errors.push("Campo requerido.");
       return errors;
     },
     zipCodeErrors() {
       const errors = [];
       if (!this.$v.info.zipCode.$dirty) return errors;
+      !this.$v.info.zipCode.required && errors.push("Campo requerido.");
       !this.$v.info.zipCode.validZipCode &&
       errors.push("Formato inválido");
-      !this.$v.info.zipCode.required && errors.push("Campo requerido.");
       return errors;
     },
   }
@@ -145,4 +158,19 @@ export default {
 p {
   text-align: right
 }
+
+.floating-input > input::placeholder {
+  color: transparent;
+}
+
+.floating-input > input:focus,
+.floating-input > input:not(:placeholder-shown) {
+  @apply pt-8
+}
+
+.floating-input > input:focus ~ label,
+.floating-input > input:not(:placeholder-shown) ~ label {
+  @apply opacity-75 scale-75 -translate-y-3 translate-x-1;
+}
+
 </style>
