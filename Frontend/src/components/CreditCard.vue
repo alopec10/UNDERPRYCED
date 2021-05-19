@@ -9,7 +9,7 @@
     <div class="space-y-16">
       <div class="w-96 h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-md transition-transform transform hover:scale-105 hover:shadow-2xl">
 
-        <img class="relative object-cover w-full h-full rounded-xl" src="https://i.imgur.com/kGkSg1v.png">
+        <img class="relative object-cover w-full h-full rounded-xl" src="@/assets/credit_card_blue.png">
 
         <div class="w-full px-8 absolute top-8">
           <div class="flex justify-between">
