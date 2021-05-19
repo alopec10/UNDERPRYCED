@@ -5,7 +5,7 @@
         <div class="card bg-purple-300 shadow-lg  w-full h-full rounded-3xl absolute  transform -rotate-6"></div>
         <div class="card bg-purple-500 shadow-lg  w-full h-full rounded-3xl absolute  transform rotate-6"></div>
         <div class="relative w-full rounded-3xl  px-6 py-4 bg-gray-100 shadow-md border-2 border-purple-500">
-          <label class="block mt-4 text-2xl text-gray-700 text-center font-semibold">
+          <label class="block mt-4 text-2xl text-gray-700 text-center font-semibold" style="font-family:'Quantico'">
             REGISTRARSE
           </label>
           <form class="mt-8" v-on:submit.prevent="register">
@@ -48,7 +48,7 @@
 
             <div class="flex mt-7 items-center text-center">
               <hr class="border-gray-300 border-1 w-full rounded-md">
-              <label class="block font-medium text-sm text-gray-700 w-full">
+              <label class="block font-medium text-sm text-gray-700 w-full" >
                 Regístrate ahora
               </label>
               <hr class="border-gray-300 border-1 w-full rounded-md">
@@ -56,7 +56,7 @@
 
             <div class="mt-7">
               <button @click="register" type="button"
-                      class="bg-purple-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+                      class="bg-purple-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105" style="font-family:'Quantico'">
                 REGISTRARSE
               </button>
             </div>
@@ -65,7 +65,7 @@
               <div class="flex justify-center items-center">
                 <label class="w-full text-sm text-gray-600">¿Ya tienes una cuenta?</label>
                 <a href="/iniciarsesion"
-                   class="w-full text-purple-500 transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+                   class="w-full text-purple-500 transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105" style="font-family:'Quantico'">
                   INICIAR SESIÓN
                 </a>
               </div>
@@ -198,5 +198,7 @@ export default {
 </script>
 
 <style scoped>
-
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  font-family:'Quantico';
+}
 </style>

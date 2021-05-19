@@ -390,4 +390,8 @@ img {
   @apply opacity-75 scale-75 -translate-y-3 translate-x-1;
 }
 
+label { /* Chrome/Opera/Safari */
+  font-family:'Quantico';
+}
+
 </style>

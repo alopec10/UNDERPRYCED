@@ -5,7 +5,7 @@
         <div class="card bg-purple-300 shadow-lg  w-full h-full rounded-3xl absolute  transform -rotate-6"></div>
         <div class="card bg-purple-500 shadow-lg  w-full h-full rounded-3xl absolute  transform rotate-6"></div>
         <div class="relative w-full rounded-3xl  px-6 py-4 bg-gray-100 shadow-md border-2 border-purple-500">
-          <label class="block mt-4 text-2xl text-gray-700 text-center font-semibold">
+          <label class="block mt-4 text-2xl text-gray-700 text-center font-semibold" style="font-family:'Quantico'">
             INICIAR SESIÓN
           </label>
           <form class="mt-8" v-on:submit.prevent="login">
@@ -27,7 +27,7 @@
             </div>
 
             <div class="mt-7">
-              <button @click="login" type="button" class="bg-purple-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+              <button @click="login" type="button" class="bg-purple-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105" style="font-family:'Quantico'">
                 INICIAR SESIÓN
               </button>
             </div>
@@ -38,7 +38,7 @@
             <div class="mt-7 mb-3">
               <div class="flex justify-center items-center">
                 <label class="w-full text-md text-gray-600">¿Eres nuevo?</label>
-                <a href="/registro" class="w-full text-purple-500 text-md transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+                <a href="/registro" class="w-full text-purple-500 text-md transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105" style="font-family:'Quantico'">
                   REGÍSTRATE AHORA
                 </a>
               </div>
@@ -77,5 +77,7 @@ export default {
 </script>
 
 <style scoped>
-
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  font-family:'Quantico';
+}
 </style>
