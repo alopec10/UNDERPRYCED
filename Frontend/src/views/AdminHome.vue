@@ -32,7 +32,7 @@ export default {
       this.$router.push('\crearProducto')
     },
     pushToAcceptProduct() {
-      this.$router.push('\aprobarPedido')
+      this.$router.push('\aprobarPedidos')
     }
   }
 }
