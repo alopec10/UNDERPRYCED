@@ -15,7 +15,7 @@
             @click="selectedBuy = true"
             v-bind:class="{'bg-purple-500': selectedBuy}"
         v-if="price !== null">
-          <h1 class="text-white text-md sm:text-2xl p-5"
+          <h1 class="text-white text-md sm:text-2xl p-5" style="font-family:'Quantico'"
               v-bind:class="{'text-gray-700': !selectedBuy}">
             COMPRAR AHORA
           </h1>
@@ -24,7 +24,7 @@
             class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-100 rounded-lg flex ml-4 justify-center items-center px-2 cursor-pointer"
             @click="selectedBuy = false"
             v-bind:class="{'bg-purple-500': !selectedBuy}">
-          <h1 class="text-white text-md sm:text-2xl "
+          <h1 class="text-white text-md sm:text-2xl " style="font-family:'Quantico'"
               v-bind:class="{'text-gray-700': selectedBuy}">
             PUJAR
           </h1>
@@ -53,7 +53,7 @@
           <div
               @click="confirmBuy"
               class="w-32 h-20 sm:w-48 sm:h-20 bg-purple-500 rounded-lg justify-center items-center px-2 flex mx-auto mt-10 cursor-pointer">
-            <h1 class="text-white text-md sm:text-2xl ">
+            <h1 class="text-white text-md sm:text-2xl " style="font-family:'Quantico'">
               CONTINUAR
             </h1>
           </div>

@@ -14,11 +14,11 @@
       <div v-show="step3">
 
         <div>
-          <h1 class="text-4xl">RESUMEN DE LA COMPRA</h1>
+          <h1 class="text-5xl font-semibold mb-10" style="font-family:'Quantico'">RESUMEN DE LA COMPRA</h1>
           <div class="flex my-10 justify-center items-center border-2 rounded-lg shadow-xl border-purple-300  ">
             <div class=" w-1/3 my-5">
               <div>
-                <h1 class="text-md sm:text-2xl">
+                <h1 class="text-md sm:text-3xl" style="font-family:'Quantico'">
                   PRECIO
                 </h1>
                 <h1 class="text-md sm:text-lg mt-5">
@@ -36,7 +36,7 @@
               </div>
             </div>
             <div class=" w-1/3">
-              <h1 class="text-md sm:text-2xl">
+              <h1 class="text-md sm:text-3xl" style="font-family:'Quantico'">
                 DIRECCIÓN
               </h1>
               <h1 class="text-md sm:text-lg mt-5">
@@ -50,8 +50,8 @@
               </h1>
 
             </div>
-            <div class="w-1/3">
-              <h1 class="text-md sm:text-2xl">
+            <div class="w-1/3" >
+              <h1 class="text-md sm:text-3xl" style="font-family:'Quantico'">
                 MÉTODO DE PAGO
               </h1>
               <h1 class="text-md sm:text-lg mt-5">

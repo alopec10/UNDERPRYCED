@@ -127,4 +127,8 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Quantico&display=swap');
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  font-family:'Quantico';
+}
 </style>

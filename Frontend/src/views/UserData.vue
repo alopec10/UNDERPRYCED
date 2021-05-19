@@ -106,7 +106,7 @@
               </div>
             </div>
 
-            <div class="mb-5 relative space-x-5">
+            <div class="mb-5 relative space-x-5 space-y-3">
               <button @click="updateAddress" type="button" style="font-family:'Quantico'"
                       class="bg-purple-500 text-xl p-3 px-5 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                 GUARDAR CAMBIOS
