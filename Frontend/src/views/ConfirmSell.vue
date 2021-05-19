@@ -1,9 +1,9 @@
 <template>
   <div class="min-w-screen m-12 flex">
-    <div class="inline items-center justify-center w-1/2">
+    <div class="inline items-center justify-center w-5/12">
       <ConfirmOrderProduct :product="product"/>
     </div>
-    <div class="inline w-1/2 my-auto">
+    <div class="inline w-7/12 my-auto">
       <div v-show="step1">
         <OrderPaymentMethods v-on:cardClicked="cardClicked" v-on:paymentNext="step1=false; step2 = true" from-page="sell"/>
       </div>
