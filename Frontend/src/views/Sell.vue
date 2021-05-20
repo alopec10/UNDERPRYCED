@@ -1,30 +1,30 @@
 <template>
   <div class="min-w-screen m-12 flex">
     <div class="inline items-center justify-center w-7/12">
-      <h1 class="text-5xl my-4">
+      <h1 class="text-5xl my-4 cursor-pointer" style="font-family:'Quantico'" @click="pushToProduct">
         {{ product.title }}
       </h1>
       <div class="mx-auto flex justify-center w-11/12">
-        <img :src="product.url" class="my-6 mx-10 p-5 border-2 rounded-lg shadow-xl border-purple-300 "/>
+        <img :src="product.url" class="my-6 mx-10 p-5 border-2 rounded-lg shadow-xl border-purple-300 cursor-pointer" @click="pushToProduct"/>
       </div>
     </div>
     <div class="inline w-5/12">
-      <div class="inline-flex align-center">
+      <div class="inline-flex align-center space-x-4">
         <div
             class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-100 rounded-lg flex justify-center items-center cursor-pointer"
             @click="selectedSell = true"
             v-bind:class="{'bg-purple-500': selectedSell}"
             v-if="price !== null">
-          <h1 class="text-white text-md sm:text-2xl p-5"
+          <h1 class="text-white text-md sm:text-2xl p-5" style="font-family:'Quantico'"
               v-bind:class="{'text-gray-700': !selectedSell}">
             VENDER AHORA
           </h1>
         </div>
         <div
-            class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-100 rounded-lg flex ml-4 justify-center items-center px-2 cursor-pointer"
+            class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-100 rounded-lg flex justify-center items-center px-2 cursor-pointer"
             @click="selectedSell = false"
             v-bind:class="{'bg-purple-500': !selectedSell}">
-          <h1 class="text-white text-md sm:text-2xl "
+          <h1 class="text-white text-md sm:text-2xl " style="font-family:'Quantico'"
               v-bind:class="{'text-gray-700': selectedSell}">
             OFERTAR
           </h1>
@@ -32,7 +32,7 @@
       </div>
       <div v-if="selectedSell">
         <div class="mt-10 align-center">
-          <h1 class="text-md sm:text-2xl ">
+          <h1 class="text-md sm:text-2xl " style="font-family:'Quantico'">
             TALLA: {{ this.size }}
           </h1>
           <h1 class="text-md sm:text-5xl mt-5">
@@ -53,7 +53,7 @@
           <div
               @click="confirmSell"
               class="w-32 h-20 sm:w-48 sm:h-20 bg-purple-500 rounded-lg justify-center items-center px-2 flex mx-auto mt-10 cursor-pointer">
-            <h1 class="text-white text-md sm:text-2xl ">
+            <h1 class="text-white text-md sm:text-2xl " style="font-family:'Quantico'">
               CONTINUAR
             </h1>
           </div>
@@ -61,13 +61,13 @@
       </div>
       <div v-else>
         <div class="mt-10 align-center">
-          <h1 class="text-md sm:text-2xl ">
+          <h1 class="text-md sm:text-2xl " style="font-family:'Quantico'">
             TALLA: {{ this.size }}
           </h1>
 
           <div class="mt-7">
             <input v-model="customPrice" type="text" placeholder="Precio" id="p"
-                   class="inline-block text-center mx-auto w-40 h-16 block border-2 border-purple-500 p-3 text-5xl h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100"/>
+                   class="inline-block text-center mx-auto w-40 h-16 block border-2 border-purple-500 p-3 text-5xl h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:outline-none focus:bg-purple-100"/>
             <div class="inline-block ml-2 text-5xl">€</div>
           </div>
           <h1 v-if="currentAsk == customPrice" class="text-md sm:text-lg mt-3">
@@ -89,7 +89,7 @@
             <div
                 class="w-32 h-20 sm:w-48 sm:h-20 bg-purple-500 rounded-lg justify-center items-center px-2 flex mx-auto mt-10 cursor-pointer"
                 @click="placeAsk">
-              <h1 class="text-white text-md sm:text-2xl ">
+              <h1 class="text-white text-md sm:text-2xl " style="font-family:'Quantico'">
                 CONTINUAR
               </h1>
             </div>
@@ -265,7 +265,15 @@ export default {
             console.log(err.response)
           })
     },
-  
+    pushToProduct() {
+      this.$router.push({
+        name: "Producto",
+        params: {
+          ref: this.product.ref,
+        }
+      })
+    }
+
   }
 }
 </script>

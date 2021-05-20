@@ -78,7 +78,7 @@
       </div>
       <div class="">
         <button @click="getFiltered"
-                type="button"
+                type="button" style="font-family:'Quantico'"
                 class="bg-purple-500 w-32 md:w-52 h-11 mt-1 text-lg md:text-xl rounded-md text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105">
           Aplicar filtros
         </button>

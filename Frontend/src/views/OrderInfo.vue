@@ -9,7 +9,7 @@
     </div>
   </div>
   <div v-if="status==='En camino' && order.type === 'Buy'">
-    <button @click="confirmArrival" type="button"
+    <button @click="confirmArrival" type="button" style="font-family:'Quantico'"
             class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
       CONFIRMAR RECEPCIÓN
     </button>

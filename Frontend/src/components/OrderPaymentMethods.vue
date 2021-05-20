@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="showMethods">
-      <h1 class="text-5xl font-semibold mb-10" style="font-family:'Quantico'">ELIGE TU MÉTODO DE PAGO</h1>
+      <h1 class="text-5xl font-semibold mb-10" style="font-family:'Quantico'">ELIGE TU MÉTODO DE {{name}}</h1>
       <div
           class="grid gap-1 grid-cols-1 my-6 mx-auto items-center" v-bind:class="{'xl:grid-cols-1': paymentMethods.length === 1, 'xl:grid-cols-2': paymentMethods.length !== 1}">
         <OrderCreditCard class="mx-auto text-xl my-5"
@@ -200,6 +200,10 @@ export default {
     fromPage: {
       type: String,
       required: true
+    },
+    name: {
+      type: String,
+      required: true
     }
   },
   data() {
@@ -347,5 +351,9 @@ export default {
 .floating-input > input:focus ~ label,
 .floating-input > input:not(:placeholder-shown) ~ label {
   @apply opacity-75 scale-75 -translate-y-3 translate-x-1;
+}
+
+label {
+  font-family:'Quantico';
 }
 </style>

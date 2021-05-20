@@ -9,7 +9,7 @@
       </div>
 
       <div v-show="step2">
-        <OrderPaymentMethods v-on:cardClicked="cardClicked" from-page="buy" v-on:paymentNext="step2=false; step3 = true" v-on:paymentPrev="step1=true; step2=false"/>
+        <OrderPaymentMethods name="PAGO" v-on:cardClicked="cardClicked" from-page="buy" v-on:paymentNext="step2=false; step3 = true" v-on:paymentPrev="step1=true; step2=false"/>
       </div>
       <div v-show="step3">
 

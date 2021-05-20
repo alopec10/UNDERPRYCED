@@ -5,7 +5,7 @@
     </div>
     <div class="inline w-7/12 my-auto">
       <div v-show="step1">
-        <OrderPaymentMethods v-on:cardClicked="cardClicked" v-on:paymentNext="step1=false; step2 = true" from-page="sell"/>
+        <OrderPaymentMethods name="COBRO" v-on:cardClicked="cardClicked" v-on:paymentNext="step1=false; step2 = true" from-page="sell"/>
       </div>
       <div v-show="step2">
         <h1 class="text-4xl">RESUMEN DE LA VENTA</h1>

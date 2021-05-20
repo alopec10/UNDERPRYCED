@@ -1,27 +1,27 @@
 <template>
   <div class="min-w-screen m-12 flex">
     <div class="inline items-center justify-center w-7/12">
-      <h1 class="text-5xl my-4">
+      <h1 class="text-5xl my-4 cursor-pointer" style="font-family:'Quantico'" @click="pushToProduct">
         {{ product.title }}
       </h1>
       <div class="mx-auto flex justify-center w-11/12">
-        <img :src="product.url" class="my-6 mx-10 p-5 border-2 rounded-lg shadow-xl border-purple-300 "/>
+        <img :src="product.url" class="my-6 mx-10 p-5 border-2 rounded-lg shadow-xl border-purple-300 cursor-pointer" @click="pushToProduct"/>
       </div>
     </div>
     <div class="inline w-5/12">
-      <div class="inline-flex align-center">
+      <div class="inline-flex align-center space-x-4">
         <div
             class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-100 rounded-lg flex justify-center items-center cursor-pointer"
             @click="selectedBuy = true"
             v-bind:class="{'bg-purple-500': selectedBuy}"
-        v-if="price !== null">
+            v-if="price !== null">
           <h1 class="text-white text-md sm:text-2xl p-5" style="font-family:'Quantico'"
               v-bind:class="{'text-gray-700': !selectedBuy}">
             COMPRAR AHORA
           </h1>
         </div>
         <div
-            class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-100 rounded-lg flex ml-4 justify-center items-center px-2 cursor-pointer"
+            class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-100 rounded-lg flex justify-center items-center px-2 cursor-pointer"
             @click="selectedBuy = false"
             v-bind:class="{'bg-purple-500': !selectedBuy}">
           <h1 class="text-white text-md sm:text-2xl " style="font-family:'Quantico'"
@@ -67,7 +67,7 @@
 
           <div class="mt-7">
             <input v-model="customPrice" type="text" placeholder="Precio" id="p"
-                   class="inline-block text-center mx-auto w-40 h-16 block border-2 border-purple-500 p-3 text-5xl h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100"/>
+                   class="inline-block text-center mx-auto w-40 h-16 block border-2 border-purple-500 p-3 text-5xl h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:outline-none focus:bg-purple-100"/>
             <div class="inline-block ml-2 text-5xl">€</div>
           </div>
           <h1 v-if="currentBid == customPrice" class="text-md sm:text-lg mt-3">
@@ -174,8 +174,7 @@ export default {
                 this.price = pd.lowestAsk
                 if (this.price != null) {
                   this.calcPriceBuy()
-                }
-                else{
+                } else {
                   this.selectedBuy = false
                 }
               }
@@ -199,19 +198,15 @@ export default {
           })
           .catch(err => {
             let error_msg = err.response.data
-            if(error_msg === "It's not possible to create a bid if you don't have a valid address"){
+            if (error_msg === "It's not possible to create a bid if you don't have a valid address") {
               alert("No se puede crear una puja si no se ha añadido una dirección válida")
-            }
-            else if(error_msg === "It's not possible to create a bid if you don't have at least one payment method added"){
+            } else if (error_msg === "It's not possible to create a bid if you don't have at least one payment method added") {
               alert("No se puede crear una puja si no se ha añadido ningún método de pago previamente")
-            }
-            else if(error_msg === "It's not possible to make a bid higher than the lowest ask"){
+            } else if (error_msg === "It's not possible to make a bid higher than the lowest ask") {
               alert("No se puede crear una puja con valor superior a la oferta más baja")
-            }
-            else if(error_msg === "Price must be a positive integer number"){
+            } else if (error_msg === "Price must be a positive integer number") {
               alert("El precio de la puja debe ser positivo")
-            }
-            else{
+            } else {
               console.log(err.response)
             }
           })
@@ -220,7 +215,7 @@ export default {
     confirmBuy() {
       this.$router.push({
         name: "ConfirmarCompra",
-        params:{
+        params: {
           ref: this.product.ref,
           size: this.size
         }
@@ -266,6 +261,14 @@ export default {
             console.log(err.response)
           })
     },
+    pushToProduct() {
+      this.$router.push({
+        name: "Producto",
+        params: {
+          ref: this.product.ref,
+        }
+      })
+    }
   }
 }
 </script>
