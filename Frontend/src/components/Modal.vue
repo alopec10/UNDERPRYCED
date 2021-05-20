@@ -64,8 +64,10 @@ export default {
   &__dialog {
     background-color: #ffffff;
     position: relative;
+    top: 50%;
+    transform: translateY(-50%);
     width: 600px;
-    margin: 50px auto;
+    margin: auto auto;
     display: flex;
     flex-direction: column;
     border-radius: 5px;
@@ -79,10 +81,7 @@ export default {
     height: 30px;
   }
   &__header {
-    padding: 20px 20px 10px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
+    padding: 30px 20px 10px;
   }
   &__body {
     padding: 10px 20px 10px;
