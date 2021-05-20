@@ -1,6 +1,6 @@
 <template>
   <div class="inline items-center justify-center w-7/12" >
-    <h1 class="text-5xl my-4 cursor-pointer" style="font-family:'Quantico'" @click="pushToProduct">
+    <h1 class="text-5xl my-4 cursor-pointer uppercase" style="font-family:'Quantico'" @click="pushToProduct">
       {{ product.title }}
     </h1>
     <div class="mx-auto flex justify-center w-11/12">
