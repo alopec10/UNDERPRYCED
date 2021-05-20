@@ -9,7 +9,7 @@
     <div class="space-y-16">
       <div class="w-96 h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-md transition-transform transform hover:scale-105 hover:shadow-2xl">
 
-        <img class="relative object-cover w-full h-full rounded-xl" src="@/assets/credit_card_blue.png">
+        <img class="relative object-cover w-full h-full rounded-xl" src="@/assets/credit_card_dark.png">
 
         <div class="w-full px-8 absolute top-8">
           <div class="flex justify-between">
@@ -28,7 +28,7 @@
               Num.
               </p>
             <p class="font-medium tracking-more-wider font-mono flex justify-start pt-2">
-              <span class="bg-blue-700 rounded-full px-2 py-1 text-xs">●●●● ●●●● ●●●●</span> <strong class="ml-2">{{ number }}</strong>
+              <span class="rounded-full py-1 text-xs">●●●● ●●●● ●●●●</span> <strong class="ml-2">{{ number }}</strong>
             </p>
 
           </div>
@@ -45,7 +45,7 @@
               </div>
 
               <div class="">
-                <p class="font-light text-xs cursor-pointer" @click="remove">
+                <p class="font-semibold text-sm cursor-pointer" @click="remove">
                   ELIMINAR
                   </p>
               </div>

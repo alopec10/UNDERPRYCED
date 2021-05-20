@@ -43,11 +43,11 @@
           </div>
         </div>
         <div class="space-x-4">
-          <button @click="step1=true; step2=false"
+          <button @click="step1=true; step2=false" style="font-family:'Quantico'"
                   class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
             ATRÁS
           </button>
-          <button @click="confirmSell"
+          <button @click="confirmSell" style="font-family:'Quantico'"
                   class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
             CONFIRMAR
           </button>

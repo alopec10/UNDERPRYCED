@@ -27,7 +27,7 @@
               Num.
             </p>
             <p class="font-medium tracking-more-wider font-mono flex justify-start pt-2">
-              <span class="rounded-full px-2 py-1 text-xs" v-bind:class="{'bg-yellow-600': selected, 'bg-blue-700': !selected}">●●●● ●●●● ●●●●</span> <strong class="ml-2">{{ number }}</strong>
+              <span class="rounded-full py-1 text-xs" >●●●● ●●●● ●●●●</span> <strong class="ml-2">{{ number }}</strong>
             </p>
 
           </div>
@@ -99,10 +99,10 @@ export default {
     },
     cardColor(){
       if (this.selected){
-        return require("../assets/credit_card_orange.png")
+        return require("../assets/credit_card_dark.png")
       }
       else{
-        return require("../assets/credit_card_blue.png")
+        return require("../assets/credit_card_light.png")
       }
     }
   },

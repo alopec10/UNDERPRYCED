@@ -1,8 +1,8 @@
 <template>
   <div class="my-10">
-    <h1 class="text-5xl font-semibold" style="font-family:'Quantico'">MIS TARJETAS DE CRÉDITO</h1>
+    <h1 class="text-5xl mb-10 font-semibold" style="font-family:'Quantico'">MIS TARJETAS DE CRÉDITO</h1>
     <div
-        class="flex my-6 mx-10">
+        class="grid gap-3 grid-cols-1 my-6 mx-10" v-bind:class="{'sm: grid-cols-1': paymentMethods.length === 1, 'lg:grid-cols-2': paymentMethods.length === 2, 'xl:grid-cols-3': paymentMethods.length > 2}">
       <CreditCard class="mx-auto text-xl"
                   v-for="(item, index) in paymentMethods"
                   :id="item.idPayMethod"
@@ -16,8 +16,8 @@
     </div>
     <hr class="mt-14">
     <div class="grid gap-6 my-6 mx-auto items-center w-1/2">
-      <form class="mt-10">
-        <h1 class="text-5xl font-semibold mb-10" style="font-family:'Quantico'">AÑADIR UNA NUEVA TARJETA</h1>
+      <form class="mt-5">
+        <h1 class="text-5xl font-semibold mb-12" style="font-family:'Quantico'">AÑADIR UNA NUEVA TARJETA</h1>
         <div class="grid gap-6 grid-cols-2 my-10 mx-auto items-center">
           <div class="floating-input mb-5 relative">
             <input v-model="newPayment.name" type="text" id="name"
