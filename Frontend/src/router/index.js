@@ -199,7 +199,10 @@ const routes = [
             requiresAuth: true,
             adminAuth: true
         }
-    }
+    },
+    { path: "*", component: function () {
+            return import('../views/Error.vue')
+        } }
 ]
 
 const router = new VueRouter({
