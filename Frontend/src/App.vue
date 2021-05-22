@@ -8,7 +8,8 @@
     </div>-->
     <notifications group="err"
                    position="bottom left"
-                   :speed="500" />
+                   :speed="500"
+                   :ignoreDuplicates="true"/>
     <notifications group="ok"
                    position="top center"
                    :speed="500" />
