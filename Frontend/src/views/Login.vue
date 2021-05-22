@@ -15,7 +15,7 @@
             </div>
 
             <div class="mt-5">
-              <input v-model="password" type="password" placeholder="Contraseña" class="mt-1 w-full block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg bg-purple-50 hover:bg-purple-100 focus:bg-purple-100 focus:ring-0 focus:outline-none">
+              <input v-model="password" type="password" placeholder="Contraseña" class="mt-1 w-full block text-center border-2 border-purple-500 h-11 rounded-xl shadow-lg bg-purple-50 hover:bg-purple-100 focus:bg-purple-100 focus:ring-0 focus:outline-none" v-on:keyup.enter="login">
             </div>
 
             <div class="flex mt-7 items-center text-center">
