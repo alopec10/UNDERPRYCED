@@ -56,6 +56,25 @@
       </div>
 
     </div>
+    <modal ref="modalName">
+      <template v-slot:header>
+        <h1 class="text-4xl font-semibold mb-10" style="font-family:'Quantico'">VENTA CONFIRMADA</h1>
+      </template>
+
+      <template v-slot:body>
+        <p>Tan pronto como recibamos el producto y podamos comprobar su veracidad procederemos a realizar el pago en su cuenta</p>
+        <p class="mt-3">Si tiene cualquier duda o pregunta no dude en contactar con nosotros en la siguiente dirección de correo electrónico: customers@underpryced.com</p>
+        <p class="mt-3">¡Gracias por confiar en nosotros!</p>
+      </template>
+
+      <template v-slot:footer>
+        <div>
+          <button type="button" style="font-family:'Quantico'"
+                  class="bg-purple-500 text-xl p-3 px-5 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105"
+                  @click="$refs.modalName.closeModal(); $router.push('/')">Cerrar</button>
+        </div>
+      </template>
+    </modal>
 
   </div>
 
@@ -65,12 +84,14 @@
 const axios = require("axios");
 import ConfirmOrderProduct from "@/components/ConfirmOrderProduct";
 import OrderPaymentMethods from "@/components/OrderPaymentMethods";
+import Modal from "@/components/Modal";
 
 export default {
   name: "ConfirmSell",
   components: {
     ConfirmOrderProduct,
     OrderPaymentMethods,
+    Modal
   },
   data() {
     return {
@@ -147,10 +168,23 @@ export default {
       }
       axios({url: 'http://localhost:8888/order/createSell', data: dat, method: 'POST'})
           .then(resp => {
-            alert("Venta creada correctamente")
+            this.$refs.modalName.openModal()
+            setTimeout(() => this.$router.push('/'), 15000);
           })
           .catch(err => {
-            console.log(err.response)
+            let error_msg = err.response.data
+            if(error_msg === "It's not possible to sell a product to yourself"){
+              this.$notify({
+                group: 'err',
+                title: 'Error en la venta',
+                text: 'No puedes venderte un producto a ti mismo :(',
+                type: 'error',
+                duration: 5000,
+              })
+            }
+            else{
+              console.log(error_msg)
+            }
           })
     },
     cardClicked(card) {
