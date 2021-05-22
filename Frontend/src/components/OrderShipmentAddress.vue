@@ -4,7 +4,7 @@
       <form class="mt-10">
         <h1 class="text-5xl font-semibold mb-10" style="font-family:'Quantico'">DATOS DEL USUARIO</h1>
         <div class="mx-auto mt-7">
-          <div class="floating-input mb-5 relative">
+          <div class="floating-input mb-10 relative">
             <input v-model="info.address" type="text" id="address"
                    class="border-2 border-purple-500 focus:outline-none rounded-xl hover:bg-purple-100 focus:bg-purple-100 w-full p-3 h-16"
                    placeholder="Dirección" autocomplete="off" @blur="$v.info.address.$touch()"/>
@@ -14,7 +14,7 @@
               {{ addressErrors[0] }}
             </div>
           </div>
-          <div class="floating-input mb-5 relative">
+          <div class="floating-input mb-10 relative">
             <input v-model="info.country" type="text" id="country"
                    class="border-2 border-purple-500 focus:outline-none rounded-xl hover:bg-purple-100 focus:bg-purple-100 w-full p-3 h-16"
                    placeholder="País" autocomplete="off" @blur="$v.info.country.$touch()"/>
@@ -123,6 +123,15 @@ export default {
         this.$emit('addressUpdated', this.$data.info)
         this.$emit('addressNext')
       }
+      else{
+        this.$notify({
+          group: 'err',
+          title: 'Dirección incorrecta',
+          text: 'Alguno de los campos de la dirección es incorrecto o está incompleto',
+          type: 'error',
+          duration: 5000,
+        })
+      }
     }
   },
   computed: {
@@ -171,6 +180,10 @@ p {
 .floating-input > input:focus ~ label,
 .floating-input > input:not(:placeholder-shown) ~ label {
   @apply opacity-75 scale-75 -translate-y-3 translate-x-1;
+}
+
+label { /* Chrome/Opera/Safari */
+  font-family:'Quantico';
 }
 
 </style>

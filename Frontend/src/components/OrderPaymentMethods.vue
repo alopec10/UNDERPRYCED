@@ -315,8 +315,23 @@ export default {
               this.addMethod = false
             })
             .catch(err => {
-              console.log(err)
+              this.$notify({
+                group: 'err',
+                title: 'Error en el guardado',
+                text: 'Alguno de los campos tiene un formato incorrecto',
+                type: 'error',
+                duration: 5000,
+              })
             })
+      }
+      else{
+        this.$notify({
+          group: 'err',
+          title: 'Error en el guardado',
+          text: 'Alguno de los campos tiene un formato incorrecto',
+          type: 'error',
+          duration: 5000,
+        })
       }
     },
     nextPage(){
