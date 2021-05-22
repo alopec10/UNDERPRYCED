@@ -43,7 +43,7 @@
           </div>
 
         </div>
-        <div @click="showAskTable" class="mt-3 block">
+        <div @click="showAskTable(); $refs.askModal.openModal()" class="mt-3 block">
           <h1 class=" cursor-pointer">Ver todo</h1>
         </div>
       </div>
@@ -65,7 +65,7 @@
             </h1>
           </div>
         </div>
-        <div @click="showBidTable" class="mt-3 block">
+        <div @click="showBidTable(); $refs.bidModal.openModal()" class="mt-3 block">
           <h1 class=" cursor-pointer w-auto">Ver todo </h1>
         </div>
       </div>
@@ -73,17 +73,17 @@
 
 
     <div class="mx-auto flex justify-center w-1/2">
-      <img :src="product.url" class="my-6 mx-10 p-5 border-2 rounded-lg shadow-xl border-purple-300 "/>
+      <img :src="product.url" class="my-6 mx-10 p-5 border-2 rounded-lg shadow-xl border-purple-700 "/>
     </div>
 
 
-    <div class=" my-10 space-y-4 text-xl">
+    <div class=" my-10 grid grid-cols-2 gap-4 text-lg flex justify-start">
       <div>
         <div class="text-purple-700 inline-block">
           <i class="fas fa-caret-right"></i>
         </div>
-        <h1 class=" text-xl mx-4 text-black inline-block">
-          RETAIL PRICE {{ product.retailPrice }} €
+        <h1 class="text-xl mx-4 text-black inline-block">
+          MARCA  -  {{ product.brand }}
         </h1>
         <div class="text-purple-700 inline-block">
           <i class="fas fa-caret-left"></i>
@@ -94,55 +94,69 @@
           <i class="fas fa-caret-right"></i>
         </div>
         <h1 class="text-xl mx-4 text-black inline-block">
-          RELEASE DATE {{ product.date }}
+          GÉNERO  -  {{ product.gender }}
         </h1>
         <div class="text-purple-700 inline-block">
           <i class="fas fa-caret-left"></i>
         </div>
       </div>
 
-      <vue-tailwind-modal
-          :showing="showAsks"
-          @close="showAsks = false"
-          :showClose="true"
-          :backgroundClose="true"
-      >
-        <div>
-          <div>
-            <h1 class="text-4xl">ASKS</h1>
-          </div>
-          <div v-for="(item, index) in asks" :key=index>
-            {{ item.price }} - {{ item.count }}
-          </div>
+      <div>
+        <div class="text-purple-700 inline-block">
+          <i class="fas fa-caret-right"></i>
         </div>
-
-      </vue-tailwind-modal>
-      <vue-tailwind-modal
-          :showing="showBids"
-          @close="showBids = false"
-          :showClose="true"
-          :backgroundClose="true"
-      >
-        <div>
-          <div>
-            <h1 class="text-4xl">BIDS</h1>
-          </div>
-          <div v-for="(item, index) in bids" :key=index>
-            {{ item.price }} - {{ item.count }}
-          </div>
+        <h1 class=" text-xl mx-4 text-black inline-block">
+          PRECIO DE SALIDA  - {{ product.retailPrice }}€
+        </h1>
+        <div class="text-purple-700 inline-block">
+          <i class="fas fa-caret-left"></i>
         </div>
+      </div>
+      <div>
+        <div class="text-purple-700 inline-block">
+          <i class="fas fa-caret-right"></i>
+        </div>
+        <h1 class="text-xl mx-4 text-black inline-block">
+          FECHA DE SALIDA  -  {{ product.date }}
+        </h1>
+        <div class="text-purple-700 inline-block">
+          <i class="fas fa-caret-left"></i>
+        </div>
+      </div>
+      <div>
+        <div class="text-purple-700 inline-block">
+          <i class="fas fa-caret-right"></i>
+        </div>
+        <h1 class="text-xl mx-4 text-black inline-block">
+          COLOR  -  {{ product.colorway }}
+        </h1>
+        <div class="text-purple-700 inline-block">
+          <i class="fas fa-caret-left"></i>
+        </div>
+      </div>
 
-      </vue-tailwind-modal>
+      <div>
+        <div class="text-purple-700 inline-block">
+          <i class="fas fa-caret-right"></i>
+        </div>
+        <h1 class="text-xl mx-4 text-black inline-block">
+          REFERENCIA  -  {{ product.ref }}
+        </h1>
+        <div class="text-purple-700 inline-block">
+          <i class="fas fa-caret-left"></i>
+        </div>
+      </div>
+
 
       <modal ref="modalName">
         <template v-slot:header>
           <h1 class="text-4xl font-semibold text-center my-2" style="font-family:'Quantico'">SELECCIONA TU TALLA</h1>
         </template>
-
         <template v-slot:body>
           <div class="grid grid-cols-3 gap-4 mx-10">
             <div v-for="(item, index) in product.productDetails" :value="item.size" @click="size=item.size"
-                 class="border-2 border-purple-500 rounded-md text-3xl py-4 cursor-pointer h-24 my-auto items-center hover:bg-purple-100" v-bind:class="{'bg-purple-300':item.size === size}">
+                 class="border-2 border-purple-500 rounded-md text-3xl py-4 cursor-pointer h-24 my-auto items-center hover:bg-purple-100"
+                 v-bind:class="{'bg-purple-300':item.size === size}">
               {{ item.size }}
               <div
                   class="text-lg" v-if="item.lowestAsk !== null">
@@ -154,15 +168,62 @@
               </div>
             </div>
           </div>
-
-
         </template>
-
         <template v-slot:footer>
           <div class="my-3">
             <button type="button" style="font-family:'Quantico'"
                     class="bg-purple-500 text-xl p-3 px-5 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105"
                     @click="$refs.modalName.closeModal();">CERRAR
+            </button>
+          </div>
+        </template>
+      </modal>
+
+      <modal ref="askModal">
+        <template v-slot:header>
+          <h1 class="text-4xl font-semibold text-center my-2" style="font-family:'Quantico'">OFERTAS ACTIVAS</h1>
+        </template>
+        <template v-slot:body>
+          <div class="space-y-4 mx-16 my-4">
+            <div v-for="(item, index) in asks" :key=index
+            class="border-2 border-purple-500 rounded-lg hover:bg-purple-50 py-3 text-2xl">
+              {{ item.price }}€ - {{ item.count }}
+            </div>
+            <div v-if="asks.length === 0">
+              Aún no se han efectuado ofertas.<br>¡Sé el primero en hacer una!
+            </div>
+          </div>
+        </template>
+        <template v-slot:footer>
+          <div class="my-3">
+            <button type="button" style="font-family:'Quantico'"
+                    class="bg-purple-500 text-xl p-3 px-5 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105"
+                    @click="$refs.askModal.closeModal();">CERRAR
+            </button>
+          </div>
+        </template>
+      </modal>
+
+      <modal ref="bidModal">
+        <template v-slot:header>
+          <h1 class="text-4xl font-semibold text-center my-2" style="font-family:'Quantico'">PUJAS ACTIVAS</h1>
+        </template>
+        <template v-slot:body>
+          <div class="space-y-4 mx-16 my-4">
+            <div v-for="(item, index) in bids" :key=index
+                 class="border-2 border-purple-500 rounded-lg hover:bg-purple-50 py-3 text-2xl">
+              {{ item.price }}€ - {{ item.count }}
+            </div>
+            <div v-if="bids.length === 0">
+              Aún no se han efectuado pujas.<br>¡Sé el primero en hacer una!
+            </div>
+          </div>
+        </template>
+        <template v-slot:footer>
+          <div class="my-3">
+            <button type="button" style="font-family:'Quantico'"
+                    class="bg-purple-500 text-xl p-3 px-5 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105"
+                    @click="$refs.bidModal.closeModal();">CERRAR
             </button>
           </div>
         </template>
@@ -176,13 +237,11 @@
 <script>
 
 const axios = require("axios");
-import VueTailwindModal from 'vue-tailwind-modal'
 import Modal from "@/components/Modal";
 
 export default {
   name: "Product",
   components: {
-    VueTailwindModal,
     Modal
   },
   data() {
@@ -213,6 +272,7 @@ export default {
   },
   mounted() {
     this.getProduct()
+
   },
   computed: {
     lastSale() {
@@ -256,6 +316,7 @@ export default {
           .then(resp => {
             this.product = resp.data[0]
             this.size = this.product.productDetails[0].size
+
           })
           .catch(err => {
           })
@@ -287,9 +348,9 @@ export default {
       axios({url: 'http://localhost:8888/ask/getAll', data: dat, method: 'POST'})
           .then(resp => {
             this.asks = resp.data
-            this.showAsks = true
           })
           .catch(err => {
+            console.log(err.response)
           })
     },
     showBidTable() {
@@ -301,7 +362,6 @@ export default {
       axios({url: 'http://localhost:8888/bid/getAll', data: dat, method: 'POST'})
           .then(resp => {
             this.bids = resp.data
-            this.showBids = true
           })
           .catch(err => {
           })
