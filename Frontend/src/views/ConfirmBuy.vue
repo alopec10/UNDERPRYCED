@@ -203,9 +203,31 @@ export default {
       axios({url: 'http://localhost:8888/order/createBuy', data: dat, method: 'POST'})
           .then(resp => {
             this.$refs.modalName.openModal()
+            setTimeout(() => this.$router.push('/'), 15000);
           })
           .catch(err => {
-            console.log(err.response)
+            let error_msg = err.response.data
+            if (error_msg === "Invalid shipment data"){
+              this.$notify({
+                group: 'err',
+                title: 'Dirección incorrecta',
+                text: 'No se puede comprar el producto porque la dirección especificada no es válida',
+                type: 'error',
+                duration: 5000,
+              })
+            }
+            else if(error_msg === "It's not possible to buy your own product"){
+              this.$notify({
+                group: 'err',
+                title: 'Error en la compra',
+                text: 'No puedes comprarte un producto a ti mismo :(',
+                type: 'error',
+                duration: 5000,
+              })
+            }
+            else{
+              console.log(error_msg)
+            }
           })
     },
     cardClicked(card) {
