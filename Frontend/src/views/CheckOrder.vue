@@ -1,9 +1,7 @@
 <template>
   <div class="m-10">
     <div class="justify-center">
-      <h1 class="text-black text-md sm:text-2xl p-5">
-        PENDIENTES DE APROBACIÓN
-      </h1>
+      <h1 class="text-5xl font-semibold mb-10" style="font-family:'Quantico'">PENDIENTES DE APROBACIÓN</h1>
     </div>
     <div class="align-center">
 
