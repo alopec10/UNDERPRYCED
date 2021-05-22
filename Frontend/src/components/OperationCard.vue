@@ -51,6 +51,13 @@ export default {
       axios({url: 'http://localhost:8888/' + this.typeOp + '/delete', data: dat, method: 'POST'})
           .then(resp => {
             this.$emit("delete");
+            this.$notify({
+              group: 'ok',
+              title: 'Borrado efectuado',
+              text: 'El borrado se ha realizado de forma correcta',
+              type: 'success',
+              duration: 5000,
+            })
           })
           .catch(err => {
           })

@@ -194,18 +194,48 @@ export default {
 
       axios({url: 'http://localhost:8888/bid/make', data: dat, method: 'POST'})
           .then(resp => {
-            console.log(resp)
+            this.$notify({
+              group: 'ok',
+              title: 'Puja creada',
+              text: 'Puja creada correctamente',
+              type: 'success',
+              duration: 5000,
+            })
           })
           .catch(err => {
             let error_msg = err.response.data
             if (error_msg === "It's not possible to create a bid if you don't have a valid address") {
-              alert("No se puede crear una puja si no se ha añadido una dirección válida")
+              this.$notify({
+                group: 'err',
+                title: 'Dirección inválida',
+                text: 'No se puede crear una puja si no se ha añadido una dirección válida',
+                type: 'error',
+                duration: 5000,
+              })
             } else if (error_msg === "It's not possible to create a bid if you don't have at least one payment method added") {
-              alert("No se puede crear una puja si no se ha añadido ningún método de pago previamente")
+              this.$notify({
+                group: 'err',
+                title: 'Método pago incorrecto',
+                text: 'No se puede crear una puja si no se ha añadido ningún método de pago previamente',
+                type: 'error',
+                duration: 5000,
+              })
             } else if (error_msg === "It's not possible to make a bid higher than the lowest ask") {
-              alert("No se puede crear una puja con valor superior a la oferta más baja")
+              this.$notify({
+                group: 'err',
+                title: 'Valor incorrecto',
+                text: 'No se puede crear una puja con valor superior a la oferta más baja',
+                type: 'error',
+                duration: 5000,
+              })
             } else if (error_msg === "Price must be a positive integer number") {
-              alert("El precio de la puja debe ser positivo")
+              this.$notify({
+                group: 'err',
+                title: 'Valor incorrecto',
+                text: 'El precio de la puja debe ser positivo',
+                type: 'error',
+                duration: 5000,
+              })
             } else {
               console.log(err.response)
             }

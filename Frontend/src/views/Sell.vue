@@ -194,18 +194,42 @@ export default {
       else{
         axios({url: 'http://localhost:8888/ask/make', data: dat, method: 'POST'})
             .then(resp => {
-              console.log(resp)
+              this.$notify({
+                group: 'ok',
+                title: 'Oferta creada',
+                text: 'Oferta creada correctamente',
+                type: 'success',
+                duration: 5000,
+              })
             })
             .catch(err => {
               let error_msg = err.response.data
               if(error_msg === "It's not possible to make an ask if you don't have at least one payment method added"){
-                alert("No se puede crear una oferta si no se ha añadido ningún método de pago previamente")
+                this.$notify({
+                  group: 'err',
+                  title: 'Método pago incorrecto',
+                  text: 'No se puede crear una oferta si no se ha añadido ningún método de pago previamente',
+                  type: 'error',
+                  duration: 5000,
+                })
               }
               else if(error_msg === "It's not possible to make an ask lower than the highest bid"){
-                alert("No se puede crear una oferta con valor inferior a la puja más alta")
+                this.$notify({
+                  group: 'err',
+                  title: 'Valor incorrecto',
+                  text: 'No se puede crear una oferta con valor inferior a la puja más alta',
+                  type: 'error',
+                  duration: 5000,
+                })
               }
               else if(error_msg === "Price must be a positive integer number"){
-                alert("El precio de la oferta debe ser positivo")
+                this.$notify({
+                  group: 'err',
+                  title: 'Valor incorrecto',
+                  text: 'El precio de la oferta debe ser positivo',
+                  type: 'error',
+                  duration: 5000,
+                })
               }
               else{
                 console.log(err.response.data)
