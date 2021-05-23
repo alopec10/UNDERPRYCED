@@ -97,16 +97,7 @@ export default {
   },
   methods: {
     remove(){
-      const data= {
-        idPaymentMethod: this.id
-      }
-      axios({url: 'http://localhost:8888/payMethod/delete', data: data, method: 'POST'})
-          .then(resp => {
-            this.$emit("delete");
-          })
-          .catch(err => {
-            console.log(err)
-          })
+      this.$emit('delete', this.id)
     }
   }
 }
