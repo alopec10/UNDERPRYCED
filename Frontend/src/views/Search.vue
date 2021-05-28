@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-10">
+  <div class="mt-10" style="font-family:'Quantico'">
     <div>
       <h1 class="text-5xl mb-10">
         BÚSQUEDA

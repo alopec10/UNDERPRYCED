@@ -1,6 +1,6 @@
 <script src="../store/index.js"></script>
 <template>
-  <div class="home">
+  <div class="home" style="font-family:'Quantico'">
 
     <div class="min-w-screen h-80 items-center justify-center px-5 py-5"
          :style="{ backgroundImage: 'url(' + require('@/assets/banner.png') + ')' }">
@@ -31,11 +31,13 @@
       </div>
     </div>
     <div class="xl:mx-32">
-      <h1 class="text-3xl mt-20">MARCAS</h1>
-      <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 mx-10 mb-8 mt-6">
+      <h1 class="text-5xl font-bold mt-20">MARCAS</h1>
+      <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 mx-10 mb-8 mt-8">
         <BrandCard brand="YEEZY"
                    bgUrl="background-image:url('https://blog.klekt.com/wp-content/uploads/2020/04/adidas-Yeezy-Boost-350-V2-Zebra-On-Foot-800x450.jpg')"
                    logoUrl="https://1000marcas.net/wp-content/uploads/2020/02/yeezy-logo-transparent-png-1.png"
+                   class="cursor-pointer"
+
         ></BrandCard>
         <BrandCard brand="JORDAN"
                    bgUrl="background-image:url('https://www.43einhalb.com/media/232762/w/1000/h/600/n/nike-air-jordan-1-retro-high-og-gs-court-purple-575441-500-mood-2.jpg')"
@@ -48,7 +50,7 @@
         <BrandCard brand="OFF-WHITE"
                    bgUrl="background-image:url('https://www.wag1mag.com/wp-content/uploads/nike-preview-sept-2018-serena-virgil-7-wag1mag.jpg')"
                    logoUrl="https://iconape.com/wp-content/files/fw/85449/svg/off-white-logo.svg"
-                   class="hidden lg:block"
+                   class=""
         ></BrandCard>
         <BrandCard brand="ADIDAS"
                    bgUrl="background-image:url('https://i.pinimg.com/originals/1d/85/fc/1d85fca70f67b23ce1fbd8579770f9b0.jpg')"
@@ -58,7 +60,7 @@
       </div>
       <hr class="mt-14">
       <div>
-        <h1 class="text-3xl mt-14">MÁS POPULARES</h1>
+        <h1 class="text-5xl font-bold mt-14">MÁS POPULARES</h1>
         <div
             class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 my-6 mx-10">
 
@@ -74,7 +76,7 @@
 
       <hr class="mt-14">
       <div class=mb-20>
-        <h1 class="text-3xl mt-14">RECOMENDADOS</h1>
+        <h1 class="text-5xl font-bold mt-14">RECOMENDADOS</h1>
         <div
             class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 my-6 mx-10"
         >
@@ -88,16 +90,7 @@
 
         </div>
       </div>
-      <hr class="mt-14">
-      <div class="container mx-auto flex items-center flex-wrap pt-4 pb-12">
-        <TestCard v-for="(item, index) in recommended" :key="index"
-                  :title="item.title"
-                  :url="item.url"
-                  :price="item.retailPrice"
-                  :refer="item.ref"
 
-        ></TestCard>
-      </div>
     </div>
   </div>
 </template>
@@ -189,9 +182,10 @@ export default {
         });
       }
     },
+
     isBlank(str) {
       return (!str || /^\s*$/.test(str));
-    }
+    },
 
   }
 }

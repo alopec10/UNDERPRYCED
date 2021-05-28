@@ -1,10 +1,10 @@
 <template>
-  <div class="w-full bg-purple-500 text-white h-56">
+  <div class="w-full bg-purple-500 text-white h-56" style="font-family:'Quantico'">
 
     <div class="inline-flex w-1/2 items-center justify-center my-6 space-x-16">
       <div class="flex items-center justify-center">
         <img src="@/assets/logo_underpryced_white.png" class="h-10 cursor-pointer" @click="$router.push('/')"/>
-        <h1 class="text-3xl ml-4 cursor-pointer font-semibold" style="font-family:'Quantico'"
+        <h1 class="text-3xl ml-4 cursor-pointer font-semibold"
             @click="$router.push('/')">
           UNDERPRYCED
         </h1>
