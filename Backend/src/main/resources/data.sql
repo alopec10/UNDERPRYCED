@@ -914,48 +914,48 @@ INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (387, 3, 150)^;
 
 /* Usuario 1 */
 
-INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
-VALUES ('7321401552789517581', 263, 2, 3, 1, 2, 3)^;
-INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
-VALUES ('7321401552789517582', 442, 2, 3, 10, 2, 3)^;
-INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
-VALUES ('7321401552789517583', 312, 2, 3, 19, 2, 3)^;
-INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
-VALUES ('7321401552789517584', 912, 2, 3, 28, 2, 3)^;
-INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
-VALUES ('7321401552789517585', 513, 2, 3, 34, 2, 3)^;
-INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
-VALUES ('7321401552789517586', 256, 2, 3, 40, 2, 3)^;
-INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
-VALUES ('7321401552789517587', 697, 2, 3, 49, 2, 3)^;
-INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
-VALUES ('7321401552789517588', 2470, 2, 3, 58, 2, 3)^;
-INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
-VALUES ('7321401552789517589', 343, 2, 3, 67, 2, 3)^;
-INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
-VALUES ('7321401552789517590', 464, 2, 3, 76, 2, 3)^;
+INSERT IGNORE INTO orders(ref, price, priceSeller, priceBuyer, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
+VALUES ('7321401552789517581', 263, 221.70, 304.30, 2, 3, 1, 2, 3)^;
+INSERT IGNORE INTO orders(ref, price, priceSeller, priceBuyer, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
+VALUES ('7321401552789517582', 442, 382.80, 501.20, 2, 3, 10, 2, 3)^;
+INSERT IGNORE INTO orders(ref, price, priceSeller, priceBuyer, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
+VALUES ('7321401552789517583', 312, 265.80, 358.20, 2, 3, 19, 2, 3)^;
+INSERT IGNORE INTO orders(ref, price, priceSeller, priceBuyer, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
+VALUES ('7321401552789517584', 912, 805.80, 1018.20, 2, 3, 28, 2, 3)^;
+INSERT IGNORE INTO orders(ref, price, priceSeller, priceBuyer, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
+VALUES ('7321401552789517585', 513, 446.70, 579.30, 2, 3, 34, 2, 3)^;
+INSERT IGNORE INTO orders(ref, price, priceSeller, priceBuyer, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
+VALUES ('7321401552789517586', 256, 215.40, 296.60, 2, 3, 40, 2, 3)^;
+INSERT IGNORE INTO orders(ref, price, priceSeller, priceBuyer, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
+VALUES ('7321401552789517587', 697, 612.30, 781.70, 2, 3, 49, 2, 3)^;
+INSERT IGNORE INTO orders(ref, price, priceSeller, priceBuyer, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
+VALUES ('7321401552789517588', 2470, 2208.00, 2732.00, 2, 3, 58, 2, 3)^;
+INSERT IGNORE INTO orders(ref, price, priceSeller, priceBuyer, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
+VALUES ('7321401552789517589', 343, 293.70, 392.30, 2, 3, 67, 2, 3)^;
+INSERT IGNORE INTO orders(ref, price, priceSeller, priceBuyer, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
+VALUES ('7321401552789517590', 464, 402.60, 525.40, 2, 3, 76, 2, 3)^;
 
 /* User 2 */
-INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
-VALUES ('7321401552789517591', 480, 3, 2, 85, 3, 2)^;
-INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
-VALUES ('7321401552789517592', 1440, 3, 2, 94, 3, 2)^;
-INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
-VALUES ('7321401552789517593', 254, 3, 2, 103, 3, 2)^;
-INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
-VALUES ('7321401552789517594', 1105, 3, 2, 109, 3, 2)^;
-INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
-VALUES ('7321401552789517595', 172, 3, 2, 115, 3, 2)^;
-INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
-VALUES ('7321401552789517596', 285, 3, 2, 121, 3, 2)^;
-INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
-VALUES ('7321401552789517597', 321, 3, 2, 127, 3, 2)^;
-INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
-VALUES ('7321401552789517598', 321, 3, 2, 133, 3, 2)^;
-INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
-VALUES ('7321401552789517599', 185, 3, 2, 139, 3, 2)^;
-INSERT IGNORE INTO orders(ref, price, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
-VALUES ('7321401552789517100', 302, 3, 2, 145, 3, 2)^;
+INSERT IGNORE INTO orders(ref, price, priceSeller, priceBuyer, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
+VALUES ('7321401552789517591', 480, 417.00, 543.00, 3, 2, 85, 3, 2)^;
+INSERT IGNORE INTO orders(ref, price, priceSeller, priceBuyer, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
+VALUES ('7321401552789517592', 1440, 1281.00, 1599.00, 3, 2, 94, 3, 2)^;
+INSERT IGNORE INTO orders(ref, price, priceSeller, priceBuyer, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
+VALUES ('7321401552789517593', 254, 213.60, 294.40, 3, 2, 103, 3, 2)^;
+INSERT IGNORE INTO orders(ref, price, priceSeller, priceBuyer, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
+VALUES ('7321401552789517594', 1105, 979.50, 1230.50, 3, 2, 109, 3, 2)^;
+INSERT IGNORE INTO orders(ref, price, priceSeller, priceBuyer, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
+VALUES ('7321401552789517595', 172, 139.80, 204.20, 3, 2, 115, 3, 2)^;
+INSERT IGNORE INTO orders(ref, price, priceSeller, priceBuyer, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
+VALUES ('7321401552789517596', 285, 241.50, 328.50, 3, 2, 121, 3, 2)^;
+INSERT IGNORE INTO orders(ref, price, priceSeller, priceBuyer, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
+VALUES ('7321401552789517597', 321, 273.90, 368.10, 3, 2, 127, 3, 2)^;
+INSERT IGNORE INTO orders(ref, price, priceSeller, priceBuyer, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
+VALUES ('7321401552789517598', 321, 273.90, 368.10, 3, 2, 133, 3, 2)^;
+INSERT IGNORE INTO orders(ref, price, priceSeller, priceBuyer, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
+VALUES ('7321401552789517599', 185, 151.50, 218.50, 3, 2, 139, 3, 2)^;
+INSERT IGNORE INTO orders(ref, price, priceSeller, priceBuyer, idbuyer, idseller, idproductdetails, IdPayMethodBuyer, IdPayMethodSeller)
+VALUES ('7321401552789517100', 302, 256.80, 347.20, 3, 2, 145, 3, 2)^;
 
 
 /* SHIPMENTS */
