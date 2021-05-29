@@ -960,21 +960,148 @@ VALUES ('7321401552789517100', 302, 256.80, 347.20, 3, 2, 145, 3, 2)^;
 
 /* SHIPMENTS */
 
-INSERT IGNORE INTO shipments(TrackingNumber, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
-VALUES ('78832224578314392100', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24198', 'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 1)^;
-
-INSERT IGNORE INTO shipments(TrackingNumber, ShipDate, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
-VALUES ('78832224578317682100', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'C/ User2 Nº 1, User2', '24198', 'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 1)^;
+/* ORDERS USER 1 */
 
 INSERT IGNORE INTO shipments(TrackingNumber, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
-VALUES ('78832255578314392100', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24198', 'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 2)^;
-
+VALUES ('78832224578314392100', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24391',
+        'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 1)^;
 INSERT IGNORE INTO shipments(TrackingNumber, ShipDate, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
-VALUES ('78832224578979682100', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'C/ User Nº 1, User', '24198', 'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 2)^;
+VALUES ('78832224578317682101', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'Av. de Aviación Nº13 1B, La Virgen del Camino, León', '24198',
+        'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 1)^;
 
 INSERT IGNORE INTO shipments(TrackingNumber, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
-VALUES ('78832255444314392100', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24198', 'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 3)^;
-
+VALUES ('78832224578314392102', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24391',
+        'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 2)^;
 INSERT IGNORE INTO shipments(TrackingNumber, ShipDate, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
-VALUES ('7883222457895245282100', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'C/ User2 Nº 1, User2', '24198', 'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 3)^;
+VALUES ('78832224578317682103', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'Av. de Aviación Nº13 1B, La Virgen del Camino, León', '24198',
+        'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 2)^;
+
+INSERT IGNORE INTO shipments(TrackingNumber, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('78832224578314392104', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24391',
+        'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 3)^;
+INSERT IGNORE INTO shipments(TrackingNumber, ShipDate, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('78832224578317682105', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'Av. de Aviación Nº13 1B, La Virgen del Camino, León', '24198',
+        'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 3)^;
+
+INSERT IGNORE INTO shipments(TrackingNumber, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('68832224578314392144', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24391',
+        'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 4)^;
+INSERT IGNORE INTO shipments(TrackingNumber, ShipDate, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('78832224578317682145', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'Av. de Aviación Nº13 1B, La Virgen del Camino, León', '24198',
+        'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 4)^;
+
+INSERT IGNORE INTO shipments(TrackingNumber, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('68832224578314392105', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24391',
+        'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 5)^;
+INSERT IGNORE INTO shipments(TrackingNumber, ShipDate, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('78832224578317682106', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'Av. de Aviación Nº13 1B, La Virgen del Camino, León', '24198',
+        'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 5)^;
+
+INSERT IGNORE INTO shipments(TrackingNumber, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('68832224578314392106', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24391',
+        'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 6)^;
+INSERT IGNORE INTO shipments(TrackingNumber, ShipDate, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('78832224578317682107', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'Av. de Aviación Nº13 1B, La Virgen del Camino, León', '24198',
+        'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 6)^;
+
+INSERT IGNORE INTO shipments(TrackingNumber, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('68832224578314392107', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24391',
+        'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 7)^;
+INSERT IGNORE INTO shipments(TrackingNumber, ShipDate, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('78832224578317682108', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'Av. de Aviación Nº13 1B, La Virgen del Camino, León', '24198',
+        'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 7)^;
+
+INSERT IGNORE INTO shipments(TrackingNumber, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('68832224578314392108', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24391',
+        'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 8)^;
+INSERT IGNORE INTO shipments(TrackingNumber, ShipDate, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('78832224578317682109', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'Av. de Aviación Nº13 1B, La Virgen del Camino, León', '24198',
+        'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 8)^;
+
+INSERT IGNORE INTO shipments(TrackingNumber, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('68832224578314392109', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24391',
+        'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 9)^;
+INSERT IGNORE INTO shipments(TrackingNumber, ShipDate, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('78832224578317682110', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'Av. de Aviación Nº13 1B, La Virgen del Camino, León', '24198',
+        'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 9)^;
+
+INSERT IGNORE INTO shipments(TrackingNumber, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('68832224578314392110', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24391',
+        'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 10)^;
+INSERT IGNORE INTO shipments(TrackingNumber, ShipDate, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('78832224578317682111', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'Av. de Aviación Nº13 1B, La Virgen del Camino, León', '24198',
+        'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 10)^;
+
+/* ORDERS USER2 */
+
+INSERT IGNORE INTO shipments(TrackingNumber, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('68832224578314392111', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24391',
+        'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 11)^;
+INSERT IGNORE INTO shipments(TrackingNumber, ShipDate, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('78832224578317682112', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'Av. Quevedo Nº47 1B, León', '24009',
+        'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 11)^;
+
+INSERT IGNORE INTO shipments(TrackingNumber, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('68832224578314392112', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24391',
+        'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 12)^;
+INSERT IGNORE INTO shipments(TrackingNumber, ShipDate, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('78832224578317682113', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'Av. Quevedo Nº47 1B, León', '24009',
+        'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 12)^;
+
+INSERT IGNORE INTO shipments(TrackingNumber, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('68832224578314392113', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24391',
+        'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 13)^;
+INSERT IGNORE INTO shipments(TrackingNumber, ShipDate, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('78832224578317682114', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'Av. Quevedo Nº47 1B, León', '24009',
+        'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 13)^;
+
+INSERT IGNORE INTO shipments(TrackingNumber, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('68832224578314392114', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24391',
+        'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 14)^;
+INSERT IGNORE INTO shipments(TrackingNumber, ShipDate, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('78832224578317682115', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'Av. Quevedo Nº47 1B, León', '24009',
+        'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 14)^;
+
+INSERT IGNORE INTO shipments(TrackingNumber, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('68832224578314392115', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24391',
+        'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 15)^;
+INSERT IGNORE INTO shipments(TrackingNumber, ShipDate, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('78832224578317682116', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'Av. Quevedo Nº47 1B, León', '24009',
+        'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 15)^;
+
+INSERT IGNORE INTO shipments(TrackingNumber, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('68832224578314392116', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24391',
+        'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 16)^;
+INSERT IGNORE INTO shipments(TrackingNumber, ShipDate, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('78832224578317682117', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'Av. Quevedo Nº47 1B, León', '24009',
+        'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 16)^;
+
+INSERT IGNORE INTO shipments(TrackingNumber, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('68832224578314392117', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24391',
+        'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 17)^;
+INSERT IGNORE INTO shipments(TrackingNumber, ShipDate, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('78832224578317682118', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'Av. Quevedo Nº47 1B, León', '24009',
+        'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 17)^;
+
+INSERT IGNORE INTO shipments(TrackingNumber, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('68832224578314392118', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24391',
+        'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 18)^;
+INSERT IGNORE INTO shipments(TrackingNumber, ShipDate, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('78832224578317682119', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'Av. Quevedo Nº47 1B, León', '24009',
+        'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 18)^;
+
+INSERT IGNORE INTO shipments(TrackingNumber, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('68832224578314392119', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24391',
+        'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 19)^;
+INSERT IGNORE INTO shipments(TrackingNumber, ShipDate, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('78832224578317682120', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'Av. Quevedo Nº47 1B, León', '24009',
+        'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 19)^;
+
+INSERT IGNORE INTO shipments(TrackingNumber, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('68832224578314392120', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), 'Poligono Industrial Fase 2, 3G., Calle 18, Ribaseca, León', '24391',
+        'España', 0, 1, 'WAREHOUSE', 'ON_WAY', 0, 20)^;
+INSERT IGNORE INTO shipments(TrackingNumber, ShipDate, ArrivalDate, Address, ZIPCode, Country, Completed, Sent, Type, Status, Approved, IdOrder)
+VALUES ('78832224578317682121', (SELECT DATE_ADD(NOW(), INTERVAL 3 DAY)), (SELECT DATE_ADD(NOW(), INTERVAL 6 DAY)), 'Av. Quevedo Nº47 1B, León', '24009',
+        'España', 0, 0, 'HOME', 'PENDING_APPROVAL', 0, 20)^;
+
 
