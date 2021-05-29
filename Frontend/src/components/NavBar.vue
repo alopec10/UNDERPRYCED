@@ -9,7 +9,7 @@
       </h1>
     </div>
 
-    <div class="relative mt-1 mr-5" v-if="authRole === 'ROLE_USER'">
+    <div class="relative mt-1 mr-5" v-if="authRole === 'ROLE_USER' && $route.name !== 'Home'">
       <input type="text" id="" placeholder="Buscar..." v-model="searchString" v-on:keyup.enter="search"
              class="h-10 uppercase text-center w-64 pl-3 pr-10 py-2 border-b border-purple-200 hover:border-purple-200 focus:outline-none focus:border-purple-500 transition-colors">
       <button
