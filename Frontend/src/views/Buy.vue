@@ -195,7 +195,7 @@ export default {
       axios({url: 'http://localhost:8888/bid/make', data: dat, method: 'POST'})
           .then(resp => {
             this.$notify({
-              group: 'ok',
+              group: 'err',
               title: 'Puja creada',
               text: 'Puja creada correctamente',
               type: 'success',

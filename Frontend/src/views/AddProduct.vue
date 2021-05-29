@@ -211,7 +211,7 @@ export default {
         axios({url: 'http://localhost:8888/product/add', data: data, method: 'POST'})
             .then(resp => {
               this.$notify({
-                group: 'ok',
+                group: 'err',
                 title: 'Producto añadido',
                 text: 'El producto ha sido correctamente guardado en la base de datos',
                 type: 'success',

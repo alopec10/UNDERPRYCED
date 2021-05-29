@@ -195,7 +195,7 @@ export default {
         axios({url: 'http://localhost:8888/ask/make', data: dat, method: 'POST'})
             .then(resp => {
               this.$notify({
-                group: 'ok',
+                group: 'err',
                 title: 'Oferta creada',
                 text: 'Oferta creada correctamente',
                 type: 'success',

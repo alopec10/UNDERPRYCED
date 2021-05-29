@@ -7,12 +7,9 @@
       <router-link to="/registro">Registro</router-link>
     </div>-->
     <notifications group="err"
-                   position="bottom left"
+                   position="top center"
                    :speed="500"
                    :ignoreDuplicates="true"/>
-    <notifications group="ok"
-                   position="top center"
-                   :speed="500" />
     <router-view/>
     <Footer></Footer>
   </div>
@@ -45,6 +42,23 @@
   bottom:0%;
   width:100%;
 }
+
+.vue-notification {
+  border-radius: 5px;
+}
+
+.notification-title {
+  font-family: 'Quantico' !important;
+  text-transform: uppercase !important;
+  font-size: 1.5em !important
+}
+
+.notification-content {
+  font-family: 'Quantico' !important;
+  text-transform: uppercase !important;
+  font-size: 1.2em !important
+}
+
 </style>
 
 <script>

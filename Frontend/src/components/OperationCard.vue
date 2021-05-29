@@ -52,7 +52,7 @@ export default {
           .then(resp => {
             this.$emit("delete");
             this.$notify({
-              group: 'ok',
+              group: 'err',
               title: 'Borrado efectuado',
               text: 'El borrado se ha realizado de forma correcta',
               type: 'success',

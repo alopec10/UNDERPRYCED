@@ -657,7 +657,7 @@ export default {
           .then((resp) => {
             this.$v.$reset();
             this.$notify({
-              group: 'ok',
+              group: 'err',
               title: 'Información actualizada',
               text: 'La información ha sido correctamente actualizada en la base de datos',
               type: 'success',
@@ -712,7 +712,7 @@ export default {
           .then((resp) => {
             this.$v.$reset();
             this.$notify({
-              group: 'ok',
+              group: 'err',
               title: 'Información actualizada',
               text: 'La información ha sido correctamente actualizada en la base de datos',
               type: 'success',
