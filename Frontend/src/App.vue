@@ -1,12 +1,18 @@
 <template>
-  <div id="app">
+  <div id="app" class="flex flex-col h-screen justify-between">
     <NavBar></NavBar>
 <!--    <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/registro">Registro</router-link>
     </div>-->
-
+    <notifications group="err"
+                   position="bottom left"
+                   :speed="500"
+                   :ignoreDuplicates="true"/>
+    <notifications group="ok"
+                   position="top center"
+                   :speed="500" />
     <router-view/>
     <Footer></Footer>
   </div>
@@ -33,11 +39,18 @@
     }
   }
 }
+
+#footer {
+  position: fixed;
+  bottom:0%;
+  width:100%;
+}
 </style>
 
 <script>
 import Footer from '@/components/Footer.vue'
 import NavBar from '@/components/NavBar.vue'
+
 import { mapActions } from 'vuex'
 export default {
   name: "App",

@@ -1,7 +1,7 @@
 <template>
   <div class="border-2 border-purple-500 rounded-lg width mx-auto flex" v-bind:class="{ 'bg-purple-100' : alert.read }">
-    <div class="my-3 mx-3 w-11/12">
-      <h1 class="text-2xl">{{alert.title}}</h1>
+    <div class="my-4 mx-3 w-11/12">
+      <h1 class="text-2xl uppercase" style="font-family:'Quantico'">{{alert.title}}</h1>
       <h1 class="text-md mt-3" v-for="(msg, index) in msgs" :key="index">
         {{msg}}
       </h1>

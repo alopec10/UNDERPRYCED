@@ -1,30 +1,30 @@
 <template>
   <div class="min-w-screen m-12 flex">
     <div class="inline items-center justify-center w-7/12">
-      <h1 class="text-5xl my-4">
+      <h1 class="text-5xl my-4 cursor-pointer uppercase" style="font-family:'Quantico'" @click="pushToProduct">
         {{ product.title }}
       </h1>
       <div class="mx-auto flex justify-center w-11/12">
-        <img :src="product.url" class="my-6 mx-10 p-5 border-2 rounded-lg shadow-xl border-purple-300 "/>
+        <img :src="product.url" class="my-6 mx-10 p-5 border-2 rounded-lg shadow-xl border-purple-300 cursor-pointer" @click="pushToProduct"/>
       </div>
     </div>
     <div class="inline w-5/12">
-      <div class="inline-flex align-center">
+      <div class="inline-flex align-center space-x-4">
         <div
             class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-100 rounded-lg flex justify-center items-center cursor-pointer"
             @click="selectedBuy = true"
             v-bind:class="{'bg-purple-500': selectedBuy}"
-        v-if="price !== null">
-          <h1 class="text-white text-md sm:text-2xl p-5"
+            v-if="price !== null">
+          <h1 class="text-white text-md sm:text-2xl p-5" style="font-family:'Quantico'"
               v-bind:class="{'text-gray-700': !selectedBuy}">
             COMPRAR AHORA
           </h1>
         </div>
         <div
-            class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-100 rounded-lg flex ml-4 justify-center items-center px-2 cursor-pointer"
+            class="w-32 h-20 sm:w-56 sm:h-24 bg-purple-100 rounded-lg flex justify-center items-center px-2 cursor-pointer"
             @click="selectedBuy = false"
             v-bind:class="{'bg-purple-500': !selectedBuy}">
-          <h1 class="text-white text-md sm:text-2xl "
+          <h1 class="text-white text-md sm:text-2xl " style="font-family:'Quantico'"
               v-bind:class="{'text-gray-700': selectedBuy}">
             PUJAR
           </h1>
@@ -53,7 +53,7 @@
           <div
               @click="confirmBuy"
               class="w-32 h-20 sm:w-48 sm:h-20 bg-purple-500 rounded-lg justify-center items-center px-2 flex mx-auto mt-10 cursor-pointer">
-            <h1 class="text-white text-md sm:text-2xl ">
+            <h1 class="text-white text-md sm:text-2xl " style="font-family:'Quantico'">
               CONTINUAR
             </h1>
           </div>
@@ -67,7 +67,7 @@
 
           <div class="mt-7">
             <input v-model="customPrice" type="text" placeholder="Precio" id="p"
-                   class="inline-block text-center mx-auto w-40 h-16 block border-2 border-purple-500 p-3 text-5xl h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:bg-purple-100"/>
+                   class="inline-block text-center mx-auto w-40 h-16 block border-2 border-purple-500 p-3 text-5xl h-11 rounded-xl shadow-lg hover:bg-purple-100 focus:outline-none focus:bg-purple-100"/>
             <div class="inline-block ml-2 text-5xl">€</div>
           </div>
           <h1 v-if="currentBid == customPrice" class="text-md sm:text-lg mt-3">
@@ -174,8 +174,7 @@ export default {
                 this.price = pd.lowestAsk
                 if (this.price != null) {
                   this.calcPriceBuy()
-                }
-                else{
+                } else {
                   this.selectedBuy = false
                 }
               }
@@ -195,23 +194,49 @@ export default {
 
       axios({url: 'http://localhost:8888/bid/make', data: dat, method: 'POST'})
           .then(resp => {
-            console.log(resp)
+            this.$notify({
+              group: 'ok',
+              title: 'Puja creada',
+              text: 'Puja creada correctamente',
+              type: 'success',
+              duration: 5000,
+            })
           })
           .catch(err => {
             let error_msg = err.response.data
-            if(error_msg === "It's not possible to create a bid if you don't have a valid address"){
-              alert("No se puede crear una puja si no se ha añadido una dirección válida")
-            }
-            else if(error_msg === "It's not possible to create a bid if you don't have at least one payment method added"){
-              alert("No se puede crear una puja si no se ha añadido ningún método de pago previamente")
-            }
-            else if(error_msg === "It's not possible to make a bid higher than the lowest ask"){
-              alert("No se puede crear una puja con valor superior a la oferta más baja")
-            }
-            else if(error_msg === "Price must be a positive integer number"){
-              alert("El precio de la puja debe ser positivo")
-            }
-            else{
+            if (error_msg === "It's not possible to create a bid if you don't have a valid address") {
+              this.$notify({
+                group: 'err',
+                title: 'Dirección inválida',
+                text: 'No se puede crear una puja si no se ha añadido una dirección válida',
+                type: 'error',
+                duration: 5000,
+              })
+            } else if (error_msg === "It's not possible to create a bid if you don't have at least one payment method added") {
+              this.$notify({
+                group: 'err',
+                title: 'Método pago incorrecto',
+                text: 'No se puede crear una puja si no se ha añadido ningún método de pago previamente',
+                type: 'error',
+                duration: 5000,
+              })
+            } else if (error_msg === "It's not possible to make a bid higher than the lowest ask") {
+              this.$notify({
+                group: 'err',
+                title: 'Valor incorrecto',
+                text: 'No se puede crear una puja con valor superior a la oferta más baja',
+                type: 'error',
+                duration: 5000,
+              })
+            } else if (error_msg === "Price must be a positive integer number") {
+              this.$notify({
+                group: 'err',
+                title: 'Valor incorrecto',
+                text: 'El precio de la puja debe ser positivo',
+                type: 'error',
+                duration: 5000,
+              })
+            } else {
               console.log(err.response)
             }
           })
@@ -220,7 +245,7 @@ export default {
     confirmBuy() {
       this.$router.push({
         name: "ConfirmarCompra",
-        params:{
+        params: {
           ref: this.product.ref,
           size: this.size
         }
@@ -266,6 +291,14 @@ export default {
             console.log(err.response)
           })
     },
+    pushToProduct() {
+      this.$router.push({
+        name: "Producto",
+        params: {
+          ref: this.product.ref,
+        }
+      })
+    }
   }
 }
 </script>

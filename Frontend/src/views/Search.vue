@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-10">
+  <div class="mt-10" style="font-family:'Quantico'">
     <div>
       <h1 class="text-5xl mb-10">
         BÚSQUEDA
@@ -78,7 +78,7 @@
       </div>
       <div class="">
         <button @click="getFiltered"
-                type="button"
+                type="button" style="font-family:'Quantico'"
                 class="bg-purple-500 w-32 md:w-52 h-11 mt-1 text-lg md:text-xl rounded-md text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105">
           Aplicar filtros
         </button>
@@ -86,7 +86,11 @@
 
     </div>
 
-
+    <div v-if="items.length === 0">
+      <h1 class="text-2xl mt-20 mb-48">
+        Lo sentimos, no se han encontrado resultados.
+      </h1>
+    </div>
     <div
         class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 my-20 mx-10"
     >
@@ -97,6 +101,7 @@
                  :refer="item.ref"
       ></SmallCard>
     </div>
+
   </div>
 
 
@@ -156,6 +161,7 @@ export default {
     }
   },
   created() {
+    console.log(this.$route.params.title)
     if (this.$route.params.title) {
       this.search_name = this.$route.params.title
       this.getByName()

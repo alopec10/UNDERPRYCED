@@ -9,13 +9,13 @@
       </div>
     </div>
     <div>
-      <button @click="approveOrder" type="button"
+      <button @click="approveOrder" type="button" style="font-family:'Quantico'"
               class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
         ACEPTAR
       </button>
     </div>
     <div>
-      <button @click="rejectOrder" type="button"
+      <button @click="rejectOrder" type="button" style="font-family:'Quantico'"
               class="bg-purple-500 text-xl p-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
         DENEGAR
       </button>

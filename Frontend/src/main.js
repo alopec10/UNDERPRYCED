@@ -5,7 +5,10 @@ import store from './store'
 import "@/assets/css/tailwind.css";
 import Axios from 'axios'
 import VueTailwindModal from "vue-tailwind-modal"
+import Notifications from 'vue-notification'
+
 Vue.component("VueTailwindModal", VueTailwindModal)
+Vue.use(Notifications)
 
 
 Vue.prototype.$http = Axios;
