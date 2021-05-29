@@ -12,12 +12,12 @@ VALUES ('Admin', 'Admin', 'admin@admin.com', '$2a$10$YRA9C3jPTVrQs8wbIux7R.8Vx9R
         'Calle Bernardo del Carpio, 6, León', '24004', 'España', '987402130')^;
 
 INSERT IGNORE INTO users(name, surname, email, password, Address, ZIPCode, Country, PhoneNumber)
-VALUES ('User', 'User', 'user@user.com', '$2a$10$h0oOdH.VpWWMslVYdY.qQ.WyQ6HnE52Wc3EI5n7YH3DL6wm8CjVoS',
-        'Avda. Independencia, 14, León', '24001', 'España', '987404530')^;
+VALUES ('Lucas', 'López Díaz', 'user@user.com', '$2a$10$h0oOdH.VpWWMslVYdY.qQ.WyQ6HnE52Wc3EI5n7YH3DL6wm8CjVoS',
+        'Av. de Aviación Nº13 1B, La Virgen del Camino, León', '24198', 'España', '987404530')^;
 
 INSERT IGNORE INTO users(name, surname, email, password, Address, ZIPCode, Country, PhoneNumber)
-VALUES ('User2', 'User2', 'user2@user.com', '$2a$10$esr0atHpssbhlyiu5SUiUORUzLvx8fZ8yh5suRt17CAgO8LEpaPvy',
-        'Av. Lancia, 12, local 3, León', '24004', 'España', '987403130')^;
+VALUES ('Joaquín', 'Domínguez López', 'user2@user.com', '$2a$10$esr0atHpssbhlyiu5SUiUORUzLvx8fZ8yh5suRt17CAgO8LEpaPvy',
+        'Av. Quevedo Nº47 1B, León', '24009', 'España', '987403130')^;
 
 /* USER ROLES */
 
