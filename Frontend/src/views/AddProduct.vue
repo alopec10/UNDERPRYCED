@@ -158,7 +158,7 @@ export default {
       },
       format: "dd-MM-yyyy",
       sizesValues: null,
-      sneakerSizes: [{name: '40'}, {name: '40.5'}, {name: '41'}, {name: '42'}, {name: '42.5'}, {name: '43'}, {name: '44'}, {name: '44.5'}, {name: '45'}],
+      sneakerSizes: [{name: '35'}, {name: '36'}, {name: '36.5'}, {name: '37'}, {name: '37.5'}, {name: '38'}, {name: '39'}, {name: '39.5'}, {name: '40'}, {name: '40.5'}, {name: '41'}, {name: '42'}, {name: '42.5'}, {name: '43'}, {name: '44'}, {name: '44.5'}, {name: '45'}],
       clothingSizes: [{name: 'XS'}, {name: 'S'}, {name: 'M'}, {name: 'L'}, {name: 'XL'}, {name: 'XXL'}],
       utils: constructedDateUtils,
       formattedDate: null
