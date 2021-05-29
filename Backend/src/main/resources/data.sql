@@ -724,20 +724,191 @@ INSERT IGNORE INTO asks(price, iduser, idproductdetails) VALUES (412, 2, 149)^;
 INSERT IGNORE INTO asks(price, iduser, idproductdetails) VALUES (403, 2, 150)^;
 
 /* BIDS */
-INSERT IGNORE INTO bids(price, completed, iduser, idproductdetails)
-VALUES (215, 1, (SELECT IdUser FROM users WHERE Email = 'user@user.com'), 25)^;
 
-INSERT IGNORE INTO bids(price, iduser, idproductdetails)
-VALUES (255, (SELECT IdUser FROM users WHERE Email = 'user@user.com'), 22)^;
+/* Nike Lebron 18 */
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (231, 3, 1)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (243, 2, 2)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (298, 3, 3)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (270, 2, 4)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (262, 3, 5)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (197, 2, 6)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (296, 3, 7)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (300, 2, 8)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (332, 3, 9)^;
 
-INSERT IGNORE INTO bids(price, iduser, idproductdetails)
-VALUES (813, (SELECT IdUser FROM users WHERE Email = 'user@user.com'), 30)^;
+/* Nike Adapt Auto Max */
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (432, 2, 10)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (365, 3, 11)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (312, 2, 12)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (672, 3, 13)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (332, 2, 14)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (412, 3,15)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (453, 2, 16)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (354, 2, 18)^;
 
-INSERT IGNORE INTO bids(price, completed, iduser, idproductdetails)
-VALUES (223, 1, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'), 1)^;
+/* adidas Yeezy Boost 350 V2 */
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (284, 3, 19)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (275, 2, 20)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (263, 3, 21)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (332, 2, 22)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (412, 3, 23)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (301, 3, 25)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (287, 2, 26)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (254, 3, 27)^;
 
-INSERT IGNORE INTO bids(price, iduser, idproductdetails)
-VALUES (821, (SELECT IdUser FROM users WHERE Email = 'user2@user.com'), 30)^;
+/* Gucci x The North Face Cotton Sweater Beige */
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (875, 2, 28)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (865, 3, 29)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (943, 2, 30)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (830, 3, 31)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (865, 2, 32)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (987, 3, 33)^;
+
+/* Supreme Cross Box Logo Hooded Sweatshirt Red */
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (521, 3, 34)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (364, 2, 35)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (412, 2, 37)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (567, 2, 38)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (502, 3, 39)^;
+
+/* Jordan 6 Retro Travis Scott British Khaki */
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (232, 3, 40)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (212, 2, 41)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (298, 3, 42)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (276, 2, 43)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (281, 3, 44)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (198, 2, 45)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (287, 3, 46)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (301, 2, 47)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (276, 3, 48)^;
+
+/* Nike Air VaporMax Off-White */
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (678, 3, 49)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (632, 2, 50)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (665, 3, 51)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (712, 2, 52)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (754, 3, 53)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (804, 2, 54)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (651, 3, 55)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (687, 2, 56)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (732, 3, 57)^;
+
+/* Jordan 1 Retro Fragment */
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (2370, 3, 58)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (2654, 2, 59)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (3112, 3, 60)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (2653, 2, 61)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (4124, 3, 62)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (3321, 2, 63)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (3004, 3, 64)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (2940, 2, 65)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (5240, 3, 66)^;
+
+/* Jordan 3 Retro Rust Pink */
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (298, 3, 67)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (378, 2, 68)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (412, 3, 69)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (343, 2, 70)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (387, 3, 71)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (443, 2, 72)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (387, 3, 73)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (354, 2, 74)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (378, 3, 75)^;
+
+/* adidas Yeezy Desert Boot House Blue */
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (453, 3, 76)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (343, 2, 77)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (487, 3, 78)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (361, 2, 79)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (351, 3, 80)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (446, 2, 81)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (401, 3, 82)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (325, 2, 83)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (398, 3, 84)^;
+
+/* adidas Yeezy 500 Salt */
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (432, 3, 85)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (345, 2, 86)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (487, 3, 87)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (367, 2, 88)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (383, 3, 89)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (454, 2, 90)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (403, 3, 91)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (312, 2, 92)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (387, 3, 93)^;
+
+/* Nike Blazer Mid Off-white */
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (1270, 3, 94)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (1750, 2, 95)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (1876, 3, 96)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (1983, 2, 97)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (2143, 3, 98)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (1854, 2, 99)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (1913, 3, 100)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (2287, 2, 101)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (1943, 3, 102)^;
+
+/* Supreme Comme des Garcons SHIRT Split Box Logo Tee White */
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (235, 3, 103)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (301, 2, 104)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (287, 2, 105)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (265, 2, 106)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (287, 3, 107)^;
+
+/* Gucci x The North Face GG Canvas Shorts Brown/Beige */
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (1132, 2, 110)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (1205, 2, 111)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (1213, 2, 112)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (1205, 3, 113)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (1176, 3, 114)^;
+
+/* FEAR OF GOD x Nike Warm Up T-Shirt Sail */
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (154, 3, 115)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (165, 2, 116)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (154, 2, 117)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (165, 2, 118)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (165, 3, 119)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (151, 3, 120)^;
+
+/* adidas Kanye West Holy Spirit Crewneck Oxen */
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (276, 3, 121)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (301, 2, 122)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (312, 2, 123)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (321, 2, 124)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (287, 3, 125)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (250, 3, 126)^;
+
+/* OFF-WHITE Mona Lisa Hoodie White/Black */
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (300, 3, 127)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (412, 2, 128)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (540, 2, 129)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (565, 2, 130)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (487, 3, 131)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (465, 3, 132)^;
+
+/* Supreme Split Crewneck Sweatshirt Black */
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (301, 3, 133)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (412, 2, 134)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (467, 2, 135)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (453, 2, 137)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (431, 3, 137)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (420, 3, 138)^;
+
+/* Travis Scott Jordan Cactus Jack Highest Hoodie Olive */
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (176, 3, 139)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (231, 2, 140)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (267, 2, 141)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (178, 2, 142)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (224, 3, 143)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (212, 3, 144)^;
+
+/* OFF-WHITE x Jordan Hoodie Black */
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (303, 3, 145)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (325, 2, 146)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (387, 2, 147)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (354, 2, 148)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (401, 3, 149)^;
+INSERT IGNORE INTO bids(price, iduser, idproductdetails) VALUES (387, 3, 150)^;
 
 /* ORDERS */
 
