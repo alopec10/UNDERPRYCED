@@ -86,7 +86,11 @@
 
     </div>
 
-
+    <div v-if="items.length === 0">
+      <h1 class="text-2xl mt-20 mb-48">
+        Lo sentimos, no se han encontrado resultados.
+      </h1>
+    </div>
     <div
         class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 my-20 mx-10"
     >
@@ -97,6 +101,7 @@
                  :refer="item.ref"
       ></SmallCard>
     </div>
+
   </div>
 
 
