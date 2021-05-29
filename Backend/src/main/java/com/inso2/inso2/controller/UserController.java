@@ -73,8 +73,8 @@ public class UserController {
             return ResponseEntity.ok(generateAuthenticationTokenService.generate(req.getEmail()));
         } catch (Exception e) {
             return new ResponseEntity<>(
-                    "Cannot register, validation problems",
-                    HttpStatus.CONFLICT);
+                    e.getMessage(),
+                    HttpStatus.UNAUTHORIZED);
         }
     }
 

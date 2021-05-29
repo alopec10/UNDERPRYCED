@@ -143,7 +143,63 @@ export default {
         }
         this.$store.dispatch('register', data)
             .then(() => this.$router.push('/'))
-            .catch(err => console.log(err))
+            .catch(err => {
+              let error_msg = err.response.data
+              if(error_msg === "Invalid name format"){
+                this.$notify({
+                  group: 'err',
+                  title: 'Nombre inválido',
+                  text: 'El formato del nombre es inválido',
+                  type: 'error',
+                  duration: 5000,
+                })
+              }
+              else if(error_msg === "Invalid surname format"){
+                this.$notify({
+                  group: 'err',
+                  title: 'Apellido inválido',
+                  text: 'El formato del apellido es inválido',
+                  type: 'error',
+                  duration: 5000,
+                })
+              }
+              else if(error_msg === "Invalid email format"){
+                this.$notify({
+                  group: 'err',
+                  title: 'Email inválido',
+                  text: 'El formato del email es inválido',
+                  type: 'error',
+                  duration: 5000,
+                })
+              }
+              else if(error_msg === "Password format is not correct"){
+                this.$notify({
+                  group: 'err',
+                  title: 'Contraseña inválida',
+                  text: 'El formato de la contraseña es inválido',
+                  type: 'error',
+                  duration: 5000,
+                })
+              }
+              else{
+                this.$notify({
+                  group: 'err',
+                  title: 'Email ya registrado',
+                  text: 'El email ya ha sido registrado en la plataforma',
+                  type: 'error',
+                  duration: 5000,
+                })
+              }
+            })
+      }
+      else{
+        this.$notify({
+          group: 'err',
+          title: 'Formato incorrecto',
+          text: 'El formato de alguno de los campos es incorrecto',
+          type: 'error',
+          duration: 5000,
+        })
       }
     }
   },
